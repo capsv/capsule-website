@@ -31,6 +31,7 @@
 }
 
 .header-buttons .button {
+    display: inline-block;
     padding: 10px 20px;
     background-color: var(--primary-color);
     color: #fff;
@@ -43,9 +44,28 @@
     transition: background-color 0.3s;
 }
 
-.header-buttons .button:hover {
+.header-buttons .button:hover,
+.header-buttons .button:active {
     background-color: var(--secondary-color);
-    color: black;
+}
+
+.header-buttons .button-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.header-buttons .button-link:hover,
+.header-buttons .button-link:active {
+    background-color: var(--secondary-color);
 }
 
 @media (max-width: 400px) {
