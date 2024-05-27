@@ -7,8 +7,8 @@ function Header() {
         <header className="header">
             <div className="header-logo">capsule</div>
             <div className="header-buttons">
-                <Link to="/signin" className="button-link">Sign In</Link>
-                <Link to="/signup" className="button-link">Sign Up</Link>
+                <Link to="/auth/in" className="button-link">sign in</Link>
+                <Link to="/auth/up" className="button-link">sign up</Link>
             </div>
         </header>
     );

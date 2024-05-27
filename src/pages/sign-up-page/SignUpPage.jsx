@@ -40,39 +40,51 @@ function SignUpPage() {
             <form className="signup-form" onSubmit={handleSubmit}>
                 <h2>Sign Up</h2>
                 <div className="form-group">
-                    <label>Username</label>
-                    <input
-                        type="text"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
+                    <div className="input-container">
+                        <i className="fas fa-user"></i>
+                        <input
+                            type="text"
+                            placeholder="Username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                        />
+                    </div>
                     {errors.username && <span className="error">{errors.username}</span>}
                 </div>
                 <div className="form-group">
-                    <label>Email</label>
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
+                    <div className="input-container">
+                        <i className="fas fa-envelope"></i>
+                        <input
+                            type="email"
+                            placeholder="Email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                    </div>
                     {errors.email && <span className="error">{errors.email}</span>}
                 </div>
                 <div className="form-group">
-                    <label>Password</label>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
+                    <div className="input-container">
+                        <i className="fas fa-lock"></i>
+                        <input
+                            type="password"
+                            placeholder="Password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                    </div>
                     {errors.password && <span className="error">{errors.password}</span>}
                 </div>
                 <div className="form-group">
-                    <label>Confirm Password</label>
-                    <input
-                        type="password"
-                        value={confirmationPassword}
-                        onChange={(e) => setConfirmationPassword(e.target.value)}
-                    />
+                    <div className="input-container">
+                        <i className="fas fa-lock"></i>
+                        <input
+                            type="password"
+                            placeholder="Confirm Password"
+                            value={confirmationPassword}
+                            onChange={(e) => setConfirmationPassword(e.target.value)}
+                        />
+                    </div>
                     {errors.confirmationPassword && <span className="error">{errors.confirmationPassword}</span>}
                 </div>
                 <button type="submit" className="button">Sign Up</button>

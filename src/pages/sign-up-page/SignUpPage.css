@@ -32,9 +32,21 @@
     margin-bottom: 5px;
 }
 
-.form-group input {
+.input-container {
+    position: relative;
+}
+
+.input-container i {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: #aaa;
+}
+
+.input-container input {
     width: 100%;
-    padding: 8px;
+    padding: 10px 10px 10px 40px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
