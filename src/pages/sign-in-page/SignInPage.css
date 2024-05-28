@@ -1,0 +1,78 @@
+/* SignInPage.css */
+
+.signin-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;  /* Align items to the start vertically */
+    height: 100vh;
+    background-color: var(--background-color);
+    padding-top: 50px;  /* Add some padding from the top */
+}
+
+.signin-form {
+    background-color: transparent;
+    padding: 30px;  /* Increase padding */
+    width: 100%;
+    max-width: 900px;  /* Increase max width */
+}
+
+.signin-form h2 {
+    margin-bottom: 30px;  /* Increase margin */
+    font-size: 3rem;  /* Increase font size */
+    text-align: center;
+    color: var(--primary-color);
+}
+
+.form-group {
+    margin-bottom: 22.5px;  /* Increase margin */
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 7.5px;  /* Increase margin */
+    color: var(--primary-color);
+}
+
+.input-container {
+    position: relative;
+}
+
+.input-container i {
+    position: absolute;
+    top: 50%;
+    left: 15px;  /* Increase left position */
+    transform: translateY(-50%);
+    color: var(--primary-color);
+}
+
+.input-container input {
+    width: 100%;
+    padding: 15px 15px 15px 50px;  /* Increase padding */
+    border: 1.5px solid var(--primary-color);  /* Increase border thickness */
+    border-radius: 6px;  /* Increase border radius */
+    box-sizing: border-box;
+}
+
+.error {
+    color: red;
+    font-size: 1.3125rem;  /* Increase font size */
+}
+
+.button {
+    display: inline-block;
+    width: 100%;
+    padding: 15px;  /* Increase padding */
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    border-radius: 6px;  /* Increase border radius */
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1.5rem;  /* Increase font size */
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: var(--secondary-color);
+}
