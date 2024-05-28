@@ -1,6 +1,6 @@
-/* SignUpPage.css */
+/* SignInPage.css */
 
-.signup-container {
+.signin-container {
     display: flex;
     justify-content: center;
     align-items: flex-start;  /* Align items to the start vertically */
@@ -9,14 +9,14 @@
     padding-top: 50px;  /* Add some padding from the top */
 }
 
-.signup-form {
+.signin-form {
     background-color: transparent;
     padding: 30px;  /* Increase padding */
     width: 100%;
     max-width: 900px;  /* Increase max width */
 }
 
-.signup-form h2 {
+.signin-form h2 {
     margin-bottom: 30px;  /* Increase margin */
     font-size: 3rem;  /* Increase font size */
     text-align: center;
@@ -62,7 +62,7 @@
     display: inline-block;
     width: 100%;
     padding: 15px;  /* Increase padding */
-    background-color: var(--primary-color);
+    background-color: var(--accent-color);
     color: #fff;
     border: none;
     border-radius: 6px;  /* Increase border radius */
@@ -74,5 +74,5 @@
 }
 
 .button:hover {
-    background-color: var(--gray-color);
+    background-color: var(--secondary-color);
 }

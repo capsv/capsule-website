@@ -1,5 +1,11 @@
 :root {
   --background-color: #5CDB95;
+  --primary-color: #05386B;
+  --secondary-color: #EDF5E1;
+  --accent-color: #5CDB95;
+  --gradient-start: #379683;
+  --gradient-end: #8EE4AF;
+  --gray-color: #6a6666;
 }
 
 body {

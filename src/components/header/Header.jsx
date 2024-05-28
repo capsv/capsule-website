@@ -1,14 +1,19 @@
 import React from 'react';
 import './Header.css';
 import {Link} from "react-router-dom";
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function Header() {
     return (
         <header className="header">
             <div className="header-logo">capsule</div>
             <div className="header-buttons">
-                <Link to="/auth/in" className="button-link">sign in</Link>
-                <Link to="/auth/up" className="button-link">sign up</Link>
+                <Link to="/auth/in" className="button-link">
+                    <i className="fas fa-sign-in-alt"></i> Sign In
+                </Link>
+                <Link to="/auth/up" className="button-link">
+                    <i className="fas fa-user-plus"></i> Sign Up
+                </Link>
             </div>
         </header>
     );
