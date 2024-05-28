@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './SignUpPage.css';
 
 function SignUpPage() {
@@ -7,6 +8,7 @@ function SignUpPage() {
     const [password, setPassword] = useState('');
     const [confirmationPassword, setConfirmationPassword] = useState('');
     const [errors, setErrors] = useState({});
+    const navigate = useNavigate();
 
     const validate = () => {
         const errors = {};
@@ -32,6 +34,8 @@ function SignUpPage() {
             setErrors(errors);
         } else {
             console.log("Form Submitted");
+            setErrors({});
+            navigate(`/${username}`);
         }
     };
 

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './SignInPage.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
@@ -6,6 +7,7 @@ function SignInPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState({});
+    const navigate = useNavigate();
 
     const validate = () => {
         const errors = {};
@@ -26,6 +28,7 @@ function SignInPage() {
         } else {
             console.log("Form Submitted");
             setErrors({});
+            navigate(`/${username}`);
         }
     };
 

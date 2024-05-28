@@ -3,6 +3,7 @@ import Header from "./components/header/Header.jsx";
 import SignUpPage from "./pages/sign-up-page/SignUpPage.jsx";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import SignInPage from "./pages/sign-in-page/SignInPage.jsx";
+import UserPage from "./pages/user-page/UserPage.jsx";
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
               <Routes>
                   <Route path="/auth/up" element={<SignUpPage />} />
                   <Route path="/auth/in" element={<SignInPage />} />
+                  <Route path="/:username" element={<UserPage />} />
               </Routes>
           </div>
       </Router>
