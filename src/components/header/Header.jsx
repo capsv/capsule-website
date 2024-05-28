@@ -6,7 +6,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 function Header() {
     return (
         <header className="header">
-            <div className="header-logo">capsule</div>
+            <Link to="/" className="header-logo">capsule</Link>
             <div className="header-buttons">
                 <Link to="/auth/in" className="button-link">
                     <i className="fas fa-sign-in-alt"></i> Sign In
