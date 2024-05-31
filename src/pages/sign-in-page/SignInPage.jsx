@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../../context/LanguageContext';
 import './SignInPage.css';
+import {useAuth} from "../../context/AuthContext.jsx";
 
 function SignInPage() {
     const { language } = useLanguage();
+    const { login } = useAuth();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState({});
@@ -54,6 +56,7 @@ function SignInPage() {
         } else {
             console.log("Form Submitted");
             setErrors({});
+            login();
             navigate(`/${username}`);
         }
     };
