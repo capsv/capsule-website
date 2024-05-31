@@ -1,15 +1,14 @@
 /* Header.css */
 
-:root {
-    --primary-color: #05386B;
-    --secondary-color: #EDF5E1;
-    --accent-color: #5CDB95;
-    --gradient-start: #379683;
-    --gradient-end: #8EE4AF;
-    --gray-color: #6a6666;
+@keyframes buttonHover {
+    from { transform: scale(1); }
+    to { transform: scale(1.05); }
 }
 
 .header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
     background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
     color: #322323;
     display: flex;
@@ -33,24 +32,7 @@
     gap: 10px;
 }
 
-.header-buttons .button {
-    display: inline-block;
-    background-color: var(--primary-color);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-    font-size: 1rem;
-    transition: background-color 0.3s;
-}
-
-.header-buttons .button:hover,
-.header-buttons .button:active {
-    background-color: var(--secondary-color);
-}
-
+.header-buttons .button,
 .header-buttons .button-link {
     display: inline-flex;
     align-items: center;
@@ -63,16 +45,20 @@
     text-align: center;
     text-decoration: none;
     font-size: 1rem;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.header-buttons .button:hover,
+.header-buttons .button:active,
+.header-buttons .button-link:hover,
+.header-buttons .button-link:active {
+    background-color: var(--secondary-color);
+    color: black;
+    animation: buttonHover 0.3s forwards;
 }
 
 .header-buttons .button-link i {
     margin-right: 8px;
-}
-
-.header-buttons .button-link:hover,
-.header-buttons .button-link:active {
-    background-color: var(--secondary-color);
 }
 
 @media (max-width: 400px) {
