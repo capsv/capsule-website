@@ -1,21 +1,47 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '../../context/LanguageContext';
 import './SignInPage.css';
-import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function SignInPage() {
+    const { language } = useLanguage();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
 
+    const translations = {
+        en: {
+            signIn: "sign in",
+            usernamePlaceholder: "username",
+            passwordPlaceholder: "password",
+            usernameErrorBlank: "should be not blank",
+            usernameErrorSize: "size should be between 4 and 56",
+            passwordErrorBlank: "should be not blank",
+            passwordErrorSize: "size should be between 4 and 254",
+            submit: "submit"
+        },
+        ru: {
+            signIn: "вход",
+            usernamePlaceholder: "имя пользователя",
+            passwordPlaceholder: "пароль",
+            usernameErrorBlank: "не должно быть пустым",
+            usernameErrorSize: "длина должна быть от 4 до 56 символов",
+            passwordErrorBlank: "не должен быть пустым",
+            passwordErrorSize: "Длина должна быть от 4 до 254 символов",
+            submit: "войти"
+        }
+    };
+
+    const t = translations[language];
+
     const validate = () => {
         const errors = {};
-        if (!username.trim()) errors.username = "username should be not blank";
-        else if (username.length < 4 || username.length > 56) errors.username = "username size should be between 4 and 56";
+        if (!username.trim()) errors.username = t.usernameErrorBlank;
+        else if (username.length < 4 || username.length > 56) errors.username = t.usernameErrorSize;
 
-        if (!password) errors.password = "password should be not blank";
-        else if (password.length < 4 || password.length > 254) errors.password = "password size should be between 4 and 254";
+        if (!password) errors.password = t.passwordErrorBlank;
+        else if (password.length < 4 || password.length > 254) errors.password = t.passwordErrorSize;
 
         return errors;
     };
@@ -35,13 +61,13 @@ function SignInPage() {
     return (
         <div className="signin-container">
             <form className="signin-form" onSubmit={handleSubmit} noValidate>
-                <h2>sign in</h2>
+                <h2>{t.signIn}</h2>
                 <div className="form-group">
                     <div className="input-container">
                         <i className="fas fa-user"></i>
                         <input
                             type="text"
-                            placeholder="username"
+                            placeholder={t.usernamePlaceholder}
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                         />
@@ -53,14 +79,14 @@ function SignInPage() {
                         <i className="fas fa-lock"></i>
                         <input
                             type="password"
-                            placeholder="password"
+                            placeholder={t.passwordPlaceholder}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
                     {errors.password && <span className="error">{errors.password}</span>}
                 </div>
-                <button type="submit" className="button">sign in</button>
+                <button type="submit" className="button">{t.submit}</button>
             </form>
         </div>
     );

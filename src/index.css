@@ -1,3 +1,17 @@
+@font-face {
+  font-family: 'SFUIDisplay';
+  src: url('public/fonts/PionerSans8-VF.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SFUIDisplay-Medium';
+  src: url('public/fonts/PionerSans-Medium.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 :root {
   --background-color: #5CDB95;
   --primary-color: #05386B;
@@ -6,13 +20,19 @@
   --gradient-start: #379683;
   --gradient-end: #8EE4AF;
   --gray-color: #6a6666;
+  --base-font-size: 18px;
 }
 
 body {
   background-color: var(--background-color);
   margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif;
+  font-family: 'SFUIDisplay', sans-serif;
+}
+
+* {
+  font-family: 'SFUIDisplay', sans-serif;
+  font-size: var(--base-font-size);
 }
 
 .app {
