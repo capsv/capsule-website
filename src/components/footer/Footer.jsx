@@ -8,7 +8,7 @@ function Footer() {
     return (
         <footer className="footer">
             <div className="footer-content">
-                <p>&copy; 2024 Your Company. All rights reserved.</p>
+                <p>&copy; 2024 capsule. All rights reserved.</p>
                 <div className="language-switcher">
                     <button onClick={() => toggleLanguage('en')} className="language-button">
                         <img src="/flags/us.png" alt="English" />
