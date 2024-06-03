@@ -1,16 +1,13 @@
-/* Header.css */
-
-:root {
-    --primary-color: #05386B;
-    --secondary-color: #EDF5E1;
-    --accent-color: #5CDB95;
-    --gradient-start: #379683;
-    --gradient-end: #8EE4AF;
-    --gray-color: #6a6666;
+@keyframes buttonHover {
+    from { transform: scale(1); }
+    to { transform: scale(1.05); }
 }
 
 .header {
-    background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: linear-gradient(to right, var(--header-start-color), var(--header-end-color));
     color: #322323;
     display: flex;
     justify-content: space-between;
@@ -18,64 +15,98 @@
     padding: 15px;
     width: 100%;
     box-sizing: border-box;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
 }
 
 .header-logo {
-    font-size: 30px;
-    color: var(--primary-color);
-    font-weight: bold;
-    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    display: flex;
+    align-items: center;
     text-decoration: none;
+}
+
+.header-logo-image {
+    height: 35px;  /* Adjust the height according to your logo size */
+    width: auto;
 }
 
 .header-buttons {
     display: flex;
     gap: 10px;
+    position: relative;
 }
 
-.header-buttons .button {
-    display: inline-block;
-    background-color: var(--primary-color);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-    font-size: 1rem;
-    transition: background-color 0.3s;
-}
-
-.header-buttons .button:hover,
-.header-buttons .button:active {
-    background-color: var(--secondary-color);
-}
-
-.header-buttons .button-link {
-    display: inline-flex;
+.icon-button {
+    display: flex;
     align-items: center;
-    padding: 10px 20px;
-    background-color: var(--primary-color);
-    color: #fff;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    color: var(--black-color);
     border: none;
-    border-radius: 8px;
+    border-radius: 50%;
     cursor: pointer;
     text-align: center;
+    font-size: 1.5rem;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.icon-button:hover,
+.icon-button:active {
+    background-color: rgba(255, 255, 255, 0.2);
+    animation: buttonHover 0.3s forwards;
+}
+
+.side-menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 240px;
+    max-width: 70%;
+    background-color: #fff;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 1001;
+}
+
+.side-menu.open {
+    transform: translateX(0);
+}
+
+.side-menu-content {
+    display: flex;
+    flex-direction: column;
+    padding:  0px 20px 20px 20px;
+}
+
+.side-menu-content h1{
+    text-align: center;
+}
+
+.side-menu-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    color: black;
     text-decoration: none;
-    font-size: 1rem;
+    font-size: 1.2rem;
     transition: background-color 0.3s;
+    border-radius: 15px;
 }
 
-.header-buttons .button-link i {
-    margin-right: 8px;
+.side-menu-item i {
+    margin-right: 10px;
 }
 
-.header-buttons .button-link:hover,
-.header-buttons .button-link:active {
-    background-color: var(--secondary-color);
+.side-menu-item:hover,
+.side-menu-item:active {
+    background-color: var(--form-hover-color);
+    color: black;
 }
 
-@media (max-width: 400px) {
+@media (max-width: 300px) {
     .header {
         flex-direction: column;
         align-items: center;
@@ -86,5 +117,9 @@
         flex-direction: row;
         justify-content: center;
         gap: 10px;
+    }
+
+    .side-menu {
+        width: 100%;
     }
 }

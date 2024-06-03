@@ -1,23 +1,43 @@
 :root {
-  --background-color: #5CDB95;
-  --primary-color: #05386B;
-  --secondary-color: #EDF5E1;
-  --accent-color: #5CDB95;
-  --gradient-start: #379683;
-  --gradient-end: #8EE4AF;
-  --gray-color: #6a6666;
+  --background-color: #ffffff;
+  --black-color: #000000;
+  --white-color: #ffffff;
+  --header-start-color: #0066ff;
+  --header-end-color: #ffffff;
+  --button-color: #0066ff;
+  --button-hover-color: #8ac1ff;
+  --form-hover-color: #f4f4f4;
+  --7-color: #6a6666;
+  --base-font-size: 18px;
 }
 
 body {
   background-color: var(--background-color);
   margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif;
 }
 
 .app {
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
   align-items: center;
+  padding: 20px;
+}
+
+.footer {
+  background-color: var(--black-color);
+  color: #fff;
+  text-align: center;
+  padding: 10px 0;
+  position: relative;
   width: 100%;
+  bottom: 0;
+  flex-shrink: 0;
 }

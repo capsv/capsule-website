@@ -1,13 +1,13 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
 import './UserPage.css';
+import { useAuth } from '../../context/AuthContext';
 
 function UserPage() {
-    const { username } = useParams();
+    const { user } = useAuth();
 
     return (
         <div className="user-container">
-            <h2>Welcome, {username}!</h2>
+            <h2>Welcome, {user.username}!</h2>
             <p>This is your user page. Here you will see your data.</p>
         </div>
     );
