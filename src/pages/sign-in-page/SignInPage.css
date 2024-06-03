@@ -1,5 +1,3 @@
-/* SignInPage.css */
-
 .signin-container {
     display: flex;
     justify-content: center;
@@ -20,17 +18,18 @@
     margin-bottom: 30px;  /* Increase margin */
     font-size: 3rem;  /* Increase font size */
     text-align: center;
-    color: var(--primary-color);
+    color: var(--black-color);
 }
 
 .form-group {
     margin-bottom: 22.5px;  /* Increase margin */
+    text-align: center;
 }
 
 .form-group label {
     display: block;
     margin-bottom: 7.5px;  /* Increase margin */
-    color: var(--primary-color);
+    color: var(--black-color);
 }
 
 .input-container {
@@ -42,27 +41,40 @@
     top: 50%;
     left: 15px;  /* Increase left position */
     transform: translateY(-50%);
-    color: var(--primary-color);
+    color: var(--black-color);
 }
 
 .input-container input {
     width: 100%;
     padding: 15px 15px 15px 50px;  /* Increase padding */
-    border: 1.5px solid var(--primary-color);  /* Increase border thickness */
+    border: 1.5px solid var(--black-color);  /* Increase border thickness */
     border-radius: 6px;  /* Increase border radius */
     box-sizing: border-box;
 }
 
 .error {
     color: red;
-    font-size: 1.3125rem;  /* Increase font size */
+    font-size: 1rem;  /* Increase font size */
+    animation: slideDown 0.5s ease-out;
+}
+
+/* Define the keyframes for the animation */
+@keyframes slideDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .button {
     display: inline-block;
     width: 100%;
     padding: 15px;  /* Increase padding */
-    background-color: var(--accent-color);
+    background-color: var(--button-color);
     color: #fff;
     border: none;
     border-radius: 6px;  /* Increase border radius */
@@ -74,5 +86,5 @@
 }
 
 .button:hover {
-    background-color: var(--secondary-color);
+    background-color: var(--button-hover-color);
 }

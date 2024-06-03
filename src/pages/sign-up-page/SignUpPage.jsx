@@ -32,7 +32,7 @@ function SignUpPage() {
             submit: "submit"
         },
         ru: {
-            signUp: "регистрация",
+            signUp: "Регистрация",
             usernamePlaceholder: "имя пользователя",
             emailPlaceholder: "почта",
             passwordPlaceholder: "пароль",

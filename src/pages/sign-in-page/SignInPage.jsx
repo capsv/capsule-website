@@ -24,7 +24,7 @@ function SignInPage() {
             submit: "submit"
         },
         ru: {
-            signIn: "вход",
+            signIn: "Вход",
             usernamePlaceholder: "имя пользователя",
             passwordPlaceholder: "пароль",
             usernameErrorBlank: "не должно быть пустым",

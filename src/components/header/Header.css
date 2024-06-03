@@ -7,7 +7,7 @@
     position: sticky;
     top: 0;
     z-index: 1000;
-    background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+    background: linear-gradient(to right, var(--header-start-color), var(--header-end-color));
     color: #322323;
     display: flex;
     justify-content: space-between;
@@ -15,11 +15,12 @@
     padding: 15px;
     width: 100%;
     box-sizing: border-box;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
 }
 
 .header-logo {
     font-size: 30px;
-    color: var(--primary-color);
+    color: var(--black-color);
     font-weight: bold;
     text-decoration: none;
     font-family: 'SFUIDisplay-Medium', sans-serif;
@@ -39,7 +40,7 @@
     width: 40px;
     height: 40px;
     background-color: transparent;
-    color: var(--primary-color);
+    color: var(--black-color);
     border: none;
     border-radius: 50%;
     cursor: pointer;
@@ -75,7 +76,11 @@
 .side-menu-content {
     display: flex;
     flex-direction: column;
-    padding: 20px;
+    padding:  0px 20px 20px 20px;
+}
+
+.side-menu-content h1{
+    text-align: center;
 }
 
 .side-menu-item {
@@ -86,6 +91,7 @@
     text-decoration: none;
     font-size: 1.2rem;
     transition: background-color 0.3s;
+    border-radius: 15px;
 }
 
 .side-menu-item i {
@@ -94,7 +100,7 @@
 
 .side-menu-item:hover,
 .side-menu-item:active {
-    background-color: var(--secondary-color);
+    background-color: var(--form-hover-color);
     color: black;
 }
 
