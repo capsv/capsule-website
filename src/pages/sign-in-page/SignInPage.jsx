@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../../context/LanguageContext';
+import { useAuth } from '../../context/AuthContext';
 import './SignInPage.css';
-import {useAuth} from "../../context/AuthContext.jsx";
 
 function SignInPage() {
     const { language } = useLanguage();
@@ -10,6 +10,7 @@ function SignInPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState({});
+    const [serverError, setServerError] = useState(null);
     const navigate = useNavigate();
 
     const translations = {
@@ -48,16 +49,47 @@ function SignInPage() {
         return errors;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const errors = validate();
         if (Object.keys(errors).length > 0) {
             setErrors(errors);
-        } else {
-            console.log("Form Submitted");
-            setErrors({});
-            login();
-            navigate(`/${username}`);
+            return;
+        }
+
+        try {
+            const response = await fetch('http://localhost:8080/api/v1/auth/authenticate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password }),
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                const { access, refresh, data } = result.payload[0];
+                localStorage.setItem('accessToken', access.token);
+                localStorage.setItem('refreshToken', refresh.token);
+                login(data);
+                navigate(`/${data.username}`);
+            } else {
+                if (result.payload) {
+                    const serverErrors = {};
+                    result.payload.forEach(item => {
+                        if (item.field) {
+                            serverErrors[item.field] = item.error;
+                        } else {
+                            setServerError(item.error);
+                        }
+                    });
+                    setErrors(serverErrors);
+                } else {
+                    setServerError(result.message);
+                }
+            }
+        } catch (error) {
+            setServerError('an unexpected error occurred');
         }
     };
 
@@ -88,6 +120,7 @@ function SignInPage() {
                         />
                     </div>
                     {errors.password && <span className="error">{errors.password}</span>}
+                    {serverError && <div className="error">{serverError}</div>}
                 </div>
                 <button type="submit" className="button">{t.submit}</button>
             </form>
