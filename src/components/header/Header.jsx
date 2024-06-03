@@ -40,7 +40,9 @@ function Header() {
 
     return (
         <header className="header">
-            <Link to="/" className="header-logo">capsule</Link>
+            <Link to="/" className="header-logo">
+                <img src="/logos/capsule-v3.png" alt="capsule logo" className="header-logo-image" />
+            </Link>
             <HeaderMenus toggleMenu={toggleMenu} toggleSecondMenu={toggleSecondMenu} />
             <UserSideMenu menuOpen={menuOpen} toggleMenu={toggleMenu} menuRef={menuRef} />
             <WebSideMenu menuOpen={secondMenuOpen} toggleMenu={toggleSecondMenu} menuRef={secondMenuRef} />

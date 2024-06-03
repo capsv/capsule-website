@@ -5,7 +5,7 @@ import { useLanguage } from '../../../context/LanguageContext.jsx';
 import './UserSideMenu.css';
 
 const UserSideMenu = ({ menuOpen, toggleMenu, menuRef }) => {
-    const { isAuthenticated, logout } = useAuth();
+    const { isAuthenticated, logout, user } = useAuth();
     const { language } = useLanguage();
 
     const content = {
@@ -31,21 +31,19 @@ const UserSideMenu = ({ menuOpen, toggleMenu, menuRef }) => {
         }
     };
 
-    const username = "user123"; // Замени на реальное имя пользователя
-
     return (
         <div ref={menuRef} className={`side-menu ${menuOpen ? 'open' : ''}`}>
             <div className="side-menu-content">
                 <h1>{isAuthenticated ? content[language].headerUser : content[language].headerAuth}</h1>
                 {isAuthenticated ? (
                     <>
-                        <Link to={`/${username}`} className="side-menu-item" onClick={toggleMenu}>
+                        <Link to={`/${user.username}`} className="side-menu-item" onClick={toggleMenu}>
                             <i className="fas fa-user"></i> {content[language].account}
                         </Link>
-                        <Link to={`/${username}/notifications`} className="side-menu-item" onClick={toggleMenu}>
+                        <Link to={`/${user.username}/notifications`} className="side-menu-item" onClick={toggleMenu}>
                             <i className="fas fa-bell"></i> {content[language].notifications}
                         </Link>
-                        <Link to={`/${username}/settings`} className="side-menu-item" onClick={toggleMenu}>
+                        <Link to={`/${user.username}/settings`} className="side-menu-item" onClick={toggleMenu}>
                             <i className="fas fa-cog"></i> {content[language].settings}
                         </Link>
                         <Link to={`/`} className="side-menu-item" onClick={() => { logout(); toggleMenu(); }}>

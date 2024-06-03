@@ -19,12 +19,14 @@
 }
 
 .header-logo {
-    font-size: 30px;
-    color: var(--black-color);
-    font-weight: bold;
+    display: flex;
+    align-items: center;
     text-decoration: none;
-    font-family: 'SFUIDisplay-Medium', sans-serif;
+}
 
+.header-logo-image {
+    height: 35px;  /* Adjust the height according to your logo size */
+    width: auto;
 }
 
 .header-buttons {
