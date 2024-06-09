@@ -10,11 +10,11 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const accessToken = localStorage.getItem('accessToken');
-        const userData = localStorage.getItem('user');
+        const storedUser = localStorage.getItem('user');
 
-        if (accessToken && userData) {
+        if (accessToken && storedUser) {
             setIsAuthenticated(true);
-            setUser(JSON.parse(userData));
+            setUser(JSON.parse(storedUser));
         }
     }, []);
 
