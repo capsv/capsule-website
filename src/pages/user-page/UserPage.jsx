@@ -6,6 +6,7 @@ import './UserPage.css';
 function UserPage() {
     const { user } = useAuth();
     const [userData, setUserData] = useState(null);
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -22,30 +23,48 @@ function UserPage() {
             }
 
             try {
-                const response = await fetch(`http://localhost:8080/api/v1/users/${user.username}`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                    },
-                });
+                const cachedUserData = JSON.parse(localStorage.getItem('userData'));
+                if (cachedUserData && cachedUserData.username === user.username) {
+                    setUserData(cachedUserData);
+                    setLoading(false);
+                } else {
+                    const response = await fetch(`http://localhost:8080/api/v1/users/${user.username}`, {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                        },
+                    });
 
-                if (!response.ok) {
-                    throw new Error('Failed to fetch user data');
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch user data');
+                    }
+
+                    const result = await response.json();
+                    const userDataFromResponse = result.payload[0];
+                    const userFromStorage = JSON.parse(localStorage.getItem('user'));
+                    const confirmStatus = userFromStorage?.confirm;
+                    const fullUserData = { ...userDataFromResponse, confirm: confirmStatus };
+
+                    setUserData(fullUserData);
+                    localStorage.setItem('userData', JSON.stringify(fullUserData));
                 }
-
-                const result = await response.json();
-                setUserData(result.payload[0]);
             } catch (error) {
                 console.error('Error fetching user data:', error);
                 navigate('/');
+            } finally {
+                setLoading(false);
             }
         };
 
         fetchUserData();
     }, [user, navigate]);
 
-    if (!userData) {
+    if (loading) {
         return <div>Loading...</div>;
+    }
+
+    if (!userData) {
+        return null;
     }
 
     return (
@@ -55,7 +74,10 @@ function UserPage() {
                     <img src="/logos/capsule-v2.png" alt="User profile" />
                 </div>
                 <div className="profile-details">
-                    <h2>{userData.firstName} {userData.secondName}</h2>
+                    <h2>
+                        {userData.firstName} {userData.secondName}
+                        {userData.confirm && <i className="fas fa-check-circle confirm-icon"></i>}
+                    </h2>
                     <p>{userData.username}</p>
                 </div>
             </div>

@@ -1,0 +1,36 @@
+.verify-email {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.verification-code {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.verify-email .button,
+.verification-code .button {
+    background-color: var(--button-color);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+.verify-email .button:hover,
+.verification-code .button:hover {
+    background-color: var(--button-hover-color);
+}
+
+.message {
+    color: green;
+    font-size: 1rem;
+    margin-top: 10px;
+}

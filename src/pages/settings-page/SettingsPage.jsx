@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import './SettingsPage.css';
+import VerifyEmail from '../../components/verify-email/VerifyEmail.jsx';
 
 function SettingsPage() {
     const { user, logout } = useAuth();
@@ -152,6 +153,9 @@ function SettingsPage() {
                     </div>
                     {errors.age && <span className="error">{errors.age}</span>}
                     {messages.age && <span className="message">{messages.age}</span>}
+                </div>
+                <div className="form-group">
+                    <VerifyEmail email={user.email} username={user.username} onVerify={() => setMessages({ ...messages, email: 'Email verified successfully' })} />
                 </div>
                 <div className="form-group">
                     <button type="button" className="delete-button" onClick={handleDeleteAccount}>

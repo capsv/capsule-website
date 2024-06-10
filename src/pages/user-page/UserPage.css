@@ -29,12 +29,20 @@
     font-size: 2rem;
     margin: 0;
     color: var(--black-color);
+    display: flex;
+    align-items: center;
 }
 
 .profile-details p {
     font-size: 1.2rem;
-    color: var(--gray-color);
+    color: var(--black-color);
     margin-top: 5px;
+}
+
+.confirm-icon {
+    color: green;
+    margin-left: 10px;
+    font-size: 1.5rem;
 }
 
 @media (max-width: 400px) {
