@@ -9,6 +9,7 @@ import Footer from "./components/footer/Footer.jsx";
 import {LanguageProvider} from "./context/LanguageContext.jsx";
 import {AuthProvider} from "./context/AuthContext.jsx";
 import './index.css';
+import SettingsPage from "./pages/settings-page/SettingsPage.jsx";
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
                                 <Route path="/auth/up" element={<SignUpPage />} />
                                 <Route path="/auth/in" element={<SignInPage />} />
                                 <Route path="/:username" element={<UserPage />} />
+                                <Route path="/:username/settings" element={<SettingsPage />} />
                             </Routes>
                         </main>
                         <Footer />
