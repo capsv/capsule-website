@@ -60,7 +60,11 @@ function UserPage() {
     }, [user, navigate]);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return (
+            <div className="user-container loading">
+                <div>Loading...</div>
+            </div>
+        );
     }
 
     if (!userData) {

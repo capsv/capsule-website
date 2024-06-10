@@ -7,6 +7,11 @@
     padding: 20px;
 }
 
+.user-container.loading {
+    justify-content: center;
+    height: 100vh;
+}
+
 .user-profile {
     display: flex;
     align-items: center;
@@ -15,6 +20,7 @@
     border-radius: 8px;
     width: 100%;
     max-width: 600px;
+    animation: fadeIn 0.5s ease-in-out;
 }
 
 .profile-photo img {
@@ -29,8 +35,6 @@
     font-size: 2rem;
     margin: 0;
     color: var(--black-color);
-    display: flex;
-    align-items: center;
 }
 
 .profile-details p {
@@ -42,7 +46,6 @@
 .confirm-icon {
     color: green;
     margin-left: 10px;
-    font-size: 1.5rem;
 }
 
 @media (max-width: 400px) {
@@ -57,5 +60,14 @@
 
     .profile-details p {
         font-size: 0.9rem;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
     }
 }

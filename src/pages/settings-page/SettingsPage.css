@@ -89,3 +89,21 @@
     font-size: 1rem;
     margin-top: 5px;
 }
+
+.verification-button {
+    background-color: green;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.verification-button:hover {
+    background-color: darkgreen;
+}

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import VerificationModal from '../../components/verify-email/VerificationModal';
 import './SettingsPage.css';
-import VerifyEmail from '../../components/verify-email/VerifyEmail.jsx';
 
 function SettingsPage() {
     const { user, logout } = useAuth();
@@ -13,6 +13,7 @@ function SettingsPage() {
     });
     const [errors, setErrors] = useState({});
     const [messages, setMessages] = useState({});
+    const [showVerificationModal, setShowVerificationModal] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -155,7 +156,9 @@ function SettingsPage() {
                     {messages.age && <span className="message">{messages.age}</span>}
                 </div>
                 <div className="form-group">
-                    <VerifyEmail email={user.email} username={user.username} onVerify={() => setMessages({ ...messages, email: 'Email verified successfully' })} />
+                    <button type="button" className="verification-button" onClick={() => setShowVerificationModal(true)}>
+                        Send Verification Code
+                    </button>
                 </div>
                 <div className="form-group">
                     <button type="button" className="delete-button" onClick={handleDeleteAccount}>
@@ -164,6 +167,12 @@ function SettingsPage() {
                     {messages.delete && <span className="error">{messages.delete}</span>}
                 </div>
             </div>
+            {showVerificationModal && (
+                <VerificationModal
+                    user={user}
+                    onClose={() => setShowVerificationModal(false)}
+                />
+            )}
         </div>
     );
 }
