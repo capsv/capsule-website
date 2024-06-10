@@ -1,0 +1,91 @@
+.settings-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--background-color);
+    padding: 20px;
+    text-align: center;
+}
+
+.settings-form {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.settings-form .form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.settings-form .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 1.2rem;
+    color: var(--black-color);
+}
+
+.settings-form .form-group .input-container {
+    display: flex;
+    align-items: center;
+}
+
+.settings-form .form-group input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid var(--black-color);
+    border-radius: 5px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.settings-form .form-group .text-button {
+    background-color: var(--button-color);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+}
+
+.settings-form .form-group .text-button:hover {
+    background-color: var(--button-hover-color);
+}
+
+.settings-form .form-group .delete-button {
+    background-color: red;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.settings-form .form-group .delete-button:hover {
+    background-color: darkred;
+}
+
+.error {
+    color: red;
+    font-size: 1rem;
+    margin-top: 5px;
+}
+
+.message {
+    color: green;
+    font-size: 1rem;
+    margin-top: 5px;
+}

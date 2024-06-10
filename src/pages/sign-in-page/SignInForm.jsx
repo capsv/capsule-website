@@ -48,6 +48,7 @@ function SignInForm() {
                 const { access, refresh, data } = result.payload[0];
                 localStorage.setItem('accessToken', access.token);
                 localStorage.setItem('refreshToken', refresh.token);
+                localStorage.setItem('user', JSON.stringify(data));
                 login(data);
                 navigate(`/${data.username}`);
             } else {

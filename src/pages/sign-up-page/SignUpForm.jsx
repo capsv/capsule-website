@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../../context/LanguageContext';
 import { useAuth } from '../../context/AuthContext';
 import { translations } from './translations';
-import './SignUpPage.css';
 
 function SignUpForm() {
     const { language } = useLanguage();
@@ -57,6 +56,7 @@ function SignUpForm() {
                 const { access, refresh, data } = result.payload[0];
                 localStorage.setItem('accessToken', access.token);
                 localStorage.setItem('refreshToken', refresh.token);
+                localStorage.setItem('user', JSON.stringify(data));
                 login(data);
                 navigate(`/${data.username}`);
             } else {
