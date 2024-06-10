@@ -46,3 +46,21 @@
     background-color: blue;
     color: white;
 }
+
+.close-button {
+    background-color: gray;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.close-button:hover {
+    background-color: darkgray;
+}

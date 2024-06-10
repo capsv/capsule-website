@@ -71,6 +71,7 @@ const VerificationModal = ({ user, onClose }) => {
                             onChange={(e) => setVerificationCode(e.target.value)}
                         />
                         <button onClick={handleVerifyEmail} className="verify-button">Verify Email</button>
+                        <button onClick={onClose} className="close-button">Close</button>
                     </>
                 )}
                 {message && <p>{message}</p>}
