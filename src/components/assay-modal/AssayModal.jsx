@@ -30,6 +30,7 @@ const AssayModal = ({ onClose, user }) => {
             // Сохранение оценки в localStorage
             const userData = JSON.parse(localStorage.getItem('userData'));
             userData.score = score;
+            userData.assay = true; // Обновляем значение assay на true
             localStorage.setItem('userData', JSON.stringify(userData));
 
             setMessage('Assay submitted successfully!');

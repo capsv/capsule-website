@@ -1,6 +1,37 @@
+@font-face {
+    font-family: 'Mont';
+    src: url('/fonts/Mont-Regular.ttf') format('truetype');
+}
+
+:root {
+    --background-color: #f9f9f9;
+    --text-color: #333;
+    --primary-color: #4A90E2;
+    --secondary-color: #50E3C2;
+    --highlight-color: #B8E986;
+    --card-background: #fff;
+    --card-shadow: rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: 'Mont', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-20px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInLeft {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeInRight {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
 }
 
 .home-container {
@@ -8,26 +39,90 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    min-height: calc(100vh - 60px); /* 60px - высота футера */
+    min-height: calc(100vh - 60px);
+    width: 100%;
     background-color: var(--background-color);
-    padding: 20px;
-    padding-top: 80px;
     text-align: center;
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-.home-container h1 {
-    font-size: 3rem;
-    color: var(--black-color);
+.hero-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh;
+    width: 100%;
+    background: #fff;
+    color: var(--text-color);
+    padding: 40px 20px;
+}
+
+.hero-section h1 {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
     animation: fadeIn 1s ease-in-out;
 }
 
-.home-container p {
+.hero-section p {
     font-size: 1.5rem;
-    color: var(--black-color);
     max-width: 800px;
     line-height: 1.6;
     animation: fadeIn 1s ease-in-out;
     animation-delay: 0.5s;
     animation-fill-mode: backwards;
+}
+
+.relevance-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    width: 100%;
+    background: linear-gradient(135deg, var(--highlight-color), var(--card-background));
+    padding: 40px 20px;
+    margin: 0;
+    text-align: left;
+}
+
+.relevance-section h2 {
+    font-size: 2.5rem;
+    color: var(--text-color);
+    animation: fadeInLeft 1s ease-in-out;
+    margin-bottom: 20px;
+}
+
+.relevance-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 800px;
+}
+
+.relevance-card {
+    background: var(--card-background);
+    padding: 20px;
+    border-radius: 8px;
+    opacity: 0;
+    transition: opacity 0.5s, transform 0.5s;
+}
+
+.relevance-card.fade-in-right {
+    animation: fadeInRight 1s ease-in-out;
+    opacity: 1;
+}
+
+.relevance-card.fade-in-left {
+    animation: fadeInLeft 1s ease-in-out;
+    opacity: 1;
+}
+
+.relevance-card p {
+    font-size: 1.2rem;
+    color: var(--text-color);
+    margin: 0;
 }

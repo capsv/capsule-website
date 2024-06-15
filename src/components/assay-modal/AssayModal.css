@@ -1,13 +1,15 @@
+/* AssayModal.css */
+
 .assay-modal {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.5);
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     z-index: 1000;
 }
 
@@ -15,34 +17,31 @@
     background: white;
     padding: 20px;
     border-radius: 8px;
-    width: 100%;
-    max-width: 500px;
     text-align: center;
 }
 
 .assay-modal-content h3 {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .assay-modal-content textarea {
     width: 100%;
     height: 100px;
-    margin-bottom: 20px;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    resize: none;
+    margin-bottom: 10px;
 }
 
 .assay-modal-content button {
-    padding: 10px 20px;
-    background-color: var(--button-color);
-    color: white;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
     border: none;
     border-radius: 5px;
+    background: #007bff;
+    color: white;
     cursor: pointer;
 }
 
 .assay-modal-content button:hover {
-    background-color: var(--button-hover-color);
+    background: #0056b3;
 }

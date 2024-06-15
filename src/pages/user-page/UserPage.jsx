@@ -45,7 +45,8 @@ function UserPage() {
                     const userDataFromResponse = result.payload[0];
                     const userFromStorage = JSON.parse(localStorage.getItem('user'));
                     const confirmStatus = userFromStorage?.confirm;
-                    const fullUserData = { ...userDataFromResponse, confirm: confirmStatus };
+                    const assayStatus = userFromStorage?.assay;
+                    const fullUserData = { ...userDataFromResponse, confirm: confirmStatus, assay: assayStatus };
 
                     setUserData(fullUserData);
                     localStorage.setItem('userData', JSON.stringify(fullUserData));
