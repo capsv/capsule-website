@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useAuth } from '../../context/AuthContext';
 import './VerificationModal.css';
 
 const VerificationModal = ({ user, onClose }) => {
+    const { setUserData } = useAuth();
     const [step, setStep] = useState('confirm');
     const [verificationCode, setVerificationCode] = useState('');
     const [message, setMessage] = useState('');
@@ -42,6 +44,9 @@ const VerificationModal = ({ user, onClose }) => {
             });
 
             if (response.ok) {
+                const updatedUserData = { ...user, confirm: true };
+                setUserData(updatedUserData);
+                localStorage.setItem('userData', JSON.stringify(updatedUserData));
                 setMessage('Email verified successfully.');
             } else {
                 setMessage('Failed to verify email.');

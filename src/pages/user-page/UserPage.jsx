@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import AssayModal from '../../components/assay-modal/AssayModal';
 import './UserPage.css';
 
 function UserPage() {
     const { user } = useAuth();
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [showAssayModal, setShowAssayModal] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -83,8 +85,20 @@ function UserPage() {
                         {userData.confirm && <i className="fas fa-check-circle confirm-icon"></i>}
                     </h2>
                     <p>{userData.username}</p>
+                    <div>{userData.age}</div>
                 </div>
             </div>
+            {!userData.assay && (
+                <div className="assay-section">
+                    <button onClick={() => setShowAssayModal(true)}>Take Assay</button>
+                </div>
+            )}
+            {showAssayModal && (
+                <AssayModal
+                    user={userData}
+                    onClose={() => setShowAssayModal(false)}
+                />
+            )}
         </div>
     );
 }

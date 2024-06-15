@@ -41,6 +41,7 @@
     font-size: 1.2rem;
     color: var(--black-color);
     margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .confirm-icon {
@@ -70,4 +71,21 @@
     to {
         opacity: 1;
     }
+}
+
+.assay-section {
+    margin-top: 20px;
+}
+
+.assay-section button {
+    padding: 10px 20px;
+    background-color: var(--button-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.assay-section button:hover {
+    background-color: var(--button-hover-color);
 }

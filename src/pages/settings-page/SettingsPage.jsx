@@ -5,7 +5,7 @@ import VerificationModal from '../../components/verify-email/VerificationModal';
 import './SettingsPage.css';
 
 function SettingsPage() {
-    const { user, logout } = useAuth();
+    const { user, userData, logout, updateUserData } = useAuth();
     const [formData, setFormData] = useState({
         firstName: '',
         secondName: '',
@@ -17,14 +17,14 @@ function SettingsPage() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (user) {
+        if (userData) {
             setFormData({
-                firstName: user.firstName || '',
-                secondName: user.secondName || '',
-                age: user.age || '',
+                firstName: userData.firstName || '',
+                secondName: userData.secondName || '',
+                age: userData.age || '',
             });
         }
-    }, [user]);
+    }, [userData]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -37,9 +37,9 @@ function SettingsPage() {
     const validate = (field, value) => {
         let error = '';
         if ((field === 'firstName' || field === 'secondName') && (!value.trim() || value.length < 4 || value.length > 128)) {
-            error = `${field} should be between 4 and 128 characters`;
+            error = `should be between 4 and 128 characters`;
         } else if (field === 'age' && (value <= 0 || value >= 128)) {
-            error = 'Age should be between 1 and 127';
+            error = 'should be between 1 and 127';
         }
         return error;
     };
@@ -69,6 +69,7 @@ function SettingsPage() {
             const result = await response.json();
             if (response.ok) {
                 setMessages({ ...messages, [field]: 'Updated successfully' });
+                updateUserData(updatedField);
             } else {
                 setMessages({ ...messages, [field]: 'Failed to update' });
             }
