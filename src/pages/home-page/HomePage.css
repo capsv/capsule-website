@@ -1,15 +1,6 @@
-@font-face {
-    font-family: 'Mont';
-    src: url('public/fonts/Mont-Regular.ttf') format('truetype');
-}
-
-body {
-    font-family: 'Mont', sans-serif;
-}
-
 :root {
     --background-color: #f9f9f9;
-    --text-color: #333;
+    --text-color: #000000;
     --primary-color: #4A90E2;
     --secondary-color: #50E3C2;
     --highlight-color: #B8E986;
@@ -38,6 +29,11 @@ body {
     to { opacity: 1; transform: translateX(0); }
 }
 
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(100px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 .home-container {
     display: flex;
     flex-direction: column;
@@ -56,11 +52,10 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /*justify-content: center;*/
     min-height: 70vh;
     width: 100%;
-    background: #fff;
-    color: var(--text-color);
+    background: #000c1f;
+    color: white;
     padding: 40px 20px;
 }
 
@@ -87,6 +82,7 @@ body {
     min-height: 60vh;
     width: 100%;
     background: linear-gradient(135deg, var(--highlight-color), var(--card-background));
+    color: var(--text-color);
     padding: 40px 20px;
     margin: 0;
     text-align: center;
@@ -95,16 +91,16 @@ body {
 .relevance-section h2 {
     font-size: 2.5rem;
     color: var(--text-color);
-    animation: fadeInLeft 1s ease-in-out;
     margin-bottom: 20px;
 }
 
 .relevance-cards {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 20px;
     width: 100%;
     max-width: 800px;
+    justify-content: center;
 }
 
 .relevance-card {
@@ -113,6 +109,8 @@ body {
     border-radius: 8px;
     box-shadow: 0 4px 8px var(--card-shadow);
     transition: transform 0.3s ease, opacity 0.3s ease;
+    flex: 1;
+    min-width: 200px;
 }
 
 .relevance-card.fade-in-right {
@@ -127,4 +125,25 @@ body {
     font-size: 1.2rem;
     color: var(--text-color);
     margin: 0;
+}
+
+@media (max-width: 768px) {
+    .relevance-cards {
+        flex-direction: column;
+    }
+}
+
+.relevance-image-container {
+    width: 100%;
+    max-width: 800px;
+    margin-top: 20px;
+    border-radius: 8px;
+    background: var(--card-background);
+    box-shadow: 0 4px 8px var(--card-shadow);
+    animation: fadeInUp 1s ease-in-out;
+}
+
+.relevance-image {
+    width: 100%;
+    border-radius: 8px;
 }

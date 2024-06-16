@@ -7,6 +7,7 @@ function HomePage() {
     const { language } = useLanguage();
     const { ref: refCard1, inView: inViewCard1 } = useInView({ triggerOnce: true });
     const { ref: refCard2, inView: inViewCard2 } = useInView({ triggerOnce: true });
+    const { ref: refImage, inView: inViewImage } = useInView({ triggerOnce: true });
 
     const content = {
         en: {
@@ -34,12 +35,15 @@ function HomePage() {
             <section className="relevance-section">
                 <h2>{content[language].relevance}</h2>
                 <div className="relevance-cards">
-                    <div ref={refCard1} className={`relevance-card ${inViewCard1 ? 'fade-in-right' : ''}`}>
+                    <div ref={refCard1} className={`relevance-card ${inViewCard1 ? 'fade-in-left' : ''}`}>
                         <p>{content[language].relevanceDescription1}</p>
                     </div>
-                    <div ref={refCard2} className={`relevance-card ${inViewCard2 ? 'fade-in-left' : ''}`}>
+                    <div ref={refCard2} className={`relevance-card ${inViewCard2 ? 'fade-in-right' : ''}`}>
                         <p>{content[language].relevanceDescription2}</p>
                     </div>
+                </div>
+                <div ref={refImage} className={`relevance-image-container ${inViewImage ? 'fade-in-up' : ''}`}>
+                    <img src="../../../public/photos/chart.png" alt="Relevance" className="relevance-image" />
                 </div>
             </section>
         </div>
