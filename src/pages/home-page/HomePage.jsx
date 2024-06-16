@@ -39,12 +39,12 @@ function HomePage() {
                     <div ref={refCard1} className={`relevance-card ${inViewCard1 ? 'fade-in-left' : ''}`}>
                         <h3>Word stat</h3>
                         <p>{content[language].relevanceDescription1}</p>
-                        <img src="/photos/Anxiety-rafiki.svg" alt="Anxiety" className="relevance-image-svg" />
+                        <img src="/photos/Anxiety-pana.svg" alt="Anxiety" className="relevance-image-svg" />
                     </div>
                     <div ref={refCard2} className={`relevance-card ${inViewCard2 ? 'fade-in-right' : ''}`}>
                         <h3>Word stat</h3>
                         <p>{content[language].relevanceDescription2}</p>
-                        <img src="/photos/Social anxiety-rafiki.svg" alt="Social Anxiety" className="relevance-image-svg" />
+                        <img src="/photos/Blaming-pana.svg" alt="Social Anxiety" className="relevance-image-svg" />
                     </div>
                 </div>
                 <div ref={refImage} className={`relevance-image-container ${inViewImage ? 'fade-in-up' : ''}`}>
