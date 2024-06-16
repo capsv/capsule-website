@@ -11,6 +11,15 @@
   --base-font-size: 18px;
 }
 
+@font-face {
+  font-family: 'Mont';
+  src: url('public/fonts/Mont-Regular.ttf') format('truetype');
+}
+
+body {
+  font-family: 'Mont', sans-serif;
+}
+
 body {
   background-color: var(--background-color);
   margin: 0;

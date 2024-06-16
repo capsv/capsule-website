@@ -1,6 +1,10 @@
 @font-face {
     font-family: 'Mont';
-    src: url('/fonts/Mont-Regular.ttf') format('truetype');
+    src: url('public/fonts/Mont-Regular.ttf') format('truetype');
+}
+
+body {
+    font-family: 'Mont', sans-serif;
 }
 
 :root {
@@ -14,9 +18,9 @@
 }
 
 body {
-    font-family: 'Mont', sans-serif;
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
 }
 
 @keyframes fadeIn {
@@ -25,12 +29,12 @@ body {
 }
 
 @keyframes fadeInLeft {
-    from { opacity: 0; transform: translateX(-20px); }
+    from { opacity: 0; transform: translateX(-100px); }
     to { opacity: 1; transform: translateX(0); }
 }
 
 @keyframes fadeInRight {
-    from { opacity: 0; transform: translateX(20px); }
+    from { opacity: 0; transform: translateX(100px); }
     to { opacity: 1; transform: translateX(0); }
 }
 
@@ -52,7 +56,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    /*justify-content: center;*/
     min-height: 70vh;
     width: 100%;
     background: #fff;
@@ -85,7 +89,7 @@ body {
     background: linear-gradient(135deg, var(--highlight-color), var(--card-background));
     padding: 40px 20px;
     margin: 0;
-    text-align: left;
+    text-align: center;
 }
 
 .relevance-section h2 {
@@ -107,18 +111,16 @@ body {
     background: var(--card-background);
     padding: 20px;
     border-radius: 8px;
-    opacity: 0;
-    transition: opacity 0.5s, transform 0.5s;
+    box-shadow: 0 4px 8px var(--card-shadow);
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .relevance-card.fade-in-right {
     animation: fadeInRight 1s ease-in-out;
-    opacity: 1;
 }
 
 .relevance-card.fade-in-left {
     animation: fadeInLeft 1s ease-in-out;
-    opacity: 1;
 }
 
 .relevance-card p {

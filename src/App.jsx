@@ -8,7 +8,6 @@ import HomePage from "./pages/home-page/HomePage.jsx";
 import Footer from "./components/footer/Footer.jsx";
 import {LanguageProvider} from "./context/LanguageContext.jsx";
 import {AuthProvider} from "./context/AuthContext.jsx";
-import './index.css';
 import SettingsPage from "./pages/settings-page/SettingsPage.jsx";
 
 function App() {
