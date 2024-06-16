@@ -1,0 +1,56 @@
+<svg width="1704" height="778" viewBox="0 0 1704 778" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g opacity="0.7">
+        <g filter="url(#filter0_f_0_1)">
+            <path d="M279.618 395.349C279.618 484.459 244.298 556.697 200.729 556.697C157.16 556.697 121.841 484.459 121.841 395.349C121.841 306.238 157.16 234 200.729 234C244.298 234 279.618 306.238 279.618 395.349Z" fill="url(#paint0_radial_0_1)"/>
+        </g>
+        <g filter="url(#filter1_f_0_1)">
+            <ellipse cx="240.5" cy="501.877" rx="140.5" ry="176.123" fill="url(#paint1_radial_0_1)"/>
+        </g>
+    </g>
+    <g opacity="0.7">
+        <g filter="url(#filter2_f_0_1)">
+            <path d="M1484.22 178.857C1484.22 222.409 1442.49 257.715 1391.01 257.715C1339.53 257.715 1297.8 222.409 1297.8 178.857C1297.8 135.306 1339.53 100 1391.01 100C1442.49 100 1484.22 135.306 1484.22 178.857Z" fill="url(#paint2_radial_0_1)"/>
+        </g>
+        <g filter="url(#filter3_f_0_1)">
+            <ellipse cx="1438" cy="230.922" rx="166" ry="86.0779" fill="url(#paint3_radial_0_1)"/>
+        </g>
+    </g>
+    <defs>
+        <filter id="filter0_f_0_1" x="21.8408" y="134" width="357.777" height="522.697" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+            <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+            <feGaussianBlur stdDeviation="50" result="effect1_foregroundBlur_0_1"/>
+        </filter>
+        <filter id="filter1_f_0_1" x="0" y="225.755" width="481" height="552.245" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+            <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+            <feGaussianBlur stdDeviation="50" result="effect1_foregroundBlur_0_1"/>
+        </filter>
+        <filter id="filter2_f_0_1" x="1197.8" y="0" width="386.413" height="357.715" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+            <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+            <feGaussianBlur stdDeviation="50" result="effect1_foregroundBlur_0_1"/>
+        </filter>
+        <filter id="filter3_f_0_1" x="1172" y="44.8438" width="532" height="372.156" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+            <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+            <feGaussianBlur stdDeviation="50" result="effect1_foregroundBlur_0_1"/>
+        </filter>
+        <radialGradient id="paint0_radial_0_1" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(200.729 395.349) rotate(90) scale(161.349 78.8886)">
+            <stop stop-color="#FED330"/>
+            <stop offset="1" stop-color="#FF431B" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="paint1_radial_0_1" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(240.5 501.877) rotate(90) scale(176.123 140.5)">
+            <stop stop-color="#FF431B"/>
+            <stop offset="1" stop-color="#FF431B" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="paint2_radial_0_1" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1391.01 178.857) rotate(90) scale(78.8573 93.2065)">
+            <stop stop-color="#FED330"/>
+            <stop offset="1" stop-color="#FF431B" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="paint3_radial_0_1" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1438 230.922) rotate(90) scale(86.0779 166)">
+            <stop stop-color="#FF431B"/>
+            <stop offset="1" stop-color="#FF431B" stop-opacity="0"/>
+        </radialGradient>
+    </defs>
+</svg>

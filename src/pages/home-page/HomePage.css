@@ -5,7 +5,7 @@
 
 :root {
     --background-color: #f9f9f9;
-    --text-color: #333;
+    --text-color: #000000;
     --primary-color: #4A90E2;
     --secondary-color: #50E3C2;
     --highlight-color: #B8E986;
@@ -57,26 +57,47 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
     min-height: 70vh;
     width: 100%;
     background: #000c1f;
     color: white;
     padding: 40px 20px;
+    overflow: hidden;
 }
 
 .hero-section h1 {
-    font-size: 3.5rem;
+    font-size: 48.3px;
+    font-family: 'Mont-Heavy', sans-serif;
     margin-bottom: 20px;
     animation: fadeIn 1s ease-in-out;
+    position: relative;
+    z-index: 1;
 }
 
 .hero-section p {
-    font-size: 1.5rem;
+    font-size: 18.4px;
     max-width: 800px;
     line-height: 1.6;
     animation: fadeIn 1s ease-in-out;
     animation-delay: 0.5s;
     animation-fill-mode: backwards;
+    position: relative;
+    z-index: 1;
+}
+
+.hero-decoration {
+    position: absolute;
+    width: 3000px;
+    height: auto;
+    opacity: 0.7;
+    z-index: 0;
+}
+
+.hero-decoration-1 {
+    bottom: 1%;
+    right: 15%;
+    transform: translate(50%, 50%); /* Зафиксировать положение при изменении размера экрана */
 }
 
 .relevance-section {
@@ -94,7 +115,8 @@ body {
 }
 
 .relevance-section h2 {
-    font-size: 2.5rem;
+    font-size: 42px;
+    font-family: 'Mont-Heavy', sans-serif;
     color: var(--text-color);
     margin-bottom: 20px;
 }
@@ -109,7 +131,6 @@ body {
 }
 
 .relevance-card {
-    background: #000c1f;
     background: var(--card-background);
     padding: 20px;
     border-radius: 20px;
@@ -143,13 +164,7 @@ body {
 .relevance-image-svg {
     width: 100%;
     height: auto;
-    margin-top: 10px;
-}
-
-@media (max-width: 768px) {
-    .relevance-cards {
-        flex-direction: column;
-    }
+    margin-top: 4px;
 }
 
 .relevance-image-container {
@@ -172,4 +187,76 @@ body {
 .relevance-image {
     width: 100%;
     border-radius: 20px;
+}
+
+@media (max-width: 1000px) {
+    .hero-section {
+        min-height: 60vh;
+    }
+
+    .hero-section h1 {
+        font-size: 36.75px;
+    }
+
+    .hero-section p {
+        font-size: 14px;
+    }
+
+    .relevance-section h2 {
+        font-size: 34px;
+    }
+
+    .relevance-card h3 {
+        font-size: 24px;
+    }
+
+    .relevance-card p {
+        font-size: 14px;
+    }
+
+    .relevance-image-container h3{
+        font-size: 24px;
+    }
+
+    .relevance-image-svg {
+        width: 80%;
+    }
+}
+
+@media (max-width: 550px) {
+    .hero-section {
+        min-height: 50vh;
+    }
+
+    .hero-section h1 {
+        font-size: 30.66px;
+    }
+
+    .hero-section p {
+        font-size: 11.68px;
+    }
+
+    .relevance-cards {
+        flex-direction: column;
+    }
+
+    .relevance-section h2 {
+        font-size: 26px;
+    }
+
+    .relevance-card h3 {
+        font-size: 16px;
+    }
+
+    .relevance-card p {
+        font-size: 12px;
+    }
+
+    .relevance-image-container h3{
+        font-size: 16px;
+    }
+
+    .relevance-image-svg {
+        width: 65%;
+    }
 }

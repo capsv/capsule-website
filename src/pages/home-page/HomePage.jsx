@@ -29,6 +29,7 @@ function HomePage() {
     return (
         <div className="home-container">
             <section className="hero-section">
+                <img src="/photos/orange-3.svg" alt="Orange decoration" className="hero-decoration hero-decoration-1" />
                 <h1>{content[language].greeting}</h1>
                 <p>{content[language].description}</p>
             </section>
@@ -48,7 +49,7 @@ function HomePage() {
                 </div>
                 <div ref={refImage} className={`relevance-image-container ${inViewImage ? 'fade-in-up' : ''}`}>
                     <h3>Word stat</h3>
-                    <img src="/photos/chart.png" alt="Relevance" className="relevance-image"/>
+                    <img src="/photos/chart.png" alt="Relevance" className="relevance-image" />
                 </div>
             </section>
         </div>
