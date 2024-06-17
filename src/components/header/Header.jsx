@@ -40,12 +40,14 @@ function Header() {
 
     return (
         <header className="header">
-            <Link to="/" className="header-logo">
-                <span className="header-logo-text">capsule</span>
-            </Link>
-            <HeaderMenus toggleMenu={toggleMenu} toggleSecondMenu={toggleSecondMenu} />
-            <UserSideMenu menuOpen={menuOpen} toggleMenu={toggleMenu} menuRef={menuRef} />
-            <WebSideMenu menuOpen={secondMenuOpen} toggleMenu={toggleSecondMenu} menuRef={secondMenuRef} />
+            <div className="header-container">
+                <Link to="/" className="header-logo">
+                    <span className="header-logo-text">capsule</span>
+                </Link>
+                <HeaderMenus toggleMenu={toggleMenu} toggleSecondMenu={toggleSecondMenu}/>
+            </div>
+            <UserSideMenu menuOpen={menuOpen} toggleMenu={toggleMenu} menuRef={menuRef}/>
+            <WebSideMenu menuOpen={secondMenuOpen} toggleMenu={toggleSecondMenu} menuRef={secondMenuRef}/>
         </header>
     );
 }
