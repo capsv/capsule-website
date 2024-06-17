@@ -1,32 +1,30 @@
+@font-face {
+    font-family: 'Mont-Black';
+    src: url('public/fonts/Mont-Black.ttf') format('truetype');
+}
+
 @keyframes buttonHover {
     from { transform: scale(1); }
     to { transform: scale(1.05); }
 }
 
 .header {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    background: white;
-    color: #322323;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px;
-    width: 100%;
-    box-sizing: border-box;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .header-logo {
-    display: flex;
-    align-items: center;
     text-decoration: none;
 }
 
-.header-logo-image {
-    height: 35px;  /* Adjust the height according to your logo size */
-    width: auto;
+.header-logo-text {
+    font-family: 'Mont-Black', sans-serif;
+    font-size: 24px;
+    color: #000c1f;
 }
 
 .header-buttons {
@@ -121,5 +119,17 @@
 
     .side-menu {
         width: 100%;
+    }
+}
+
+@media (max-width: 1000px) {
+    .header-logo-text {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 550px) {
+    .header-logo-text {
+        font-size: 20px;
     }
 }

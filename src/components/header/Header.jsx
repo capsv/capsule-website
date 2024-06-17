@@ -41,7 +41,7 @@ function Header() {
     return (
         <header className="header">
             <Link to="/" className="header-logo">
-                <img src="/logos/capsule-v3.png" alt="capsule logo" className="header-logo-image" />
+                <span className="header-logo-text">capsule</span>
             </Link>
             <HeaderMenus toggleMenu={toggleMenu} toggleSecondMenu={toggleSecondMenu} />
             <UserSideMenu menuOpen={menuOpen} toggleMenu={toggleMenu} menuRef={menuRef} />
