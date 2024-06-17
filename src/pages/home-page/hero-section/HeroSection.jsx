@@ -1,6 +1,7 @@
 import React from 'react';
 import './HeroSection.css';
 import PropTypes from "prop-types";
+import HeroButtons from "./hero-buttons/HeroButtons.jsx";
 
 const HeroSection = ({ content }) => {
 
@@ -15,6 +16,7 @@ const HeroSection = ({ content }) => {
                     <img src="/public/photos/journal-woman-playing-jenga-at-game-night.png" alt="Capsule Logo"/>
                 </div>
             </div>
+            <HeroButtons />
             <img src="/photos/orange-3.svg" alt="Orange decoration" className="hero-decoration hero-decoration-1"/>
         </section>
     );
