@@ -9,8 +9,10 @@ function HomePage() {
 
     const content = {
         en: {
-            greeting: "Hi there 👋",
-            description: "🙋‍♀️ capsule is not just a startup, it is an IT community where each participant is a bright, brave and creative person. Here everyone can contribute to the development of ideas and it is not necessary to be a programmer. Become a part of the capsule team and you won't regret it!",
+            greeting: "We are an IT team\n" +
+                "that makes fintech\n" +
+                "accessible",
+            description: "Our products are distributed by model Open-Source Software and allow everyone to build their own business based on our code.",
             relevance: "Project Relevance",
             relevanceDescriptionCardOne: "According to wordstat.yandex, the number of requests on the topic of anxiety from January 2018 to April 2024 increased from 61k to 260k requests per month (4 times)",
             relevanceDescriptionCardTwo: "According to wordstat.yandex, the number of requests on the topic fight against anxiety from January 2018 to April 2024 increased from 66 to 1146 requests per month (17 times)"
