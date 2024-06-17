@@ -16,6 +16,11 @@
   src: url('public/fonts/Mont-Regular.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'Mont-Heavy';
+  src: url('public/fonts/Mont-SemiBold.ttf') format('truetype');
+}
+
 body {
   font-family: 'Mont', sans-serif;
 }

@@ -7,7 +7,7 @@
     position: sticky;
     top: 0;
     z-index: 1000;
-    background: linear-gradient(to right, var(--header-start-color), var(--header-end-color));
+    background: white;
     color: #322323;
     display: flex;
     justify-content: space-between;
