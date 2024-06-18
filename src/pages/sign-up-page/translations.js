@@ -1,6 +1,6 @@
 export const translations = {
     en: {
-        signUp: "sign up",
+        signUp: "Welcome to the community!",
         usernamePlaceholder: "username",
         emailPlaceholder: "email",
         passwordPlaceholder: "password",
@@ -16,7 +16,7 @@ export const translations = {
         submit: "submit"
     },
     ru: {
-        signUp: "Регистрация",
+        signUp: "Добро пожаловать в сообщество!",
         usernamePlaceholder: "имя пользователя",
         emailPlaceholder: "почта",
         passwordPlaceholder: "пароль",

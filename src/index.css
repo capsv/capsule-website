@@ -13,12 +13,17 @@
 
 @font-face {
   font-family: 'Mont';
-  src: url('public/fonts/Mont-Regular.ttf') format('truetype');
+  src: url('/public/fonts/Mont-Regular.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Mont-Heavy';
-  src: url('public/fonts/Mont-SemiBold.ttf') format('truetype');
+  src: url('/public/fonts/Mont-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Mont-Black';
+  src: url('/public/fonts/Mont-Black.ttf') format('truetype');
 }
 
 body {

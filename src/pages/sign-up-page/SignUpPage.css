@@ -1,34 +1,34 @@
 .signup-container {
     display: flex;
     justify-content: center;
-    align-items: flex-start;  /* Align items to the start vertically */
+    align-items: flex-start;
     height: 100vh;
     background-color: var(--background-color);
-    padding-top: 50px;  /* Add some padding from the top */
+    padding-top: 50px;
 }
 
 .signup-form {
     background-color: transparent;
-    padding: 30px;  /* Increase padding */
+    padding: 30px;
     width: 100%;
-    max-width: 900px;  /* Increase max width */
+    max-width: 900px;
 }
 
 .signup-form h2 {
-    margin-bottom: 30px;  /* Increase margin */
-    font-size: 3rem;  /* Increase font size */
+    margin-bottom: 30px;
+    font-size: 3rem;
     text-align: center;
     color: var(--black-color);
 }
 
 .form-group {
-    margin-bottom: 22.5px;  /* Increase margin */
+    margin-bottom: 22.5px;
     text-align: center;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 7.5px;  /* Increase margin */
+    margin-bottom: 7.5px;
     color: var(--black-color);
 }
 
@@ -39,36 +39,36 @@
 .input-container i {
     position: absolute;
     top: 50%;
-    left: 15px;  /* Increase left position */
+    left: 15px;
     transform: translateY(-50%);
     color: var(--black-color);
 }
 
 .input-container input {
     width: 100%;
-    padding: 15px 15px 15px 50px;  /* Increase padding */
-    border: 1.5px solid var(--black-color);  /* Increase border thickness */
-    border-radius: 6px;  /* Increase border radius */
+    padding: 15px 15px 15px 50px;
+    border: 1.5px solid var(--black-color);
+    border-radius: 6px;
     box-sizing: border-box;
 }
 
 .error {
     color: red;
-    font-size: 1.3125rem;  /* Increase font size */
+    font-size: 1.3125rem;
 }
 
 .button {
     display: inline-block;
     width: 100%;
-    padding: 15px;  /* Increase padding */
+    padding: 15px;
     background-color: var(--black-color);
     color: #fff;
     border: none;
-    border-radius: 6px;  /* Increase border radius */
+    border-radius: 6px;
     cursor: pointer;
     text-align: center;
     text-decoration: none;
-    font-size: 1.5rem;  /* Increase font size */
+    font-size: 1.5rem;
     transition: background-color 0.3s;
 }
 
