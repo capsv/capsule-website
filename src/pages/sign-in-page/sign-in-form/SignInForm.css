@@ -99,3 +99,10 @@
         font-size: 14px;
     }
 }
+
+@media (max-width: 600px) {
+    .si-form {
+        max-width: 250px;
+        padding: 20px;
+    }
+}

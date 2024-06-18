@@ -18,3 +18,9 @@
         width: 80%;
     }
 }
+
+@media (max-width: 600px) {
+    .si-image {
+        display: none;
+    }
+}
