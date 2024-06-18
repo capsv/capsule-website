@@ -1,0 +1,20 @@
+.si-image {
+    flex: 1;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    max-width: 50%;
+}
+
+.si-image img {
+    width: 100%;
+    max-width: 350px;
+    height: auto;
+}
+
+
+@media (max-width: 730px) {
+    .si-image img {
+        width: 80%;
+    }
+}

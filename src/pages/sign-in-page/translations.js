@@ -1,6 +1,6 @@
 export const translations = {
     en: {
-        signIn: "sign in",
+        signIn: "Welcome back to the best place on Earth!",
         usernamePlaceholder: "username",
         passwordPlaceholder: "password",
         usernameErrorBlank: "should be not blank",
@@ -10,7 +10,7 @@ export const translations = {
         submit: "submit"
     },
     ru: {
-        signIn: "Вход",
+        signIn: "Добро пожаловать обратно в самое лучшее место на Земле!",
         usernamePlaceholder: "имя пользователя",
         passwordPlaceholder: "пароль",
         usernameErrorBlank: "не должно быть пустым",

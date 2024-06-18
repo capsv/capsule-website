@@ -1,27 +1,28 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useLanguage } from '../../context/LanguageContext';
-import { useAuth } from '../../context/AuthContext';
-import { translations } from './translations';
+import React, {useState} from "react";
+import {useLanguage} from "../../../context/LanguageContext.jsx";
+import {translations} from "../translations.js";
+import {useAuth} from "../../../context/AuthContext.jsx";
+import {useNavigate} from "react-router-dom";
+import "./SignInForm.css"
 
-function SignInForm() {
-    const { language } = useLanguage();
+const SignInForm = () => {
     const { login } = useAuth();
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const { language } = useLanguage();
     const [errors, setErrors] = useState({});
     const [serverError, setServerError] = useState(null);
     const navigate = useNavigate();
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
 
-    const t = translations[language];
+    const content = translations[language];
 
     const validate = () => {
         const errors = {};
-        if (!username.trim()) errors.username = t.usernameErrorBlank;
-        else if (username.length < 4 || username.length > 56) errors.username = t.usernameErrorSize;
+        if (!username.trim()) errors.username = content.usernameErrorBlank;
+        else if (username.length < 4 || username.length > 56) errors.username = content.usernameErrorSize;
 
-        if (!password) errors.password = t.passwordErrorBlank;
-        else if (password.length < 4 || password.length > 254) errors.password = t.passwordErrorSize;
+        if (!password) errors.password = content.passwordErrorBlank;
+        else if (password.length < 4 || password.length > 254) errors.password = content.passwordErrorSize;
 
         return errors;
     };
@@ -72,34 +73,33 @@ function SignInForm() {
     };
 
     return (
-        <form className="signin-form" onSubmit={handleSubmit} noValidate>
-            <h2>{t.signIn}</h2>
+        <form className="si-form" onSubmit={handleSubmit} noValidate>
             <div className="form-group">
                 <div className="input-container">
                     <i className="fas fa-user"></i>
                     <input
                         type="text"
-                        placeholder={t.usernamePlaceholder}
+                        placeholder={content.usernamePlaceholder}
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                     />
                 </div>
-                {errors.username && <span className="error">{errors.username}</span>}
+                {errors.username && <span className="si-error">{errors.username}</span>}
             </div>
             <div className="form-group">
                 <div className="input-container">
                     <i className="fas fa-lock"></i>
                     <input
                         type="password"
-                        placeholder={t.passwordPlaceholder}
+                        placeholder={content.passwordPlaceholder}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
-                {errors.password && <span className="error">{errors.password}</span>}
+                {errors.password && <span className="si-error">{errors.password}</span>}
                 {serverError && <div className="error">{serverError}</div>}
             </div>
-            <button type="submit" className="button">{t.submit}</button>
+            <button type="submit" className="si-button">{content.submit}</button>
         </form>
     );
 }
