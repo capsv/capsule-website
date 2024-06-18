@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import './SignUpPage.css';
+import styles from './SignUpPage.module.css';
 import {useLanguage} from "../../context/LanguageContext.jsx";
 import {translations} from "./translations.js";
 import {useAuth} from "../../context/AuthContext.jsx";
@@ -81,60 +81,67 @@ function SignUpPage() {
     };
 
     return (
-        <div className="signup-container">
-            <form className="signup-form" onSubmit={handleSubmit} noValidate>
+        <div className={styles.signupContainer}>
+            <div className={styles.signupHeader}>
                 <h2>{content.signUp}</h2>
-                <div className="form-group">
-                    <div className="input-container">
-                        <i className="fas fa-user"></i>
-                        <input
-                            type="text"
-                            placeholder={content.usernamePlaceholder}
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                        />
+            </div>
+            <div className={styles.signupContent}>
+                <form className={styles.signupForm} onSubmit={handleSubmit} noValidate>
+                    <div className={styles.formGroup}>
+                        <div className={styles.inputContainer}>
+                            <i className="fas fa-user"></i>
+                            <input
+                                type="text"
+                                placeholder={content.usernamePlaceholder}
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                            />
+                        </div>
+                        {errors.username && <span className={styles.error}>{errors.username}</span>}
                     </div>
-                    {errors.username && <span className="error">{errors.username}</span>}
-                </div>
-                <div className="form-group">
-                    <div className="input-container">
-                        <i className="fas fa-envelope"></i>
-                        <input
-                            type="email"
-                            placeholder={content.emailPlaceholder}
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
+                    <div className={styles.formGroup}>
+                        <div className={styles.inputContainer}>
+                            <i className="fas fa-envelope"></i>
+                            <input
+                                type="email"
+                                placeholder={content.emailPlaceholder}
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                        </div>
+                        {errors.email && <span className={styles.error}>{errors.email}</span>}
                     </div>
-                    {errors.email && <span className="error">{errors.email}</span>}
-                </div>
-                <div className="form-group">
-                    <div className="input-container">
-                        <i className="fas fa-lock"></i>
-                        <input
-                            type="password"
-                            placeholder={content.passwordPlaceholder}
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
+                    <div className={styles.formGroup}>
+                        <div className={styles.inputContainer}>
+                            <i className="fas fa-lock"></i>
+                            <input
+                                type="password"
+                                placeholder={content.passwordPlaceholder}
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                        </div>
+                        {errors.password && <span className={styles.error}>{errors.password}</span>}
                     </div>
-                    {errors.password && <span className="error">{errors.password}</span>}
-                </div>
-                <div className="form-group">
-                    <div className="input-container">
-                        <i className="fas fa-lock"></i>
-                        <input
-                            type="password"
-                            placeholder={content.confirmPasswordPlaceholder}
-                            value={confirmationPassword}
-                            onChange={(e) => setConfirmationPassword(e.target.value)}
-                        />
+                    <div className={styles.formGroup}>
+                        <div className={styles.inputContainer}>
+                            <i className="fas fa-lock"></i>
+                            <input
+                                type="password"
+                                placeholder={content.confirmPasswordPlaceholder}
+                                value={confirmationPassword}
+                                onChange={(e) => setConfirmationPassword(e.target.value)}
+                            />
+                        </div>
+                        {errors.confirmationPassword && <span className={styles.error}>{errors.confirmationPassword}</span>}
+                        {serverError && <div className={styles.error}>{serverError}</div>}
                     </div>
-                    {errors.confirmationPassword && <span className="error">{errors.confirmationPassword}</span>}
-                    {serverError && <div className="error">{serverError}</div>}
+                    <button type="submit" className={styles.button}>{content.submit}</button>
+                </form>
+                <div className={styles.signupImage}>
+                    <img src="/public/photos/pablita-face-id.gif" alt="Sign up illustration" />
                 </div>
-                <button type="submit" className="button">{content.submit}</button>
-            </form>
+            </div>
         </div>
     );
 }
