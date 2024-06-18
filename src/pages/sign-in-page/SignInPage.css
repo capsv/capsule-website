@@ -10,7 +10,6 @@
 }
 
 .si-upper-content {
-    margin-bottom: 20px;
     text-align: center;
     width: 100%;
 }
@@ -32,5 +31,9 @@
 @media (max-width: 730px) {
     .si-upper-content h1 {
         font-size: 24px;
+    }
+
+    .si-container{
+        min-height: 100vh;
     }
 }

@@ -3,7 +3,8 @@
     flex-direction: column;
     align-items: center;
     height: 100vh;
-    padding-top: 50px;
+    min-height: 120vh;
+    padding-top: 85px;
     background-color: var(--background-color);
 }
 
@@ -11,34 +12,45 @@
     width: 100%;
     text-align: center;
     margin-bottom: 30px;
+    font-family: Mont-Heavy, sans-serif;
+    font-size: 29px;
+}
+
+.signupHeader h2 {
+    font-size: 32px;
 }
 
 .signupContent {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    width: 100%;
+    width: 100%; /* Увеличиваем ширину контейнера */
 }
 
 .signupForm {
     background-color: transparent;
-    width: 50%;
+    width: 48%; /* Уменьшаем ширину формы */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Центрируем элементы по горизонтали */
+    padding-right: 20px; /* Добавляем отступ справа, чтобы форма не касалась картинки */
 }
 
 .signupForm h2 {
     margin-bottom: 30px;
-    font-size: 3rem;
     text-align: center;
     color: var(--black-color);
 }
 
 .formGroup {
-    margin-bottom: 22.5px;
+    margin-bottom: 10px; /* Уменьшаем расстояние между полями формы */
+    width: 100%; /* Обеспечиваем ширину элементов на 100% от родителя */
 }
 
 .inputContainer {
     position: relative;
-    margin-bottom: 20px;
+    margin-bottom: 10px; /* Уменьшаем расстояние между контейнерами ввода */
+    width: 100%; /* Обеспечиваем ширину контейнера на 100% от родителя */
 }
 
 .inputContainer i {
@@ -59,13 +71,13 @@
 
 .error {
     color: red;
-    font-size: 1.3125rem;
+    font-size: 16px;
 }
 
 .button {
     display: inline-block;
     width: 60%;
-    margin: 3px auto;
+    margin: 0px auto 0; /* Устанавливаем расстояние между формой и кнопкой */
     padding: 12px 0;
     border-radius: 20px;
     font-size: 18.4px;
@@ -85,14 +97,69 @@
 }
 
 .signupImage {
-    width: 60%;
+    width: 48%; /* Увеличиваем ширину изображения */
     display: flex;
     justify-content: center;
     align-items: center;
+    padding-left: 20px; /* Добавляем отступ слева, чтобы картинка не касалась формы */
 }
 
 .signupImage img {
     max-width: 100%;
     height: auto;
     transform: scale(1.2);
+}
+
+@media (max-width: 730px) {
+    .signupHeader h2 {
+        font-size: 24px;
+    }
+
+    .signupContent {
+        width: 100%;
+    }
+
+    .signupForm {
+        width: 70%;
+        padding-right: 10px; /* Уменьшаем отступ при уменьшении формы */
+    }
+
+    .inputContainer input {
+        padding: 12px 12px 12px 40px;
+    }
+
+    .button {
+        width: 70%;
+        padding: 10px 0;
+        font-size: 16px;
+    }
+
+    .error {
+        font-size: 14px;
+    }
+
+    .signupImage {
+        width: 70%;
+        padding-left: 10px;
+    }
+
+    .signupImage img {
+        transform: scale(1.0);
+    }
+}
+
+@media (max-width: 600px) {
+    .signupContent {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .signupForm {
+        max-width: 250px;
+        padding: 0px 20px;
+    }
+
+    .signupImage {
+        display: none;
+    }
 }

@@ -32,3 +32,17 @@
 .login-button:hover {
     background-color: #f0f0f0;
 }
+
+@media (max-width: 1000px) {
+    .header-button {
+        padding: 7px 23px;
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 550px) {
+    .header-button {
+        padding: 6px 22px;
+        font-size: 14px;
+    }
+}
