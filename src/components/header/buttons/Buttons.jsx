@@ -1,15 +1,23 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext.jsx';
 import "./Buttons.css";
 
 const Buttons = () => {
-    const { isAuthenticated, logout } = useAuth();
+    const { isAuthenticated, user, logout } = useAuth();
+    const location = useLocation();
+    const currentPath = location.pathname;
+    const isAccountPage = user ? currentPath === `/${user.username}` : false;
 
     return (
         <div className="header-buttons">
-            {isAuthenticated ? (
-                <button onClick={logout} className="header-button logout-button">Logout</button>
+            {isAuthenticated && user ? (
+                <>
+                    <Link to={`/${user.username}`} className={`header-button account-button ${isAccountPage ? 'disabled' : ''}`} disabled={isAccountPage}>
+                        Account
+                    </Link>
+                    <button onClick={logout} className="header-button logout-button">Logout</button>
+                </>
             ) : (
                 <>
                     <Link to="/auth/in" className="header-button login-button">Login</Link>

@@ -44,6 +44,24 @@
     background-color: #cc0000;
 }
 
+.account-button {
+    background-color: #007bff;
+    color: #fff;
+    border: 1px solid #007bff;
+    cursor: pointer;
+}
+
+.account-button:hover {
+    background-color: #0056b3;
+}
+
+.account-button.disabled {
+    background-color: #cccccc;
+    color: #666666;
+    border: 1px solid #cccccc;
+    cursor: not-allowed;
+}
+
 @media (max-width: 1000px) {
     .header-button {
         padding: 7px 23px;

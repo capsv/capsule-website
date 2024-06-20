@@ -57,7 +57,7 @@ function SettingsPage() {
 
         try {
             const token = localStorage.getItem('accessToken');
-            const response = await fetch(`http://localhost:8080/api/v1/users/${user.username}`, {
+            const response = await fetch(`http://localhost:8080/api/v1/users`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',

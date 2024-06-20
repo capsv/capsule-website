@@ -73,7 +73,7 @@ function UserPage() {
                         {userData.firstName} {userData.secondName}
                         {userData.confirm && <i className="fas fa-check-circle confirm-icon"></i>}
                     </h2>
-                    <p>{userData.username}</p>
+                    <p>{"@"}{userData.username}</p>
                     <div>{userData.age}</div>
                 </div>
             </div>

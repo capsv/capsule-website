@@ -13,9 +13,28 @@ export const AuthProvider = ({ children }) => {
         const refreshToken = localStorage.getItem('refreshToken');
 
         if (accessToken && refreshToken) {
-            setIsAuthenticated(true);
+            fetchUserData(accessToken)
+                .then(userData => {
+                    setIsAuthenticated(true);
+                    setUser(userData);
+                })
+                .catch(() => {
+                    // Handle error (e.g., navigate to login page)
+                });
         }
     }, []);
+
+    const fetchUserData = async (token) => {
+        const response = await fetch('http://localhost:8080/api/v1/users', {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+        if (!response.ok) {
+            throw new Error('Failed to fetch user data');
+        }
+        return response.json();
+    };
 
     const login = (userData) => {
         setIsAuthenticated(true);
@@ -28,7 +47,6 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
-        localStorage.removeItem('user');
         navigate('/');
     };
 
