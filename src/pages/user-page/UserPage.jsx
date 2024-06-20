@@ -17,13 +17,7 @@ function UserPage() {
             return;
         }
 
-        const fetchUserData = async () => {
-            const token = localStorage.getItem('accessToken');
-            if (!token) {
-                navigate('/');
-                return;
-            }
-
+        const fetchUserData = async (token) => {
             try {
                 const response = await fetch(`http://localhost:8080/api/v1/users`, {
                     method: 'GET',
@@ -36,9 +30,9 @@ function UserPage() {
                     const refreshToken = localStorage.getItem('refreshToken');
                     if (refreshToken) {
                         try {
-                            const { newAccessToken, userData } = await refreshAccessToken(refreshToken);
+                            const { newAccessToken } = await refreshAccessToken(refreshToken);
                             localStorage.setItem('accessToken', newAccessToken);
-                            setUserData(userData);
+                            await fetchUserData(newAccessToken);
                         } catch {
                             logout();
                         }
@@ -51,16 +45,20 @@ function UserPage() {
                     const result = await response.json();
                     const userDataFromResponse = result.payload[0];
                     setUserData(userDataFromResponse);
+                    setLoading(false);
                 }
             } catch (error) {
                 console.error('Error fetching user data:', error);
                 navigate('/');
-            } finally {
-                setLoading(false);
             }
         };
 
-        fetchUserData();
+        const accessToken = localStorage.getItem('accessToken');
+        if (accessToken) {
+            fetchUserData(accessToken);
+        } else {
+            navigate('/');
+        }
     }, [user, navigate, logout, refreshAccessToken]);
 
     if (loading) {
