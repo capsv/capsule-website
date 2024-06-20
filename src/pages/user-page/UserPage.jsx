@@ -25,32 +25,20 @@ function UserPage() {
             }
 
             try {
-                const cachedUserData = JSON.parse(localStorage.getItem('userData'));
-                if (cachedUserData && cachedUserData.username === user.username) {
-                    setUserData(cachedUserData);
-                    setLoading(false);
-                } else {
-                    const response = await fetch(`http://localhost:8080/api/v1/users/${user.username}`, {
-                        method: 'GET',
-                        headers: {
-                            'Authorization': `Bearer ${token}`,
-                        },
-                    });
+                const response = await fetch(`http://localhost:8080/api/v1/users`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
 
-                    if (!response.ok) {
-                        throw new Error('Failed to fetch user data');
-                    }
-
-                    const result = await response.json();
-                    const userDataFromResponse = result.payload[0];
-                    const userFromStorage = JSON.parse(localStorage.getItem('user'));
-                    const confirmStatus = userFromStorage?.confirm;
-                    const assayStatus = userFromStorage?.assay;
-                    const fullUserData = { ...userDataFromResponse, confirm: confirmStatus, assay: assayStatus };
-
-                    setUserData(fullUserData);
-                    localStorage.setItem('userData', JSON.stringify(fullUserData));
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user data');
                 }
+
+                const result = await response.json();
+                const userDataFromResponse = result.payload[0];
+                setUserData(userDataFromResponse);
             } catch (error) {
                 console.error('Error fetching user data:', error);
                 navigate('/');

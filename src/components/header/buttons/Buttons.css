@@ -33,6 +33,17 @@
     background-color: #f0f0f0;
 }
 
+.logout-button {
+    background-color: #ff0000;
+    color: #fff;
+    border: 1px solid #ff0000;
+    cursor: pointer;
+}
+
+.logout-button:hover {
+    background-color: #cc0000;
+}
+
 @media (max-width: 1000px) {
     .header-button {
         padding: 7px 23px;
