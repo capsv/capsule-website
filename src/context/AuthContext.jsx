@@ -19,7 +19,15 @@ export const AuthProvider = ({ children }) => {
                     setUser(userData);
                 })
                 .catch(() => {
-                    // Handle error (e.g., navigate to login page)
+                    refreshAccessToken(refreshToken)
+                        .then(({ newAccessToken, userData }) => {
+                            localStorage.setItem('accessToken', newAccessToken);
+                            setIsAuthenticated(true);
+                            setUser(userData);
+                        })
+                        .catch(() => {
+                            logout();
+                        });
                 });
         }
     }, []);
@@ -34,6 +42,26 @@ export const AuthProvider = ({ children }) => {
             throw new Error('Failed to fetch user data');
         }
         return response.json();
+    };
+
+    const refreshAccessToken = async (refreshToken) => {
+        const response = await fetch('http://localhost:8080/api/v1/auth/token/authenticate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ token: refreshToken }),
+        });
+        if (!response.ok) {
+            throw new Error('Failed to refresh token');
+        }
+        const data = await response.json();
+        if (data.status !== "SUCCESS") {
+            throw new Error(data.message);
+        }
+        const newAccessToken = data.payload[0].access.token;
+        const userData = data.payload[0].data;
+        return { newAccessToken, userData };
     };
 
     const login = (userData) => {
@@ -51,7 +79,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, user, login, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, user, login, logout, refreshAccessToken }}>
             {children}
         </AuthContext.Provider>
     );

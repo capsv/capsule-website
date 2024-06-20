@@ -5,7 +5,7 @@ import AssayModal from '../../components/assay-modal/AssayModal';
 import './UserPage.css';
 
 function UserPage() {
-    const { user } = useAuth();
+    const { user, logout, refreshAccessToken } = useAuth();
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [showAssayModal, setShowAssayModal] = useState(false);
@@ -32,13 +32,26 @@ function UserPage() {
                     },
                 });
 
-                if (!response.ok) {
+                if (response.status === 401) {
+                    const refreshToken = localStorage.getItem('refreshToken');
+                    if (refreshToken) {
+                        try {
+                            const { newAccessToken, userData } = await refreshAccessToken(refreshToken);
+                            localStorage.setItem('accessToken', newAccessToken);
+                            setUserData(userData);
+                        } catch {
+                            logout();
+                        }
+                    } else {
+                        logout();
+                    }
+                } else if (!response.ok) {
                     throw new Error('Failed to fetch user data');
+                } else {
+                    const result = await response.json();
+                    const userDataFromResponse = result.payload[0];
+                    setUserData(userDataFromResponse);
                 }
-
-                const result = await response.json();
-                const userDataFromResponse = result.payload[0];
-                setUserData(userDataFromResponse);
             } catch (error) {
                 console.error('Error fetching user data:', error);
                 navigate('/');
@@ -48,7 +61,7 @@ function UserPage() {
         };
 
         fetchUserData();
-    }, [user, navigate]);
+    }, [user, navigate, logout, refreshAccessToken]);
 
     if (loading) {
         return (
