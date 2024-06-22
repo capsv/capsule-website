@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styles from './SignUpPage.module.css';
-import {useLanguage} from "../../context/LanguageContext.jsx";
-import {translations} from "./translations.js";
-import {useAuth} from "../../context/AuthContext.jsx";
-import {useNavigate} from "react-router-dom";
+import { useLanguage } from "../../context/LanguageContext.jsx";
+import { translations } from "./translations.js";
+import { useAuth } from "../../context/AuthContext.jsx";
+import { useNavigate } from "react-router-dom";
 
 function SignUpPage() {
     const { language } = useLanguage();
@@ -57,9 +57,9 @@ function SignUpPage() {
                 const { access, refresh, data } = result.payload[0];
                 localStorage.setItem('accessToken', access.token);
                 localStorage.setItem('refreshToken', refresh.token);
-                localStorage.setItem('user', JSON.stringify(data));
+
                 login(data);
-                navigate(`/${data.username}`);
+                navigate(`/`);
             } else {
                 if (result.payload) {
                     const serverErrors = {};

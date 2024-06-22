@@ -8,6 +8,7 @@ const Buttons = () => {
     const location = useLocation();
     const currentPath = location.pathname;
     const isAccountPage = user ? currentPath === `/${user.username}` : false;
+    const isSettingsPage = user ? currentPath === `/${user.username}/settings` : false;
 
     return (
         <div className="header-buttons">
@@ -15,6 +16,9 @@ const Buttons = () => {
                 <>
                     <Link to={`/${user.username}`} className={`header-button account-button ${isAccountPage ? 'disabled' : ''}`} disabled={isAccountPage}>
                         Account
+                    </Link>
+                    <Link to={`/${user.username}/settings`} className={`header-button settings-button ${isSettingsPage ? 'disabled' : ''}`} disabled={isSettingsPage}>
+                        Settings
                     </Link>
                     <button onClick={logout} className="header-button logout-button">Logout</button>
                 </>

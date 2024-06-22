@@ -75,14 +75,14 @@ function SettingsPage() {
             }
         } catch (error) {
             console.error('Error updating profile:', error);
-            setMessages({ ...messages, [field]: 'An error occurred' });
+            //setMessages({ ...messages, [field]: 'An error occurred' });
         }
     };
 
     const handleDeleteAccount = async () => {
         try {
             const token = localStorage.getItem('accessToken');
-            const response = await fetch(`http://localhost:8080/api/v1/users/${user.username}`, {
+            const response = await fetch(`http://localhost:8080/api/v1/users`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,

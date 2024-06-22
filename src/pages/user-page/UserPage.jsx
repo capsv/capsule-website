@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import AssayModal from '../../components/assay-modal/AssayModal';
 import './UserPage.css';
+import Loading from "../../components/loading/Loading.jsx";
 
 function UserPage() {
     const { user, logout, refreshAccessToken } = useAuth();
@@ -63,9 +64,7 @@ function UserPage() {
 
     if (loading) {
         return (
-            <div className="user-container loading">
-                <div>Loading...</div>
-            </div>
+            <Loading/>
         );
     }
 
@@ -77,7 +76,7 @@ function UserPage() {
         <div className="user-container">
             <div className="user-profile">
                 <div className="profile-photo">
-                    <img src="/logos/capsule-v2.png" alt="User profile" />
+                    <img src="/logos/capsule-v2.png" alt="User profile"/>
                 </div>
                 <div className="profile-details">
                     <h2>

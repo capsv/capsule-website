@@ -4,7 +4,7 @@
     align-items: center;
     min-height: 100vh;
     background-color: var(--background-color);
-    padding: 20px;
+    padding: 40px;
 }
 
 .user-container.loading {
@@ -15,12 +15,18 @@
 .user-profile {
     display: flex;
     align-items: center;
+    justify-content: center;
     background: #fff;
     padding: 20px;
     border-radius: 8px;
     width: 100%;
     max-width: 600px;
     animation: fadeIn 0.5s ease-in-out;
+    margin-bottom: 20px;
+}
+
+.profile-photo {
+    margin-right: 20px;
 }
 
 .profile-photo img {
@@ -28,8 +34,11 @@
     height: 120px;
     border-radius: 50%;
     object-fit: cover;
-    margin-right: 20px;
     border: 1px solid #000000;
+}
+
+.profile-details {
+    flex: 1;
 }
 
 .profile-details h2 {
@@ -76,18 +85,62 @@
 }
 
 .assay-section {
-    margin-top: 20px;
+    padding: 10px;
+    width: 100%;
+    max-width: 600px;
 }
 
 .assay-section button {
-    padding: 10px 20px;
-    background-color: var(--button-color);
+    width: 100%;
+    height: 100px;
+    background: linear-gradient(135deg, #6b73ff 0%, #000dff 100%);
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 25px;
     cursor: pointer;
+    font-size: 1.5rem;
+    font-family: Mont-Heavy, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    transition: background-color 0.3s ease;
+}
+
+.assay-section button::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 300%;
+    height: 300%;
+    background: radial-gradient(circle, rgba(255,255,255,0.15) 10%, transparent 10.01%);
+    background-size: 100px 100px;
+    animation: rotate 20s linear infinite;
+}
+
+.assay-section button::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: inherit;
+    filter: blur(20px);
+    z-index: -1;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .assay-section button:hover {
-    background-color: var(--button-hover-color);
+    box-shadow: 0 9px 20px #1d5bf4;
 }
