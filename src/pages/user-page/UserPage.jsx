@@ -4,12 +4,21 @@ import { useAuth } from '../../context/AuthContext';
 import AssayModal from '../../components/assay-modal/AssayModal';
 import './UserPage.css';
 import Loading from "../../components/loading/Loading.jsx";
+import CarouselWithCards from "../../components/card-with-task/CarouselWithCards.jsx";
+
+const cardData = [
+    { title: "Task 1", description: "This is the description for task 1." },
+    { title: "Task 2", description: "This is the description for task 2." },
+    { title: "Task 3", description: "This is the description for task 3." },
+];
 
 function UserPage() {
     const { user, logout, refreshAccessToken } = useAuth();
     const [userData, setUserData] = useState(null);
+    const [statistics, setStatistics] = useState(null);
     const [loading, setLoading] = useState(true);
     const [showAssayModal, setShowAssayModal] = useState(false);
+    const [key, setKey] = useState(0);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -20,14 +29,22 @@ function UserPage() {
 
         const fetchUserData = async (token) => {
             try {
-                const response = await fetch(`http://localhost:8080/api/v1/users`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                    },
-                });
+                const [userResponse, authResponse] = await Promise.all([
+                    fetch(`http://localhost:8080/api/v1/users`, {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                        },
+                    }),
+                    fetch(`http://localhost:8080/api/v1/auth`, {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                        },
+                    }),
+                ]);
 
-                if (response.status === 401) {
+                if (userResponse.status === 401 || authResponse.status === 401) {
                     const refreshToken = localStorage.getItem('refreshToken');
                     if (refreshToken) {
                         try {
@@ -40,12 +57,34 @@ function UserPage() {
                     } else {
                         logout();
                     }
-                } else if (!response.ok) {
+                } else if (!userResponse.ok || !authResponse.ok) {
                     throw new Error('Failed to fetch user data');
                 } else {
-                    const result = await response.json();
-                    const userDataFromResponse = result.payload[0];
-                    setUserData(userDataFromResponse);
+                    const userDataResult = await userResponse.json();
+                    const authDataResult = await authResponse.json();
+                    const combinedUserData = {
+                        ...userDataResult.payload[0],
+                        ...authDataResult.payload[0],
+                    };
+
+                    setUserData(combinedUserData);
+
+                    if (combinedUserData.assay) {
+                        const statsResponse = await fetch(`http://localhost:8080/api/v1/statistics`, {
+                            method: 'GET',
+                            headers: {
+                                'Authorization': `Bearer ${token}`,
+                            },
+                        });
+
+                        if (statsResponse.ok) {
+                            const statsData = await statsResponse.json();
+                            setStatistics(statsData);
+                        } else {
+                            throw new Error('Failed to fetch statistics data');
+                        }
+                    }
+
                     setLoading(false);
                 }
             } catch (error) {
@@ -60,12 +99,15 @@ function UserPage() {
         } else {
             navigate('/');
         }
-    }, [user, navigate, logout, refreshAccessToken]);
+    }, [user, navigate, logout, refreshAccessToken, key]);  // dependency array includes 'key'
+
+    const handleModalClose = () => {
+        setShowAssayModal(false);
+        setKey(prevKey => prevKey + 1);  // update 'key' to trigger re-render
+    };
 
     if (loading) {
-        return (
-            <Loading/>
-        );
+        return <Loading />;
     }
 
     if (!userData) {
@@ -87,17 +129,24 @@ function UserPage() {
                     <div>{userData.age}</div>
                 </div>
             </div>
-            {!userData.assay && (
-                <div className="assay-section">
+            <div className="assay-section">
+                {userData.assay ? (
+                    <div className="stat-container">
+                        <p>Score: {statistics?.score}</p>
+                        <p>Completed Tasks: {statistics?.completedTasks}</p>
+                        <p>Missed Tasks: {statistics?.missedTasks}</p>
+                    </div>
+                ) : (
                     <button onClick={() => setShowAssayModal(true)}>Take Assay</button>
-                </div>
-            )}
+                )}
+            </div>
             {showAssayModal && (
                 <AssayModal
                     user={userData}
-                    onClose={() => setShowAssayModal(false)}
+                    onClose={handleModalClose}
                 />
             )}
+            <CarouselWithCards cards={cardData} />
         </div>
     );
 }

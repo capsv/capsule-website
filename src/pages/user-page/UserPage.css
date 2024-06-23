@@ -5,6 +5,9 @@
     min-height: 100vh;
     background-color: var(--background-color);
     padding: 40px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .user-container.loading {
@@ -90,6 +93,34 @@
     max-width: 600px;
 }
 
+.assay-section {
+    padding: 10px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.assay-section .stat-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: linear-gradient(135deg, #121247 0%, #ff5900 100%);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    font-family: Mont-Heavy, sans-serif;
+    position: relative;
+    overflow: hidden;
+    transition: background-color 0.3s ease;
+    padding: 20px;
+    box-shadow: 0 9px 20px #ff4d4d;
+}
+
+.assay-section .stat-container::before,
+.assay-section .stat-container::after {
+    display: none;
+}
+
 .assay-section button {
     width: 100%;
     height: 100px;
@@ -106,41 +137,40 @@
     position: relative;
     overflow: hidden;
     transition: background-color 0.3s ease;
+    box-shadow: 0 9px 20px rgba(0, 0, 0, 0.2); /* Добавляем легкую тень */
 }
 
 .assay-section button::before {
     content: '';
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 300%;
-    height: 300%;
-    background: radial-gradient(circle, rgba(255,255,255,0.15) 10%, transparent 10.01%);
-    background-size: 100px 100px;
-    animation: rotate 20s linear infinite;
-}
-
-.assay-section button::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: inherit;
-    filter: blur(20px);
-    z-index: -1;
-}
-
-@keyframes rotate {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+    top: 10px;
+    left: 10px;
+    width: 50px;
+    height: 50px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 50%, transparent 50%);
+    border-radius: 50%;
+    animation: pulse 2s infinite; /* Новый эффект пульсации */
 }
 
 .assay-section button:hover {
     box-shadow: 0 9px 20px #1d5bf4;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.5);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.assay-section .stat-container p {
+    margin: 5px 0;
 }

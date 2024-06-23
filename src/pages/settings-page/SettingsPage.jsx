@@ -5,7 +5,7 @@ import VerificationModal from '../../components/verify-email/VerificationModal';
 import './SettingsPage.css';
 
 function SettingsPage() {
-    const { user, userData, logout, updateUserData } = useAuth();
+    const { user, logout, updateUserData, refreshAccessToken } = useAuth();
     const [formData, setFormData] = useState({
         firstName: '',
         secondName: '',
@@ -17,14 +17,53 @@ function SettingsPage() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (userData) {
-            setFormData({
-                firstName: userData.firstName || '',
-                secondName: userData.secondName || '',
-                age: userData.age || '',
-            });
+        const fetchUserData = async (token) => {
+            try {
+                const response = await fetch('http://localhost:8080/api/v1/users', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
+
+                if (response.status === 401) {
+                    const refreshToken = localStorage.getItem('refreshToken');
+                    if (refreshToken) {
+                        try {
+                            const { newAccessToken } = await refreshAccessToken(refreshToken);
+                            localStorage.setItem('accessToken', newAccessToken);
+                            await fetchUserData(newAccessToken);
+                            return;
+                        } catch {
+                            logout();
+                        }
+                    } else {
+                        logout();
+                    }
+                } else if (!response.ok) {
+                    throw new Error('Failed to fetch user data');
+                } else {
+                    const result = await response.json();
+                    const userData = result.payload[0];
+                    setFormData({
+                        firstName: userData.firstName || '',
+                        secondName: userData.secondName || '',
+                        age: userData.age || '',
+                    });
+                }
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+                navigate('/');
+            }
+        };
+
+        const accessToken = localStorage.getItem('accessToken');
+        if (accessToken) {
+            fetchUserData(accessToken);
+        } else {
+            navigate('/');
         }
-    }, [userData]);
+    }, [navigate, logout, refreshAccessToken]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -75,7 +114,7 @@ function SettingsPage() {
             }
         } catch (error) {
             console.error('Error updating profile:', error);
-            //setMessages({ ...messages, [field]: 'An error occurred' });
+            // setMessages({ ...messages, [field]: 'An error occurred' });
         }
     };
 
