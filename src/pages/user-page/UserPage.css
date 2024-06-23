@@ -113,7 +113,7 @@
     overflow: hidden;
     transition: background-color 0.3s ease;
     padding: 20px;
-    box-shadow: 0 9px 20px #ff4d4d;
+    box-shadow: 0 9px 20px #ff5900;
 }
 
 .assay-section .stat-container::before,

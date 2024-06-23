@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import './VerificationModal.css';
 
@@ -7,6 +7,24 @@ const VerificationModal = ({ user, onClose }) => {
     const [step, setStep] = useState('confirm');
     const [verificationCode, setVerificationCode] = useState('');
     const [message, setMessage] = useState('');
+    const [timer, setTimer] = useState(120);
+
+    useEffect(() => {
+        let interval;
+        if (step === 'verify' && timer > 0) {
+            interval = setInterval(() => {
+                setTimer(prevTimer => prevTimer - 1);
+            }, 1000);
+        }
+        return () => clearInterval(interval);
+    }, [step, timer]);
+
+    useEffect(() => {
+        if (timer === 0) {
+            setMessage('Time expired. Please request a new verification code.');
+            setStep('confirm');
+        }
+    }, [timer]);
 
     const handleSendVerificationCode = async () => {
         try {
@@ -22,6 +40,7 @@ const VerificationModal = ({ user, onClose }) => {
 
             if (response.ok) {
                 setStep('verify');
+                setTimer(120); // Сбросить таймер на 2 минуты
             } else {
                 setMessage('Failed to send verification code.');
             }
@@ -73,6 +92,7 @@ const VerificationModal = ({ user, onClose }) => {
                             onChange={(e) => setVerificationCode(e.target.value)}
                         />
                         <button onClick={handleVerifyEmail} className="verify-button">Verify Email</button>
+                        <p>Time remaining: {Math.floor(timer / 60)}:{timer % 60 < 10 ? `0${timer % 60}` : timer % 60}</p>
                         <button onClick={onClose} className="close-button">Close</button>
                     </>
                 )}

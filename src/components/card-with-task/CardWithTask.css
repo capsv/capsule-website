@@ -12,7 +12,7 @@
     align-items: center;
     text-align: center;
     color: #ffffff;
-    transition: all 0.3s ease;
+    transition: all 0.4s ease;
 }
 
 .card-main {
@@ -27,6 +27,7 @@
     opacity: 0.8;
     z-index: 1;
     left: 20%;
+    filter: blur(2px);
     transform: translateX(-52%) scale(0.9);
 }
 
@@ -34,6 +35,7 @@
     opacity: 0.8;
     z-index: 1;
     left: 80%;
+    filter: blur(2px);
     transform: translateX(-48%) scale(0.9);
 }
 
