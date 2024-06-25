@@ -6,16 +6,11 @@ import './UserPage.css';
 import Loading from "../../components/loading/Loading.jsx";
 import CarouselWithCards from "../../components/card-with-task/CarouselWithCards.jsx";
 
-const cardData = [
-    { title: "Task 1", description: "This is the description for task 1." },
-    { title: "Task 2", description: "This is the description for task 2." },
-    { title: "Task 3", description: "This is the description for task 3." },
-];
-
 function UserPage() {
     const { user, logout, refreshAccessToken } = useAuth();
     const [userData, setUserData] = useState(null);
     const [statistics, setStatistics] = useState(null);
+    const [tasks, setTasks] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showAssayModal, setShowAssayModal] = useState(false);
     const [key, setKey] = useState(0);
@@ -83,6 +78,20 @@ function UserPage() {
                         } else {
                             throw new Error('Failed to fetch statistics data');
                         }
+
+                        const tasksResponse = await fetch(`http://localhost:8080/api/v1/tasks`, {
+                            method: 'GET',
+                            headers: {
+                                'Authorization': `Bearer ${token}`,
+                            },
+                        });
+
+                        if (tasksResponse.ok) {
+                            const tasksData = await tasksResponse.json();
+                            setTasks(tasksData.payload);
+                        } else {
+                            throw new Error('Failed to fetch tasks data');
+                        }
                     }
 
                     setLoading(false);
@@ -146,7 +155,7 @@ function UserPage() {
                     onClose={handleModalClose}
                 />
             )}
-            <CarouselWithCards cards={cardData} />
+            <CarouselWithCards cards={tasks} assay={userData.assay} />
         </div>
     );
 }

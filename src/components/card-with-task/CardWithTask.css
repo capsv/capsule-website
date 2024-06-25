@@ -121,3 +121,11 @@
     font-family: Mont-Heavy, sans-serif;
     color: #28a745;
 }
+
+.locked-card {
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}

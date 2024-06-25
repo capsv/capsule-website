@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { FiLock } from 'react-icons/fi';
 import './CardWithTask.css';
 
-const CardWithTask = ({ title, description, className }) => {
+const CardWithTask = ({ title, description, className, assay }) => {
     const [status, setStatus] = useState('initial');
     const isMain = className === 'card-main';
 
@@ -16,6 +17,14 @@ const CardWithTask = ({ title, description, className }) => {
     const handleComplete = () => {
         setStatus('completed');
     };
+
+    if (!assay) {
+        return (
+            <div className={`card ${className} locked-card`}>
+                <FiLock size={120} color="black" />
+            </div>
+        );
+    }
 
     return (
         <div className={`card ${className}`}>
