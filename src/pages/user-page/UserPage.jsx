@@ -99,11 +99,11 @@ function UserPage() {
         } else {
             navigate('/');
         }
-    }, [user, navigate, logout, refreshAccessToken, key]);  // dependency array includes 'key'
+    }, [user, navigate, logout, refreshAccessToken, key]);
 
     const handleModalClose = () => {
         setShowAssayModal(false);
-        setKey(prevKey => prevKey + 1);  // update 'key' to trigger re-render
+        setKey(prevKey => prevKey + 1);
     };
 
     if (loading) {
