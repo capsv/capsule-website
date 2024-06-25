@@ -3,7 +3,7 @@ import { FiArrowLeftCircle, FiArrowRightCircle } from 'react-icons/fi';
 import './CarouselWithCards.css';
 import CardWithTask from './CardWithTask';
 
-const CarouselWithCards = ({ cards, assay }) => {
+const CarouselWithCards = ({ cards, assay, token }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const handleNext = () => {
@@ -43,6 +43,8 @@ const CarouselWithCards = ({ cards, assay }) => {
                             description={card.description}
                             className={getCardStyle(index)}
                             assay={assay}
+                            taskId={card.id}
+                            token={token}
                         />
                     ))}
                 </div>

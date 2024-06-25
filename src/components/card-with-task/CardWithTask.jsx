@@ -2,20 +2,68 @@ import React, { useState } from 'react';
 import { FiLock } from 'react-icons/fi';
 import './CardWithTask.css';
 
-const CardWithTask = ({ title, description, className, assay }) => {
+const CardWithTask = ({ title, description, className, assay, taskId, token }) => {
     const [status, setStatus] = useState('initial');
     const isMain = className === 'card-main';
 
-    const handleSkip = () => {
-        setStatus('skipped');
+    const handleSkip = async () => {
+        try {
+            const response = await fetch('http://localhost:8080/api/v1/tasks/skip', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ taskId })
+            });
+            if (response.status === 200) {
+                setStatus('skipped');
+            } else {
+                console.error('Failed to skip task');
+            }
+        } catch (error) {
+            console.error('Error skipping task:', error);
+        }
     };
 
-    const handleStart = () => {
-        setStatus('started');
+    const handleStart = async () => {
+        try {
+            const response = await fetch('http://localhost:8080/api/v1/tasks/start', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ taskId })
+            });
+            if (response.status === 200) {
+                setStatus('started');
+            } else {
+                console.error('Failed to start task');
+            }
+        } catch (error) {
+            console.error('Error starting task:', error);
+        }
     };
 
-    const handleComplete = () => {
-        setStatus('completed');
+    const handleComplete = async () => {
+        try {
+            const response = await fetch('http://localhost:8080/api/v1/tasks/complete', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ taskId })
+            });
+            if (response.status === 200) {
+                setStatus('completed');
+            } else {
+                console.error('Failed to complete task');
+            }
+        } catch (error) {
+            console.error('Error completing task:', error);
+        }
     };
 
     if (!assay) {

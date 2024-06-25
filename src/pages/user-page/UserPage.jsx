@@ -155,7 +155,7 @@ function UserPage() {
                     onClose={handleModalClose}
                 />
             )}
-            <CarouselWithCards cards={tasks} assay={userData.assay} />
+            <CarouselWithCards cards={tasks} assay={userData.assay} token={localStorage.getItem('accessToken')} />
         </div>
     );
 }
