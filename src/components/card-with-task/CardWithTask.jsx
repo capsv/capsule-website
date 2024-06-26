@@ -1,10 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FiLock } from 'react-icons/fi';
 import './CardWithTask.css';
 
-const CardWithTask = ({ title, description, className, assay, taskId, token }) => {
+const CardWithTask = ({ title, description, className, assay, taskId, token, initialStatus }) => {
     const [status, setStatus] = useState('initial');
     const isMain = className === 'card-main';
+
+    useEffect(() => {
+        switch (initialStatus) {
+            case 'IN_PROGRESS':
+                setStatus('started');
+                break;
+            case 'COMPLETED':
+                setStatus('completed');
+                break;
+            case 'SKIPPED':
+                setStatus('skipped');
+                break;
+            default:
+                setStatus('initial');
+        }
+    }, [initialStatus]);
 
     const handleSkip = async () => {
         try {

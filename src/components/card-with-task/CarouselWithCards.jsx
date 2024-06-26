@@ -45,6 +45,7 @@ const CarouselWithCards = ({ cards, assay, token }) => {
                             assay={assay}
                             taskId={card.id}
                             token={token}
+                            initialStatus={card.status}
                         />
                     ))}
                 </div>
