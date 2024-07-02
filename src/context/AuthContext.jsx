@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     const fetchUserData = async (token) => {
-        const response = await fetch('http://localhost:8080/api/v1/users', {
+        const response = await fetch('http://195.80.51.69:8080/api/v1/users', {
             headers: {
                 'Authorization': `Bearer ${token}`,
             },
@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     const refreshAccessToken = async (refreshToken) => {
-        const response = await fetch('http://localhost:8080/api/v1/auth/token/authenticate', {
+        const response = await fetch('http://195.80.51.69:8080/api/v1/auth/token/authenticate', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

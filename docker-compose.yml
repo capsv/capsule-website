@@ -1,1 +1,10 @@
 services:
+  web:
+    image: trapperumin/capsule-website
+    container_name: web
+    hostname: web
+    restart: always
+    ports:
+      - "80:80"
+    networks:
+      - capsule

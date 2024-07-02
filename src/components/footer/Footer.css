@@ -14,6 +14,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-size: 16px;
 }
 
 .language-switcher {
@@ -32,4 +33,26 @@
     width: 24px;
     height: 24px;
     border-radius: 50%;
+}
+
+@media (max-width: 1000px) {
+    .footer-content {
+        font-size: 14px;
+    }
+
+    .language-button img {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+@media (max-width: 550px) {
+    .footer-content {
+        font-size: 12px;
+    }
+
+    .language-button img {
+        width: 18px;
+        height: 18px;
+    }
 }

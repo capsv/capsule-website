@@ -14,7 +14,7 @@ const HeroSection = ({ content }) => {
                     <HeroButtons />
                 </div>
                 <div className="hero-image">
-                    <img src="/public/photos/journal-woman-playing-jenga-at-game-night.png" alt="Capsule Logo"/>
+                    <img src="/photos/journal-woman-playing-jenga-at-game-night.png" alt="Capsule Logo"/>
                 </div>
             </div>
             <img src="/photos/orange-3.svg" alt="Orange decoration" className="hero-decoration hero-decoration-1"/>

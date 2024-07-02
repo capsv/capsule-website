@@ -44,7 +44,7 @@ function SignUpPage() {
         }
 
         try {
-            const response = await fetch('http://localhost:8080/api/v1/auth/register', {
+            const response = await fetch('http://195.80.51.69:8080/api/v1/auth/register', { //localhost:8080
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -139,7 +139,7 @@ function SignUpPage() {
                     <button type="submit" className={styles.button}>{content.submit}</button>
                 </form>
                 <div className={styles.signupImage}>
-                    <img src="/public/photos/pablita-face-id.gif" alt="Sign up illustration" />
+                    <img src="/photos/pablita-face-id.gif" alt="Sign up illustration" />
                 </div>
             </div>
         </div>

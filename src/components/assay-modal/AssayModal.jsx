@@ -11,7 +11,7 @@ const AssayModal = ({ onClose }) => {
     const handleSubmit = async () => {
         const token = localStorage.getItem('accessToken');
         try {
-            const response = await fetch('http://localhost:8080/api/v1/assays/pass', {
+            const response = await fetch('http://195.80.51.69:8080/api/v1/assays/pass', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -38,12 +38,12 @@ const AssayModal = ({ onClose }) => {
         const token = localStorage.getItem('accessToken');
         try {
             const [authResponse, statsResponse] = await Promise.all([
-                fetch('http://localhost:8080/api/v1/auth', {
+                fetch('http://195.80.51.69:8080/api/v1/auth', {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     },
                 }),
-                fetch('http://localhost:8080/api/v1/statistics', {
+                fetch('http://195.80.51.69:8080/api/v1/statistics', {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     },

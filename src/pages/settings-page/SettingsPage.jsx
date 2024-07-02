@@ -19,7 +19,7 @@ function SettingsPage() {
     useEffect(() => {
         const fetchUserData = async (token) => {
             try {
-                const response = await fetch('http://localhost:8080/api/v1/users', {
+                const response = await fetch('http://195.80.51.69:8080/api/v1/users', {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -96,7 +96,7 @@ function SettingsPage() {
 
         try {
             const token = localStorage.getItem('accessToken');
-            const response = await fetch(`http://localhost:8080/api/v1/users`, {
+            const response = await fetch(`http://195.80.51.69:8080/api/v1/users`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -121,7 +121,7 @@ function SettingsPage() {
     const handleDeleteAccount = async () => {
         try {
             const token = localStorage.getItem('accessToken');
-            const response = await fetch(`http://localhost:8080/api/v1/users`, {
+            const response = await fetch(`http://195.80.51.69:8080/api/v1/users`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,

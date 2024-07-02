@@ -36,7 +36,7 @@ const SignInForm = () => {
         }
 
         try {
-            const response = await fetch('http://localhost:8080/api/v1/auth/authenticate', {
+            const response = await fetch('http://195.80.51.69:8080/api/v1/auth/authenticate', { //localhost:8080
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

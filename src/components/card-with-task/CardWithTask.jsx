@@ -24,7 +24,7 @@ const CardWithTask = ({ title, description, className, assay, taskId, token, ini
 
     const handleSkip = async () => {
         try {
-            const response = await fetch('http://localhost:8080/api/v1/tasks/skip', {
+            const response = await fetch('http://195.80.51.69:8080/api/v1/tasks/skip', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ const CardWithTask = ({ title, description, className, assay, taskId, token, ini
 
     const handleStart = async () => {
         try {
-            const response = await fetch('http://localhost:8080/api/v1/tasks/start', {
+            const response = await fetch('http://195.80.51.69:8080/api/v1/tasks/start', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -64,7 +64,7 @@ const CardWithTask = ({ title, description, className, assay, taskId, token, ini
 
     const handleComplete = async () => {
         try {
-            const response = await fetch('http://localhost:8080/api/v1/tasks/complete', {
+            const response = await fetch('http://195.80.51.69:8080/api/v1/tasks/complete', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

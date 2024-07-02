@@ -29,7 +29,7 @@ const VerificationModal = ({ user, onClose }) => {
     const handleSendVerificationCode = async () => {
         try {
             const token = localStorage.getItem('accessToken');
-            const response = await fetch('http://localhost:8080/api/v1/verifications/request', {
+            const response = await fetch('http://195.80.51.69:8080/api/v1/verifications/request', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ const VerificationModal = ({ user, onClose }) => {
     const handleVerifyEmail = async () => {
         try {
             const token = localStorage.getItem('accessToken');
-            const response = await fetch('http://localhost:8080/api/v1/verifications/confirm', {
+            const response = await fetch('http://195.80.51.69:8080/api/v1/verifications/confirm', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
