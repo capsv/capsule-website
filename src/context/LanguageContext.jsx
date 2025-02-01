@@ -1,14 +1,21 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 const LanguageContext = createContext();
 
 export const LanguageProvider = ({ children }) => {
-    const [language, setLanguage] = useState('en');
+    const [language, setLanguage] = useState(() => {
+        const savedLanguage = localStorage.getItem('language');
+        return savedLanguage || 'ru';
+    });
 
     const toggleLanguage = (lang) => {
         setLanguage(lang);
     };
+
+    useEffect(() => {
+        localStorage.setItem('language', language);
+    }, [language]);
 
     return (
         <LanguageContext.Provider value={{ language, toggleLanguage }}>

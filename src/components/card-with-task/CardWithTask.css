@@ -129,3 +129,41 @@
     align-items: center;
     color: white;
 }
+
+@media (max-width: 1000px) {
+    .card {
+        width: 250px;
+        height: 300px;
+    }
+    .card-title {
+        font-size: 1.5rem;
+    }
+    .card-description {
+        font-size: 1rem;
+    }
+    .skipped-text{
+        font-size: 2.5rem;
+    }
+    .success-text {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 550px) {
+    .card {
+        width: 200px;
+        height: 250px;
+    }
+    .card-title {
+        font-size: 1.4rem;
+    }
+    .card-description {
+        font-size: 0.9rem;
+    }
+    .skipped-text{
+        font-size: 2rem;
+    }
+    .success-text {
+        font-size: 2rem;
+    }
+}

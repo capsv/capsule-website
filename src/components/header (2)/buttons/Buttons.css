@@ -178,4 +178,14 @@
     .menu-button-container {
         display: block;
     }
+    .get-started-button {
+        font-size: 14px;
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+    .login-button {
+        font-size: 14px;
+        padding-right: 10px;
+        padding-left: 10px;
+    }
 }

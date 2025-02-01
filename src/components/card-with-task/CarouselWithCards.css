@@ -69,3 +69,68 @@
     font-family: Mont-Heavy, sans-serif;
     color: var(--black-color);
 }
+
+@media (max-width: 1000px) {
+    .carousel-section {
+        height: 600px;
+    }
+    .carousel-title {
+        font-size: 1.5rem;
+    }
+    .carousel-wrapper {
+        width: 90%;
+    }
+    .carousel-button {
+        width: 45px;
+        height: 45px;
+    }
+    .carousel-button.left {
+        left: 20px;
+    }
+    .carousel-button.right {
+        right: 20px;
+    }
+    .card {
+        width: 250px;
+        height: 300px;
+    }
+    .card-title {
+        font-size: 1.5rem;
+    }
+    .card-description {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 550px) {
+    .carousel-section {
+        height: 500px;
+        min-width: 100%;
+    }
+    .carousel-title {
+        font-size: 1.2rem;
+    }
+    .carousel-wrapper {
+        width: 100%;
+    }
+    .carousel-button {
+        width: 45px;
+        height: 45px;
+    }
+    .carousel-button.left {
+        left: 0px;
+    }
+    .carousel-button.right {
+        right: 0px;
+    }
+    .card {
+        width: 200px;
+        height: 250px;
+    }
+    .card-title {
+        font-size: 1.2rem;
+    }
+    .card-description {
+        font-size: 0.8rem;
+    }
+}

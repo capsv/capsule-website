@@ -63,36 +63,6 @@
     margin-left: 10px;
 }
 
-@media (max-width: 400px) {
-    .profile-photo img {
-        width: 100px;
-        height: 100px;
-    }
-
-    .profile-details h2 {
-        font-size: 1.2rem;
-    }
-
-    .profile-details p {
-        font-size: 0.9rem;
-    }
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-.assay-section {
-    padding: 10px;
-    width: 100%;
-    max-width: 600px;
-}
-
 .assay-section {
     padding: 10px;
     width: 100%;
@@ -116,9 +86,8 @@
     box-shadow: 0 9px 20px #ff5900;
 }
 
-.assay-section .stat-container::before,
-.assay-section .stat-container::after {
-    display: none;
+.assay-section .stat-container p {
+    margin: 5px 0;
 }
 
 .assay-section button {
@@ -171,6 +140,42 @@
     }
 }
 
-.assay-section .stat-container p {
-    margin: 5px 0;
+@media (max-width: 1000px) {
+    .user-container {
+        padding: 20px;
+    }
+    .profile-photo img {
+        width: 100px;
+        height: 100px;
+    }
+    .profile-details h2 {
+        font-size: 1.5rem;
+    }
+    .profile-details p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 550px) {
+    .user-container {
+        padding: 10px;
+    }
+    .profile-photo img {
+        width: 80px;
+        height: 80px;
+    }
+    .profile-details h2 {
+        font-size: 1.2rem;
+    }
+    .profile-details p {
+        font-size: 0.9rem;
+    }
+    .assay-section .stat-container {
+        font-size: 14px;
+        padding: 15px;
+    }
+    .assay-section button {
+        height: 80px;
+        font-size: 1.2rem;
+    }
 }
