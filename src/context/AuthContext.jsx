@@ -1,25 +1,28 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { fetchUserData, refreshAccessToken as refreshToken } from '../services/authService';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
         const accessToken = localStorage.getItem('accessToken');
-        const refreshToken = localStorage.getItem('refreshToken');
+        const refreshTokenValue = localStorage.getItem('refreshToken');
 
-        if (accessToken && refreshToken) {
+        if (accessToken && refreshTokenValue) {
+            setLoading(true);
             fetchUserData(accessToken)
                 .then(userData => {
                     setIsAuthenticated(true);
                     setUser(userData);
                 })
                 .catch(() => {
-                    refreshAccessToken(refreshToken)
+                    refreshToken(refreshTokenValue)
                         .then(({ newAccessToken, userData }) => {
                             localStorage.setItem('accessToken', newAccessToken);
                             setIsAuthenticated(true);
@@ -28,41 +31,14 @@ export const AuthProvider = ({ children }) => {
                         .catch(() => {
                             logout();
                         });
+                })
+                .finally(() => {
+                    setLoading(false);
                 });
+        } else {
+            setLoading(false);
         }
     }, []);
-
-    const fetchUserData = async (token) => {
-        const response = await fetch('http://195.80.51.69:8080/api/v1/users', {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            },
-        });
-        if (!response.ok) {
-            throw new Error('Failed to fetch user data');
-        }
-        return response.json();
-    };
-
-    const refreshAccessToken = async (refreshToken) => {
-        const response = await fetch('http://195.80.51.69:8080/api/v1/auth/token/authenticate', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ token: refreshToken }),
-        });
-        if (!response.ok) {
-            throw new Error('Failed to refresh token');
-        }
-        const data = await response.json();
-        if (data.status !== "SUCCESS") {
-            throw new Error(data.message);
-        }
-        const newAccessToken = data.payload[0].access.token;
-        const userData = data.payload[0].data;
-        return { newAccessToken, userData };
-    };
 
     const login = (userData) => {
         setIsAuthenticated(true);
@@ -79,7 +55,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, user, login, logout, refreshAccessToken }}>
+        <AuthContext.Provider value={{ isAuthenticated, user, login, logout, loading }}>
             {children}
         </AuthContext.Provider>
     );

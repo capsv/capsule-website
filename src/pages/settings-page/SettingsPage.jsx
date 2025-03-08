@@ -1,49 +1,45 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef, memo } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import VerificationModal from '../../components/verify-email/VerificationModal';
-import { useLanguage } from '../../context/LanguageContext.jsx'; // Импортируем контекст языка
+import { useLanguage } from '../../context/LanguageContext.jsx';
+import { translations } from '../../translations/index.js';
 import './SettingsPage.css';
+
+// Компонент поля ввода вынесен за пределы основного компонента и мемоизирован
+const InputField = memo(({ id, label, type = 'text', value, onChange, onSubmit, isLoading, error, message, saveText }) => (
+    <div className="form-group">
+        <label htmlFor={id}>{label}</label>
+        <div className="input-container">
+            <input
+                type={type}
+                id={id}
+                name={id}
+                value={value}
+                onChange={onChange}
+                disabled={isLoading}
+            />
+            <button 
+                type="button" 
+                className="text-button" 
+                onClick={onSubmit}
+                disabled={isLoading}
+            >
+                {isLoading ? (
+                    <span className="loading-spinner">...</span>
+                ) : saveText}
+            </button>
+        </div>
+        {error && <span className="error">{error}</span>}
+        {message && <span className="message">{message}</span>}
+    </div>
+));
 
 function SettingsPage() {
     const { user, logout, updateUserData, refreshAccessToken } = useAuth();
-    const { language } = useLanguage(); // Получаем текущий язык из контекста языка
-
-    const translations = {
-        en: {
-            settings: 'Settings',
-            firstName: 'First Name',
-            secondName: 'Second Name',
-            age: 'Age',
-            save: 'Save',
-            sendVerificationCode: 'Send Verification Code',
-            deleteAccount: 'Delete Account',
-            updatedSuccessfully: 'Updated successfully',
-            failedToUpdate: 'Failed to update',
-            failedToDelete: 'Failed to delete account',
-            errorOccurred: 'An error occurred',
-            shouldBeBetween4And128: 'should be between 4 and 128 characters',
-            shouldBeBetween1And127: 'should be between 1 and 127',
-        },
-        ru: {
-            settings: 'Настройки',
-            firstName: 'Имя',
-            secondName: 'Фамилия',
-            age: 'Возраст',
-            save: 'Сохранить',
-            sendVerificationCode: 'Отправить код подтверждения',
-            deleteAccount: 'Удалить аккаунт',
-            updatedSuccessfully: 'Успешно обновлено',
-            failedToUpdate: 'Не удалось обновить',
-            failedToDelete: 'Не удалось удалить аккаунт',
-            errorOccurred: 'Произошла ошибка',
-            shouldBeBetween4And128: 'должно быть от 4 до 128 символов',
-            shouldBeBetween1And127: 'должно быть от 1 до 127',
-        },
-    };
-
-    const t = translations[language]; // Функция для получения переводов на текущем языке
-
+    const { language } = useLanguage();
+    const t = translations.settings[language] || translations.settings.ru;
+    
     const [formData, setFormData] = useState({
         firstName: '',
         secondName: '',
@@ -52,8 +48,10 @@ function SettingsPage() {
     const [errors, setErrors] = useState({});
     const [messages, setMessages] = useState({});
     const [showVerificationModal, setShowVerificationModal] = useState(false);
+    const [isLoading, setIsLoading] = useState({});
     const navigate = useNavigate();
 
+    // Загрузка данных пользователя
     useEffect(() => {
         const fetchUserData = async (token) => {
             try {
@@ -103,15 +101,24 @@ function SettingsPage() {
         }
     }, [navigate, logout, refreshAccessToken]);
 
-    const handleChange = (e) => {
+    // Обработчики формы - мемоизируем для предотвращения потери фокуса
+    const handleChange = useCallback((e) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
+        setFormData(prev => ({
+            ...prev,
             [name]: value,
-        });
-    };
+        }));
+        
+        // Очищаем сообщения при изменении
+        if (errors[name]) {
+            setErrors(prev => ({ ...prev, [name]: '' }));
+        }
+        if (messages[name]) {
+            setMessages(prev => ({ ...prev, [name]: '' }));
+        }
+    }, [errors, messages]);
 
-    const validate = (field, value) => {
+    const validate = useCallback((field, value) => {
         let error = '';
         if ((field === 'firstName' || field === 'secondName') && (!value.trim() || value.length < 4 || value.length > 128)) {
             error = t.shouldBeBetween4And128;
@@ -119,44 +126,59 @@ function SettingsPage() {
             error = t.shouldBeBetween1And127;
         }
         return error;
-    };
+    }, [t]);
 
-    const handleSubmit = async (field) => {
+    const handleSubmit = useCallback((field) => {
         const error = validate(field, formData[field]);
         if (error) {
-            setErrors({ ...errors, [field]: error });
+            setErrors(prev => ({ ...prev, [field]: error }));
             return;
-        } else {
-            setErrors({ ...errors, [field]: '' });
         }
 
+        setIsLoading(prev => ({ ...prev, [field]: true }));
         const updatedField = { [field]: formData[field] };
 
-        try {
-            const token = localStorage.getItem('accessToken');
-            const response = await fetch(`http://195.80.51.69:8080/api/v1/users`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                },
-                body: JSON.stringify(updatedField),
-            });
+        const submitData = async () => {
+            try {
+                const token = localStorage.getItem('accessToken');
+                const response = await fetch(`http://195.80.51.69:8080/api/v1/users`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
+                    body: JSON.stringify(updatedField),
+                });
 
-            const result = await response.json();
-            if (response.ok) {
-                setMessages({ ...messages, [field]: t.updatedSuccessfully });
-                updateUserData(updatedField);
-            } else {
-                setMessages({ ...messages, [field]: t.failedToUpdate });
+                if (response.ok) {
+                    setMessages(prev => ({ ...prev, [field]: t.updatedSuccessfully }));
+                    updateUserData(updatedField);
+                    
+                    // Автоматически очищаем сообщение через 3 секунды
+                    setTimeout(() => {
+                        setMessages(prev => ({ ...prev, [field]: '' }));
+                    }, 3000);
+                } else {
+                    setMessages(prev => ({ ...prev, [field]: t.failedToUpdate }));
+                }
+            } catch (error) {
+                console.error('Error updating profile:', error);
+                setMessages(prev => ({ ...prev, [field]: t.errorOccurred }));
+            } finally {
+                setIsLoading(prev => ({ ...prev, [field]: false }));
             }
-        } catch (error) {
-            console.error('Error updating profile:', error);
-            setMessages({ ...messages, [field]: t.errorOccurred });
-        }
-    };
+        };
 
-    const handleDeleteAccount = async () => {
+        submitData();
+    }, [formData, validate, t, updateUserData]);
+
+    const handleDeleteAccount = useCallback(async () => {
+        if (!window.confirm(t.confirmDeleteAccount)) {
+            return;
+        }
+        
+        setIsLoading(prev => ({ ...prev, delete: true }));
+        
         try {
             const token = localStorage.getItem('accessToken');
             const response = await fetch(`http://195.80.51.69:8080/api/v1/users`, {
@@ -170,81 +192,89 @@ function SettingsPage() {
                 logout();
                 navigate('/');
             } else {
-                setMessages({ ...messages, delete: t.failedToDelete });
+                setMessages(prev => ({ ...prev, delete: t.failedToDelete }));
             }
         } catch (error) {
             console.error('Error deleting account:', error);
-            setMessages({ ...messages, delete: t.errorOccurred });
+            setMessages(prev => ({ ...prev, delete: t.errorOccurred }));
+        } finally {
+            setIsLoading(prev => ({ ...prev, delete: false }));
         }
-    };
+    }, [t, logout, navigate]);
 
     return (
         <div className="settings-container">
             <h2>{t.settings}</h2>
             <div className="settings-form">
-                <div className="form-group">
-                    <label htmlFor="firstName">{t.firstName}</label>
-                    <div className="input-container">
-                        <input
-                            type="text"
-                            id="firstName"
-                            name="firstName"
-                            value={formData.firstName}
-                            onChange={handleChange}
-                        />
-                        <button type="button" className="text-button" onClick={() => handleSubmit('firstName')}>
-                            {t.save}
+                <div className="profile-section">
+                    <h3>{t.profileInfo}</h3>
+                    
+                    <InputField
+                        id="firstName"
+                        label={t.firstName}
+                        value={formData.firstName}
+                        onChange={handleChange}
+                        onSubmit={() => handleSubmit('firstName')}
+                        isLoading={isLoading.firstName}
+                        error={errors.firstName}
+                        message={messages.firstName}
+                        saveText={t.save}
+                    />
+                    
+                    <InputField
+                        id="secondName"
+                        label={t.secondName}
+                        value={formData.secondName}
+                        onChange={handleChange}
+                        onSubmit={() => handleSubmit('secondName')}
+                        isLoading={isLoading.secondName}
+                        error={errors.secondName}
+                        message={messages.secondName}
+                        saveText={t.save}
+                    />
+                    
+                    <InputField
+                        id="age"
+                        label={t.age}
+                        type="number"
+                        value={formData.age}
+                        onChange={handleChange}
+                        onSubmit={() => handleSubmit('age')}
+                        isLoading={isLoading.age}
+                        error={errors.age}
+                        message={messages.age}
+                        saveText={t.save}
+                    />
+                </div>
+                
+                <div className="action-buttons">
+                    <div className="form-group">
+                        <button 
+                            type="button" 
+                            className="verification-button" 
+                            onClick={() => setShowVerificationModal(true)}
+                        >
+                            {t.sendVerificationCode}
                         </button>
                     </div>
-                    {errors.firstName && <span className="error">{errors.firstName}</span>}
-                    {messages.firstName && <span className="message">{messages.firstName}</span>}
-                </div>
-                <div className="form-group">
-                    <label htmlFor="secondName">{t.secondName}</label>
-                    <div className="input-container">
-                        <input
-                            type="text"
-                            id="secondName"
-                            name="secondName"
-                            value={formData.secondName}
-                            onChange={handleChange}
-                        />
-                        <button type="button" className="text-button" onClick={() => handleSubmit('secondName')}>
-                            {t.save}
+                    
+                    <div className="form-group">
+                        <button 
+                            type="button" 
+                            className="delete-button" 
+                            onClick={handleDeleteAccount}
+                            disabled={isLoading.delete}
+                        >
+                            {isLoading.delete ? 
+                                <span className="loading-spinner">...</span> : 
+                                t.deleteAccount
+                            }
                         </button>
+                        {messages.delete && <span className="error">{messages.delete}</span>}
                     </div>
-                    {errors.secondName && <span className="error">{errors.secondName}</span>}
-                    {messages.secondName && <span className="message">{messages.secondName}</span>}
-                </div>
-                <div className="form-group">
-                    <label htmlFor="age">{t.age}</label>
-                    <div className="input-container">
-                        <input
-                            type="number"
-                            id="age"
-                            name="age"
-                            value={formData.age}
-                            onChange={handleChange}
-                        />
-                        <button type="button" className="text-button" onClick={() => handleSubmit('age')}>
-                            {t.save}
-                        </button>
-                    </div>
-                    {errors.age && <span className="error">{errors.age}</span>}
-                    {messages.age && <span className="message">{messages.age}</span>}
-                </div>
-                <div className="form-group">
-                    <button type="button" className="verification-button" onClick={() => setShowVerificationModal(true)}>
-                        {t.sendVerificationCode}
-                    </button>
-                </div>
-                <div className="form-group">
-                    <button type="button" className="delete-button" onClick={handleDeleteAccount}>
-                        {t.deleteAccount}
-                    </button>
-                    {messages.delete && <span className="error">{messages.delete}</span>}
                 </div>
             </div>
+            
             {showVerificationModal && (
                 <VerificationModal
                     user={user}

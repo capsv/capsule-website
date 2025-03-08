@@ -9,30 +9,36 @@ import Footer from "./components/footer/Footer.jsx";
 import {LanguageProvider} from "./context/LanguageContext.jsx";
 import {AuthProvider} from "./context/AuthContext.jsx";
 import SettingsPage from "./pages/settings-page/SettingsPage.jsx";
+import ErrorBoundary from "./components/ErrorBoundary.jsx";
 import "./index.css";
 
+/**
+ * Главный компонент приложения
+ * Настраивает маршрутизацию и обертки контекста
+ */
 function App() {
-
     return (
-        <LanguageProvider>
-            <Router>
-                <AuthProvider>
-                    <div className="app">
-                        <Header />
-                        <main className="main-content">
-                            <Routes>
-                                <Route path="/" element={<HomePage />} />
-                                <Route path="/auth/up" element={<SignUpPage />} />
-                                <Route path="/auth/in" element={<SignInPage />} />
-                                <Route path="/:username" element={<UserPage />} />
-                                <Route path="/:username/settings" element={<SettingsPage />} />
-                            </Routes>
-                        </main>
-                        <Footer />
-                    </div>
-                </AuthProvider>
-            </Router>
-        </LanguageProvider>
+        <ErrorBoundary>
+            <LanguageProvider>
+                <Router>
+                    <AuthProvider>
+                        <div className="app">
+                            <Header />
+                            <main className="main-content">
+                                <Routes>
+                                    <Route path="/" element={<HomePage />} />
+                                    <Route path="/auth/up" element={<SignUpPage />} />
+                                    <Route path="/auth/in" element={<SignInPage />} />
+                                    <Route path="/:username" element={<UserPage />} />
+                                    <Route path="/:username/settings" element={<SettingsPage />} />
+                                </Routes>
+                            </main>
+                            <Footer />
+                        </div>
+                    </AuthProvider>
+                </Router>
+            </LanguageProvider>
+        </ErrorBoundary>
     )
 }
 

@@ -2,108 +2,277 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 100vh;
+    min-height: calc(100vh - 120px); /* Учитываем высоту header и footer */
     background-color: var(--background-color);
-    padding: 20px;
+    padding: 40px 20px;
     text-align: center;
+}
+
+.settings-container h2 {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    color: var(--black-color);
+    font-weight: 600;
+    position: relative;
+    display: inline-block;
+}
+
+.settings-container h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background-color: var(--button-color);
+    border-radius: 3px;
 }
 
 .settings-form {
     background: #fff;
-    padding: 20px;
-    border-radius: 8px;
+    padding: 30px;
+    border-radius: 12px;
     width: 100%;
     max-width: 600px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.profile-section {
+    margin-bottom: 30px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+}
+
+.profile-section h3 {
+    font-size: 1.5rem;
+    color: var(--black-color);
+    margin-bottom: 20px;
+    font-weight: 500;
+    text-align: left;
+    position: relative;
+    padding-left: 15px;
+}
+
+.profile-section h3::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 20px;
+    background-color: var(--button-color);
+    border-radius: 2px;
 }
 
 .settings-form .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 24px;
     text-align: left;
 }
 
 .settings-form .form-group label {
     display: block;
-    margin-bottom: 5px;
-    font-size: 1.2rem;
+    margin-bottom: 8px;
+    font-size: 1.1rem;
     color: var(--black-color);
+    font-weight: 500;
 }
 
 .settings-form .form-group .input-container {
     display: flex;
     align-items: center;
+    gap: 12px; /* Использование gap вместо margin-left */
 }
 
 .settings-form .form-group input {
     flex: 1;
-    padding: 10px;
-    border: 1px solid var(--black-color);
-    border-radius: 5px;
+    padding: 12px 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
     font-size: 1rem;
     box-sizing: border-box;
+    transition: all 0.3s ease;
+    background-color: #f9f9f9;
+}
+
+.settings-form .form-group input:focus {
+    border-color: var(--button-color);
+    box-shadow: 0 0 0 2px rgba(var(--button-color-rgb), 0.2);
+    outline: none;
+    background-color: #fff;
+}
+
+.settings-form .form-group input:disabled {
+    background-color: #f0f0f0;
+    cursor: not-allowed;
+    opacity: 0.7;
 }
 
 .settings-form .form-group .text-button {
     background-color: var(--button-color);
     color: #fff;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
-    padding: 10px;
+    padding: 12px 20px;
     font-size: 1rem;
+    font-weight: 500;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: 10px;
+    transition: background-color 0.3s ease;
+    min-width: 100px;
 }
 
 .settings-form .form-group .text-button:hover {
     background-color: var(--button-hover-color);
 }
 
+.settings-form .form-group .text-button:active {
+    transform: translateY(1px);
+}
+
+.settings-form .form-group .text-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.loading-spinner {
+    position: relative;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+    0% { content: "."; }
+    25% { content: ".."; }
+    50% { content: "..."; }
+    75% { content: ".."; }
+    100% { content: "."; }
+}
+
+.settings-form .action-buttons {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
 .settings-form .form-group .delete-button {
-    background-color: red;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
+    background-color: transparent;
+    color: #ff3b30;
+    border: 1px solid #ff3b30;
+    border-radius: 8px;
     cursor: pointer;
-    padding: 10px;
+    padding: 14px 20px;
     font-size: 1rem;
+    font-weight: 500;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
+    transition: all 0.3s ease;
+    margin-top: 10px;
 }
 
 .settings-form .form-group .delete-button:hover {
-    background-color: darkred;
+    background-color: #ff3b30;
+    color: white;
 }
 
-.error {
-    color: red;
-    font-size: 1rem;
-    margin-top: 5px;
-}
-
-.message {
-    color: green;
-    font-size: 1rem;
-    margin-top: 5px;
+.settings-form .form-group .delete-button:disabled {
+    background-color: #f8d7d7;
+    border-color: #f8d7d7;
+    color: #a8a8a8;
+    cursor: not-allowed;
 }
 
 .verification-button {
-    background-color: green;
+    background-color: #34c759;
     color: #fff;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
-    padding: 10px;
+    padding: 14px 20px;
     font-size: 1rem;
+    font-weight: 500;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
+    transition: background-color 0.3s ease;
 }
 
 .verification-button:hover {
-    background-color: darkgreen;
+    background-color: #28a745;
+}
+
+.verification-button:active {
+    transform: translateY(1px);
+}
+
+.error {
+    color: #ff3b30;
+    font-size: 0.9rem;
+    margin-top: 8px;
+    display: block;
+    font-weight: 500;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.message {
+    color: #34c759;
+    font-size: 0.9rem;
+    margin-top: 8px;
+    display: block;
+    font-weight: 500;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Адаптивные стили */
+@media (max-width: 768px) {
+    .settings-container {
+        padding: 20px 15px;
+    }
+    
+    .settings-form {
+        padding: 20px;
+    }
+    
+    .settings-container h2 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+    
+    .profile-section h3 {
+        font-size: 1.3rem;
+    }
+    
+    .settings-form .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .settings-form .form-group .input-container {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .settings-form .form-group .text-button {
+        width: 100%;
+    }
 }

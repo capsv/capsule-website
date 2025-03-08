@@ -1,0 +1,490 @@
+.header-buttons {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    position: relative;
+}
+
+/* Стили для неавторизованных пользователей */
+.guest-buttons {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+/* Общие стили для всех кнопок */
+.header-button {
+    padding: 4px 14px;
+    border-radius: 8px;
+    font-size: 15px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+    gap: 8px;
+    position: relative;
+    cursor: pointer;
+    border: 1px solid transparent;
+    font-weight: 500;
+    min-height: 28px;
+}
+
+.header-button:focus-visible {
+    outline: 2px solid var(--button-color);
+    outline-offset: 2px;
+}
+
+.button-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+.button-text {
+    white-space: nowrap;
+}
+
+/* Стили для tooltip */
+.tooltip {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 6px 10px;
+    background-color: #333;
+    color: white;
+    border-radius: 4px;
+    font-size: 12px;
+    margin-top: 8px;
+    white-space: nowrap;
+    z-index: 100;
+    pointer-events: none;
+    opacity: 0;
+    animation: tooltipFadeIn 0.3s ease forwards;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.tooltip::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 8px;
+    height: 8px;
+    background-color: #333;
+}
+
+@keyframes tooltipFadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -5px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+/* Стили для языковой кнопки */
+.language-button {
+    background-color: transparent;
+    color: var(--black-color);
+    border: 1px solid transparent;
+    font-weight: 600;
+    padding: 4px 10px;
+    min-width: auto;
+}
+
+.language-button:hover {
+    background-color: rgba(var(--button-color-rgb), 0.1);
+    border-color: rgba(var(--button-color-rgb), 0.2);
+}
+
+/* Стили для кнопки логина */
+.login-button {
+    background-color: transparent;
+    color: var(--black-color);
+    border: 1px solid #e0e0e0;
+}
+
+.login-button:hover {
+    background-color: rgba(var(--button-color-rgb), 0.08);
+    border-color: var(--button-color);
+    transform: translateY(-2px);
+}
+
+/* Стили для кнопки регистрации */
+.get-started-button {
+    background-color: #000;
+    color: white;
+    border: 1px solid #000;
+}
+
+.get-started-button:hover {
+    background-color: #333;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Стили для кнопки выхода */
+.logout-button {
+    background-color: transparent;
+    color: #ff3b30;
+    border: 1px solid #ffeeee;
+}
+
+.logout-button:hover {
+    background-color: #fff2f2;
+    border-color: #ff3b30;
+    transform: translateY(-2px);
+}
+
+/* Стили для кнопки аккаунта */
+.account-button {
+    background-color: transparent;
+    color: var(--black-color);
+    border: 1px solid #e0e0e0;
+}
+
+.account-button:hover, .account-button.active {
+    background-color: rgba(var(--button-color-rgb), 0.08);
+    border-color: var(--button-color);
+}
+
+.account-button.active {
+    color: var(--button-color);
+    font-weight: 600;
+}
+
+/* Стили для кнопки настроек */
+.settings-button {
+    background-color: transparent;
+    color: var(--black-color);
+    border: 1px solid #e0e0e0;
+}
+
+.settings-button:hover, .settings-button.active {
+    background-color: rgba(var(--button-color-rgb), 0.08);
+    border-color: var(--button-color);
+}
+
+.settings-button.active {
+    color: var(--button-color);
+    font-weight: 600;
+}
+
+/* Стили для кнопки домашней страницы */
+.home-button {
+    background-color: transparent;
+    color: var(--black-color);
+    border: 1px solid #e0e0e0;
+}
+
+.home-button:hover, .home-button.active {
+    background-color: rgba(var(--button-color-rgb), 0.08);
+    border-color: var(--button-color);
+}
+
+.home-button.active {
+    color: var(--button-color);
+    font-weight: 600;
+}
+
+/* Состояние disabled для кнопок */
+.header-button.disabled {
+    background-color: #f5f5f5;
+    color: #aaa;
+    border-color: #eee;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Стили для группы кнопок */
+.button-group {
+    display: flex;
+    gap: 10px;
+}
+
+/* Стили для контейнера кнопки меню */
+.menu-button-container {
+    display: none;
+    position: relative;
+}
+
+/* Скрываем контейнер меню для гостей на десктопе */
+.guest-menu-button-container {
+    display: none;
+}
+
+/* Стили для меню-кнопки */
+.menu-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    border-radius: 8px;
+    min-height: 28px;
+}
+
+.menu-button:hover {
+    background-color: rgba(var(--button-color-rgb), 0.08);
+}
+
+.menu-button .menu-icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 20px;
+    height: 14px;
+    transition: transform 0.3s ease;
+}
+
+.menu-button .menu-icon span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: var(--black-color);
+    transition: transform 0.3s ease, opacity 0.2s ease;
+    border-radius: 2px;
+}
+
+.menu-button.open .menu-icon span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+}
+
+.menu-button.open .menu-icon span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-button.open .menu-icon span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+}
+
+/* Стили для выпадающего меню */
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: 220px;
+    border: 1px solid #f0f0f0;
+    animation: dropdownFadeIn 0.3s ease forwards;
+}
+
+@keyframes dropdownFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Заголовок выпадающего меню */
+.dropdown-header {
+    padding: 12px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background-color: #f0f0f0;
+    margin: 4px 0;
+}
+
+/* Информация о пользователе */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: var(--button-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatar-placeholder {
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.username {
+    font-weight: 600;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--black-color);
+}
+
+.email {
+    font-size: 12px;
+    color: #666;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Элементы выпадающего меню */
+.dropdown-item {
+    padding: 8px 16px;
+    text-decoration: none;
+    color: #333;
+    cursor: pointer;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.2s ease;
+}
+
+.item-icon {
+    width: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f8f8;
+}
+
+.dropdown-item.active {
+    background-color: #f0f7ff;
+    color: var(--button-color);
+    font-weight: 500;
+}
+
+/* Кнопка выхода в выпадающем меню */
+.logout-item {
+    color: #ff3b30;
+    border: none;
+    font-family: inherit;
+    font-size: inherit;
+    text-align: left;
+    background-color: transparent;
+}
+
+.logout-item:hover {
+    background-color: #fff2f2;
+}
+
+/* Стили для мобильного меню для неавторизованных пользователей */
+.guest-dropdown-menu {
+    min-width: 180px;
+}
+
+.auth-menu-title {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+    padding: 0 0 4px 0;
+}
+
+/* Медиа-запрос для адаптивного поведения */
+@media (max-width: 1000px) {
+    .header-button {
+        padding: 4px 10px;
+        font-size: 14px;
+    }
+    
+    .button-text {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100px;
+    }
+}
+
+/* Медиа-запрос для мобильных устройств */
+@media (max-width: 768px) {
+    .button-text {
+        max-width: 70px;
+    }
+}
+
+/* Медиа-запрос для очень маленьких экранов */
+@media (max-width: 550px) {
+    .header-buttons {
+        gap: 8px;
+    }
+    
+    .button-group {
+        display: none;
+    }
+    
+    .menu-button-container {
+        display: block;
+    }
+    
+    .header-button {
+        padding: 4px 8px;
+        font-size: 13px;
+        min-height: 26px;
+    }
+    
+    .button-text {
+        max-width: 60px;
+    }
+    
+    /* Скрываем обычные кнопки для гостей на мобильных */
+    .guest-buttons {
+        display: none;
+    }
+    
+    /* Показываем меню-кнопку для гостей */
+    .guest-menu-button-container {
+        display: block;
+    }
+}
+
+/* Медиа-запрос для сверхмалых экранов */
+@media (max-width: 380px) {
+    .header-button .button-text {
+        display: none;
+    }
+    
+    .header-button {
+        padding: 4px;
+        min-width: 28px;
+    }
+    
+    .tooltip {
+        display: none;
+    }
+}
+
