@@ -1,26 +1,142 @@
-.si-image {
+.si-image-container {
     flex: 1;
     display: flex;
-    justify-content: right;
+    flex-direction: column;
     align-items: center;
+    padding: 20px;
     max-width: 50%;
 }
 
-.si-image img {
-    width: 100%;
-    max-width: 350px;
-    height: auto;
+.si-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    animation: fadeInUp 1s ease-out;
 }
 
+.main-image {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
 
-@media (max-width: 730px) {
-    .si-image img {
-        width: 80%;
+.main-image:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+.floating-elements {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.floating-element {
+    position: absolute;
+    background-color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    color: var(--primary-color, #1d5bf4);
+    font-size: 18px;
+}
+
+.floating-element.shield {
+    top: 15%;
+    left: 10%;
+    animation: floatAnimation 3s ease-in-out infinite, fadeIn 1s ease-out;
+    animation-delay: 0.3s;
+}
+
+.floating-element.lock {
+    bottom: 20%;
+    right: 15%;
+    animation: floatAnimation 4s ease-in-out infinite, fadeIn 1s ease-out;
+    animation-delay: 0.7s;
+}
+
+.floating-element.user {
+    top: 60%;
+    left: 15%;
+    animation: floatAnimation 3.5s ease-in-out infinite, fadeIn 1s ease-out;
+    animation-delay: 0.5s;
+}
+
+.image-caption {
+    margin-top: 25px;
+    text-align: center;
+    color: var(--text-color-secondary, #666);
+    font-size: 16px;
+    max-width: 350px;
+    animation: fadeIn 1s ease-out;
+    animation-delay: 0.5s;
+    opacity: 0;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadeInUp {
+    from { 
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
-@media (max-width: 600px) {
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes floatAnimation {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+
+/* Tablet View */
+@media (max-width: 900px) {
+    .si-image-container {
+        max-width: 100%;
+        margin-bottom: 30px;
+    }
+    
+    .main-image {
+        max-width: 350px;
+    }
+}
+
+/* Mobile View */
+@media (max-width: 730px) {
     .si-image {
+        width: 100%;
+    }
+    
+    .main-image {
+        max-width: 300px;
+    }
+    
+    .floating-element {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+    }
+}
+
+/* Small Mobile View */
+@media (max-width: 600px) {
+    .si-image-container {
         display: none;
     }
 }
