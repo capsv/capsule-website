@@ -18,7 +18,16 @@ export const fetchUserData = async (token) => {
     if (!response.ok) {
         throw new Error('Failed to fetch user data');
     }
-    return response.json();
+    
+    // Парсим ответ
+    const data = await response.json();
+    
+    // Логируем полученные данные для диагностики
+    console.log("API User Data Response:", data);
+    
+    // В вашем API данные находятся непосредственно в data,
+    // возвращаем их как есть для последующей обработки в AuthContext
+    return data;
 };
 
 /**
@@ -37,13 +46,35 @@ export const refreshAccessToken = async (refreshToken) => {
     if (!response.ok) {
         throw new Error('Failed to refresh token');
     }
+    
     const data = await response.json();
-    if (data.status !== "SUCCESS") {
-        throw new Error(data.message);
+    
+    // Логируем полученные данные для диагностики
+    console.log("Refresh Token Response:", data);
+    
+    if (data.status !== "SUCCESS" && data.status !== "OK") {
+        throw new Error(data.message || 'Failed to refresh token');
     }
-    const newAccessToken = data.payload[0].access.token;
-    const userData = data.payload[0].data;
-    return { newAccessToken, userData };
+    
+    // Проверяем структуру ответа - получаем токен и данные пользователя из соответствующих полей
+    if (Array.isArray(data.payload) && data.payload.length > 0) {
+        const payload = data.payload[0];
+        
+        // Получаем токен из структуры ответа
+        let newAccessToken = null;
+        if (payload.access && payload.access.token) {
+            newAccessToken = payload.access.token;
+        }
+        
+        // Если данные пользователя находятся непосредственно в payload[0]
+        // или если они в поле data, возвращаем их вместе с токеном
+        return {
+            newAccessToken,
+            userData: data // Возвращаем полные данные для последующей обработки
+        };
+    }
+    
+    throw new Error('Invalid response format from refresh token endpoint');
 };
 
 /**

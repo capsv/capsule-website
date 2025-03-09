@@ -10,6 +10,29 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
+    // Функция для обработки данных пользователя
+    const processUserData = (userData) => {
+        console.log("Processing user data:", userData);
+        
+        // Обработка случая, когда данные находятся в payload[0]
+        if (userData && userData.status && userData.payload && Array.isArray(userData.payload) && userData.payload.length > 0) {
+            console.log("Extracting user from payload:", userData.payload[0]);
+            return userData.payload[0];
+        }
+        
+        // Если данные пользователя уже в нужном формате, используем их напрямую
+        if (userData && userData.username) {
+            return userData;
+        }
+        
+        // Если данные в формате API ответа
+        if (userData && userData.data && userData.data.username) {
+            return userData.data;
+        }
+        
+        return userData;
+    };
+
     useEffect(() => {
         const accessToken = localStorage.getItem('accessToken');
         const refreshTokenValue = localStorage.getItem('refreshToken');
@@ -18,17 +41,23 @@ export const AuthProvider = ({ children }) => {
             setLoading(true);
             fetchUserData(accessToken)
                 .then(userData => {
+                    const processedData = processUserData(userData);
+                    console.log("Processed user data:", processedData);
                     setIsAuthenticated(true);
-                    setUser(userData);
+                    setUser(processedData);
                 })
-                .catch(() => {
+                .catch((error) => {
+                    console.error("Error fetching user data:", error);
                     refreshToken(refreshTokenValue)
                         .then(({ newAccessToken, userData }) => {
                             localStorage.setItem('accessToken', newAccessToken);
+                            const processedData = processUserData(userData);
+                            console.log("Processed user data after refresh:", processedData);
                             setIsAuthenticated(true);
-                            setUser(userData);
+                            setUser(processedData);
                         })
-                        .catch(() => {
+                        .catch((refreshError) => {
+                            console.error("Error refreshing token:", refreshError);
                             logout();
                         });
                 })
@@ -41,9 +70,16 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     const login = (userData) => {
+        const processedData = processUserData(userData);
         setIsAuthenticated(true);
-        setUser(userData);
-        navigate(`/${userData.username}`);
+        setUser(processedData);
+        
+        if (processedData && processedData.username) {
+            navigate(`/${processedData.username}`);
+        } else {
+            // Если username отсутствует, перенаправляем на главную
+            navigate('/');
+        }
     };
 
     const logout = () => {
@@ -54,8 +90,24 @@ export const AuthProvider = ({ children }) => {
         navigate('/');
     };
 
+    // Добавляем функцию для обновления данных пользователя
+    const updateUserData = (updatedFields) => {
+        setUser(prevUser => {
+            if (!prevUser) return updatedFields;
+            return { ...prevUser, ...updatedFields };
+        });
+    };
+
     return (
-        <AuthContext.Provider value={{ isAuthenticated, user, login, logout, loading }}>
+        <AuthContext.Provider value={{ 
+            isAuthenticated, 
+            user, 
+            login, 
+            logout, 
+            loading,
+            updateUserData,
+            refreshAccessToken: refreshToken
+        }}>
             {children}
         </AuthContext.Provider>
     );

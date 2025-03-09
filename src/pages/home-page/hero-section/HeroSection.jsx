@@ -24,7 +24,7 @@ const HeroSection = ({ content }) => {
 
 HeroSection.propTypes = {
     content: PropTypes.shape({
-        greeting: PropTypes.string.isRequired,
+        greeting: PropTypes.node.isRequired,
         description: PropTypes.string.isRequired,
     }).isRequired,
 };

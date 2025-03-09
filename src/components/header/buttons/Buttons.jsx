@@ -13,8 +13,52 @@ const Buttons = () => {
     const dropdownRef = useRef(null);
     const guestDropdownRef = useRef(null);
     
-    const isAccountPage = user ? currentPath === `/${user.username}` : false;
-    const isSettingsPage = user ? currentPath === `/${user.username}/settings` : false;
+    useEffect(() => {
+        if (isAuthenticated) {
+            console.log("Authenticated user data:", user);
+        }
+    }, [isAuthenticated, user]);
+    
+    const getUserName = () => {
+        if (!user) return '';
+        
+        if (user.payload && Array.isArray(user.payload) && user.payload.length > 0 && user.payload[0].username) {
+            return user.payload[0].username;
+        }
+        
+        if (typeof user.username === 'string') {
+            return user.username;
+        }
+        
+        if (user.data && typeof user.data.username === 'string') {
+            return user.data.username;
+        }
+        
+        for (const key in user) {
+            if (typeof user[key] === 'object' && user[key] !== null) {
+                if (typeof user[key].username === 'string') {
+                    return user[key].username;
+                }
+            }
+        }
+        
+        if (user.payload && Array.isArray(user.payload) && user.payload.length > 0) {
+            const firstPayload = user.payload[0];
+            for (const key in firstPayload) {
+                if (typeof firstPayload[key] === 'string' && 
+                    (key.toLowerCase().includes('name') || key.toLowerCase().includes('login'))) {
+                    return firstPayload[key];
+                }
+            }
+        }
+        
+        return '';
+    };
+    
+    const username = getUserName();
+    
+    const isAccountPage = username ? currentPath === `/${username}` : false;
+    const isSettingsPage = username ? currentPath === `/${username}/settings` : false;
     const isHomePage = currentPath === '/';
     const isLoginPage = currentPath === '/auth/in';
     const isSignupPage = currentPath === '/auth/up';
@@ -23,7 +67,6 @@ const Buttons = () => {
     const [isGuestMenuOpen, setIsGuestMenuOpen] = useState(false);
     const [showTooltip, setShowTooltip] = useState('');
 
-    // Обработчик клика вне меню для его закрытия
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -89,11 +132,11 @@ const Buttons = () => {
                 )}
             </button>
 
-            {isAuthenticated && user ? (
+            {isAuthenticated ? (
                 <>
                     <div className="button-group">
                         <Link 
-                            to={`/${user.username}`} 
+                            to={username ? `/${username}` : '/'} 
                             className={`header-button account-button ${isAccountPage ? 'active' : ''}`}
                             onMouseEnter={() => handleTooltip('account')}
                             onMouseLeave={() => handleTooltip('')}
@@ -107,7 +150,7 @@ const Buttons = () => {
                             )}
                         </Link>
                         <Link 
-                            to={`/${user.username}/settings`} 
+                            to={username ? `/${username}/settings` : '/'} 
                             className={`header-button settings-button ${isSettingsPage ? 'active' : ''}`}
                             onMouseEnter={() => handleTooltip('settings')}
                             onMouseLeave={() => handleTooltip('')}
@@ -153,23 +196,23 @@ const Buttons = () => {
                                 <div className="dropdown-header">
                                     <div className="user-info">
                                         <div className="user-avatar">
-                                            {user.avatar ? (
+                                            {user && user.avatar ? (
                                                 <img src={user.avatar} alt="" />
                                             ) : (
                                                 <div className="avatar-placeholder">
-                                                    {user.username.charAt(0).toUpperCase()}
+                                                    {username ? username.charAt(0).toUpperCase() : '?'}
                                                 </div>
                                             )}
                                         </div>
                                         <div className="user-details">
-                                            <span className="username">{user.username}</span>
-                                            <span className="email">{user.email}</span>
+                                            <span className="username">{username || 'Пользователь'}</span>
+                                            <span className="email">{user && user.email ? user.email : ''}</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="dropdown-divider"></div>
                                 <Link 
-                                    to={`/${user.username}`} 
+                                    to={username ? `/${username}` : '/'} 
                                     className={`dropdown-item ${isAccountPage ? 'active' : ''}`} 
                                     onClick={toggleMenu}
                                 >
@@ -177,7 +220,7 @@ const Buttons = () => {
                                     {t.account}
                                 </Link>
                                 <Link 
-                                    to={`/${user.username}/settings`} 
+                                    to={username ? `/${username}/settings` : '/'} 
                                     className={`dropdown-item ${isSettingsPage ? 'active' : ''}`} 
                                     onClick={toggleMenu}
                                 >
@@ -195,7 +238,6 @@ const Buttons = () => {
                 </>
             ) : (
                 <>
-                    {/* Кнопки для десктопа для неавторизованных пользователей */}
                     <div className="guest-buttons">
                         <Link 
                             to="/" 
@@ -241,7 +283,6 @@ const Buttons = () => {
                         </Link>
                     </div>
                     
-                    {/* Мобильное меню для неавторизованных пользователей */}
                     <div className="menu-button-container guest-menu-button-container" ref={guestDropdownRef}>
                         <button 
                             onClick={toggleGuestMenu} 
