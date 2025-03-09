@@ -156,10 +156,10 @@
 }
 
 .settings-form .action-buttons {
-    margin-top: 40px;
+    margin-top: 25px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 8px;
 }
 
 .settings-form .form-group .delete-button {
@@ -252,6 +252,7 @@
     
     .settings-form {
         padding: 20px;
+        box-shadow: none;
     }
     
     .settings-container h2 {
@@ -274,5 +275,10 @@
     
     .settings-form .form-group .text-button {
         width: 100%;
+    }
+    
+    .settings-form .action-buttons {
+        margin-top: 15px;
+        gap: 5px;
     }
 }
