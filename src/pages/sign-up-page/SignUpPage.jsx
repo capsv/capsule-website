@@ -1,58 +1,110 @@
-import React, { useState } from 'react';
-import styles from './SignUpPage.module.css';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useLanguage } from "../../context/LanguageContext.jsx";
-import { translations } from "./translations.js";
 import { useAuth } from "../../context/AuthContext.jsx";
-import { useNavigate } from "react-router-dom";
+import { translations } from "./translations.js";
+import './SignUpPage.css';
 
 function SignUpPage() {
     const { language } = useLanguage();
     const { login } = useAuth();
+    const navigate = useNavigate();
+    
+    // Состояния полей формы
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [confirmationPassword, setConfirmationPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    
+    // Состояния UI
+    const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [errors, setErrors] = useState({});
     const [serverError, setServerError] = useState(null);
-    const navigate = useNavigate();
-
+    const [formFocused, setFormFocused] = useState({
+        username: false,
+        email: false,
+        password: false,
+        confirmPassword: false
+    });
+    
+    // Переводы
     const content = translations[language];
+    
+    // Очистка ошибок при изменении полей или языка
+    useEffect(() => {
+        setServerError(null);
+        setErrors({});
+    }, [language, username, email, password, confirmPassword]);
+    
+    // При монтировании компонента прокручиваем страницу вверх
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        document.title = `${content.pageTitle || "Sign Up"} | Capsule`;
+    }, [language, content.pageTitle]);
 
     const validate = () => {
         const errors = {};
-        if (!username.trim()) errors.username = content.usernameErrorBlank;
-        else if (username.length < 4 || username.length > 56) errors.username = content.usernameErrorSize;
+        // Валидация имени пользователя
+        if (!username.trim()) {
+            errors.username = content.usernameErrorBlank;
+        } else if (username.length < 4 || username.length > 56) {
+            errors.username = content.usernameErrorSize;
+        }
 
-        if (!email.trim()) errors.email = content.emailErrorBlank;
-        else if (!/\S+@\S+\.\S+/.test(email)) errors.email = content.emailErrorInvalid;
-        else if (email.length < 4 || email.length > 56) errors.email = content.emailErrorSize;
+        // Валидация email
+        if (!email.trim()) {
+            errors.email = content.emailErrorBlank;
+        } else if (!/\S+@\S+\.\S+/.test(email)) {
+            errors.email = content.emailErrorInvalid;
+        } else if (email.length < 4 || email.length > 56) {
+            errors.email = content.emailErrorSize;
+        }
 
-        if (!password) errors.password = content.passwordErrorBlank;
-        else if (password.length < 4 || password.length > 254) errors.password = content.passwordErrorSize;
+        // Валидация пароля
+        if (!password) {
+            errors.password = content.passwordErrorBlank;
+        } else if (password.length < 4 || password.length > 254) {
+            errors.password = content.passwordErrorSize;
+        }
 
-        if (confirmationPassword !== password) errors.confirmationPassword = content.confirmPasswordErrorMatch;
+        // Валидация подтверждения пароля
+        if (confirmPassword !== password) {
+            errors.confirmPassword = content.confirmPasswordErrorMatch;
+        }
 
         return errors;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const errors = validate();
-        if (Object.keys(errors).length > 0) {
-            setErrors(errors);
+        const validationErrors = validate();
+        
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
             return;
         }
 
         try {
-            const response = await fetch('http://195.80.51.69:8080/api/v1/auth/register', { //localhost:8080
+            setLoading(true);
+            setServerError(null);
+            
+            const response = await fetch('http://195.80.51.69:8080/api/v1/auth/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ username, email, password, confirmationPassword }),
+                body: JSON.stringify({ 
+                    username, 
+                    email, 
+                    password, 
+                    confirmationPassword: confirmPassword 
+                }),
             });
 
             const result = await response.json();
+            
             if (response.ok) {
                 const { access, refresh, data } = result.payload[0];
                 localStorage.setItem('accessToken', access.token);
@@ -67,79 +119,205 @@ function SignUpPage() {
                         if (item.field) {
                             serverErrors[item.field] = item.error;
                         } else {
-                            setServerError(item.error);
+                            setServerError(item.error || content.defaultError);
                         }
                     });
                     setErrors(serverErrors);
                 } else {
-                    setServerError(result.message);
+                    setServerError(result.message || content.defaultError);
                 }
             }
         } catch (error) {
-            setServerError('An unexpected error occurred.');
+            console.error("Registration error:", error);
+            setServerError(content.unexpectedError);
+        } finally {
+            setLoading(false);
+        }
+    };
+    
+    const handleFocus = (field) => {
+        setFormFocused(prev => ({ ...prev, [field]: true }));
+    };
+    
+    const handleBlur = (field) => {
+        setFormFocused(prev => ({ ...prev, [field]: false }));
+    };
+    
+    const togglePasswordVisibility = (field) => {
+        if (field === 'password') {
+            setShowPassword(!showPassword);
+        } else {
+            setShowConfirmPassword(!showConfirmPassword);
         }
     };
 
     return (
-        <div className={styles.signupContainer}>
-            <div className={styles.signupHeader}>
-                <h2>{content.signUp}</h2>
-            </div>
-            <div className={styles.signupContent}>
-                <form className={styles.signupForm} onSubmit={handleSubmit} noValidate>
-                    <div className={styles.formGroup}>
-                        <div className={styles.inputContainer}>
-                            <i className="fas fa-user"></i>
-                            <input
-                                type="text"
-                                placeholder={content.usernamePlaceholder}
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
+        <div className="signup-container">
+            <div className="signup-content-wrapper">
+                <div className="signup-header">
+                    <h1>{content.signUp}</h1>
+                    <p>{content.signUpSubtitle || "Create your account to get started"}</p>
+                </div>
+                
+                <div className="signup-main-content">
+                    <div className="signup-image-container">
+                        <div className="signup-image">
+                            <img 
+                                src="/photos/pablita-face-id.gif" 
+                                alt={language === 'en' ? 'Sign up illustration' : 'Иллюстрация регистрации'} 
+                                className="main-image"
                             />
+                            
+                            <div className="floating-elements">
+                                <div className="floating-element user-plus">
+                                    <i className="fas fa-user-plus"></i>
+                                </div>
+                                <div className="floating-element check">
+                                    <i className="fas fa-check-circle"></i>
+                                </div>
+                                <div className="floating-element shield">
+                                    <i className="fas fa-shield-alt"></i>
+                                </div>
+                            </div>
                         </div>
-                        {errors.username && <span className={styles.error}>{errors.username}</span>}
-                    </div>
-                    <div className={styles.formGroup}>
-                        <div className={styles.inputContainer}>
-                            <i className="fas fa-envelope"></i>
-                            <input
-                                type="email"
-                                placeholder={content.emailPlaceholder}
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
+                        
+                        <div className="image-caption">
+                            <p>
+                                {language === 'en' 
+                                    ? 'Join our community for better mental health' 
+                                    : 'Присоединяйтесь к нашему сообществу для улучшения психического здоровья'}
+                            </p>
                         </div>
-                        {errors.email && <span className={styles.error}>{errors.email}</span>}
                     </div>
-                    <div className={styles.formGroup}>
-                        <div className={styles.inputContainer}>
-                            <i className="fas fa-lock"></i>
-                            <input
-                                type="password"
-                                placeholder={content.passwordPlaceholder}
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
+                    
+                    <div className="signup-form-container">
+                        <div className="signup-form-header">
+                            <h2>{content.createAccount || "Create Account"}</h2>
+                            <p>{content.fillDetails || "Please fill in your details"}</p>
                         </div>
-                        {errors.password && <span className={styles.error}>{errors.password}</span>}
+                        
+                        {serverError && (
+                            <div className="server-error-container">
+                                <i className="fas fa-exclamation-circle"></i>
+                                <span>{serverError}</span>
+                            </div>
+                        )}
+                        
+                        <form className="signup-form" onSubmit={handleSubmit} noValidate>
+                            <div className={`form-group ${errors.username ? 'has-error' : ''} ${formFocused.username ? 'focused' : ''}`}>
+                                <label htmlFor="username">{content.usernameLabel || "Username"}</label>
+                                <div className="input-container">
+                                    <i className="fas fa-user"></i>
+                                    <input
+                                        id="username"
+                                        type="text"
+                                        placeholder={content.usernamePlaceholder}
+                                        value={username}
+                                        onChange={(e) => setUsername(e.target.value)}
+                                        onFocus={() => handleFocus('username')}
+                                        onBlur={() => handleBlur('username')}
+                                    />
+                                </div>
+                                {errors.username && <span className="form-error"><i className="fas fa-exclamation-circle"></i> {errors.username}</span>}
+                            </div>
+                            
+                            <div className={`form-group ${errors.email ? 'has-error' : ''} ${formFocused.email ? 'focused' : ''}`}>
+                                <label htmlFor="email">{content.emailLabel || "Email"}</label>
+                                <div className="input-container">
+                                    <i className="fas fa-envelope"></i>
+                                    <input
+                                        id="email"
+                                        type="email"
+                                        placeholder={content.emailPlaceholder}
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        onFocus={() => handleFocus('email')}
+                                        onBlur={() => handleBlur('email')}
+                                    />
+                                </div>
+                                {errors.email && <span className="form-error"><i className="fas fa-exclamation-circle"></i> {errors.email}</span>}
+                            </div>
+                            
+                            <div className={`form-group ${errors.password ? 'has-error' : ''} ${formFocused.password ? 'focused' : ''}`}>
+                                <label htmlFor="password">{content.passwordLabel || "Password"}</label>
+                                <div className="input-container">
+                                    <i className="fas fa-lock"></i>
+                                    <input
+                                        id="password"
+                                        type={showPassword ? "text" : "password"}
+                                        placeholder={content.passwordPlaceholder}
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        onFocus={() => handleFocus('password')}
+                                        onBlur={() => handleBlur('password')}
+                                    />
+                                    <button 
+                                        type="button" 
+                                        className="toggle-password"
+                                        onClick={() => togglePasswordVisibility('password')}
+                                        aria-label={showPassword ? (content.hidePassword || "Hide password") : (content.showPassword || "Show password")}
+                                        title={showPassword ? (content.hidePassword || "Hide password") : (content.showPassword || "Show password")}
+                                        tabIndex="0"
+                                    >
+                                        <i className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                                    </button>
+                                </div>
+                                {errors.password && <span className="form-error"><i className="fas fa-exclamation-circle"></i> {errors.password}</span>}
+                            </div>
+                            
+                            <div className={`form-group ${errors.confirmPassword ? 'has-error' : ''} ${formFocused.confirmPassword ? 'focused' : ''}`}>
+                                <label htmlFor="confirmPassword">{content.confirmPasswordLabel || "Confirm Password"}</label>
+                                <div className="input-container">
+                                    <i className="fas fa-lock"></i>
+                                    <input
+                                        id="confirmPassword"
+                                        type={showConfirmPassword ? "text" : "password"}
+                                        placeholder={content.confirmPasswordPlaceholder}
+                                        value={confirmPassword}
+                                        onChange={(e) => setConfirmPassword(e.target.value)}
+                                        onFocus={() => handleFocus('confirmPassword')}
+                                        onBlur={() => handleBlur('confirmPassword')}
+                                    />
+                                    <button 
+                                        type="button" 
+                                        className="toggle-password"
+                                        onClick={() => togglePasswordVisibility('confirm')}
+                                        aria-label={showConfirmPassword ? (content.hidePassword || "Hide password") : (content.showPassword || "Show password")}
+                                        title={showConfirmPassword ? (content.hidePassword || "Hide password") : (content.showPassword || "Show password")}
+                                        tabIndex="0"
+                                    >
+                                        <i className={`fas ${showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                                    </button>
+                                </div>
+                                {errors.confirmPassword && <span className="form-error"><i className="fas fa-exclamation-circle"></i> {errors.confirmPassword}</span>}
+                            </div>
+                            
+                            <div className="terms-policy">
+                                <p>
+                                    {content.termsText || "By signing up, you agree to our"}
+                                    <a href="/terms">{content.terms || "Terms of Service"}</a> {content.andText || "and"}
+                                    <a href="/privacy">{content.privacy || "Privacy Policy"}</a>
+                                </p>
+                            </div>
+                            
+                            <button 
+                                type="submit" 
+                                className={`signup-button ${loading ? 'loading' : ''}`}
+                                disabled={loading}
+                            >
+                                {loading ? (
+                                    <><span className="spinner"></span> {content.registering || "Registering..."}</> 
+                                ) : (
+                                    content.submit
+                                )}
+                            </button>
+                            
+                            <div className="login-option">
+                                <span>{content.haveAccount || "Already have an account?"}</span>
+                                <a href="/auth/in">{content.signIn || "Sign in"}</a>
+                            </div>
+                        </form>
                     </div>
-                    <div className={styles.formGroup}>
-                        <div className={styles.inputContainer}>
-                            <i className="fas fa-lock"></i>
-                            <input
-                                type="password"
-                                placeholder={content.confirmPasswordPlaceholder}
-                                value={confirmationPassword}
-                                onChange={(e) => setConfirmationPassword(e.target.value)}
-                            />
-                        </div>
-                        {errors.confirmationPassword && <span className={styles.error}>{errors.confirmationPassword}</span>}
-                        {serverError && <div className={styles.error}>{serverError}</div>}
-                    </div>
-                    <button type="submit" className={styles.button}>{content.submit}</button>
-                </form>
-                <div className={styles.signupImage}>
-                    <img src="/photos/pablita-face-id.gif" alt="Sign up illustration" />
                 </div>
             </div>
         </div>
