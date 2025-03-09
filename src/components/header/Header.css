@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'Mont-Black';
-    src: url('../../../public/fonts/Mont-Black.ttf') format('truetype');
+    src: url('/fonts/Mont-Black.ttf') format('truetype');
 }
 
 @keyframes buttonHover {
