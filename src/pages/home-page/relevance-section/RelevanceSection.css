@@ -1,158 +1,379 @@
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-20px); }
+    from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fadeInLeft {
-    from { opacity: 0; transform: translateX(-200px); }
+    from { opacity: 0; transform: translateX(-50px); }
     to { opacity: 1; transform: translateX(0); }
 }
 
 @keyframes fadeInRight {
-    from { opacity: 0; transform: translateX(200px); }
+    from { opacity: 0; transform: translateX(50px); }
     to { opacity: 1; transform: translateX(0); }
 }
 
 @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(100px); }
+    from { opacity: 0; transform: translateY(30px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-.relevance-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 60vh;
-    width: 100%;
-    background: linear-gradient(135deg, var(--highlight-color), var(--white-color));
-    color: var(--text-color);
-    padding: 40px 20px;
-    margin: 0;
-    text-align: center;
+@keyframes scaleIn {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
 }
 
-.relevance-section h2 {
+@keyframes pulseEffect {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.relevance-section {
+    background-color: #fff;
+    padding: 100px 0;
+    position: relative;
+    overflow: visible;
+}
+
+.relevance-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.relevance-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.relevance-header h2 {
     font-size: 42px;
-    font-family: 'Mont-Heavy', sans-serif;
-    color: var(--text-color);
-    margin-bottom: 20px;
+    font-weight: 800;
+    color: var(--text-color-primary, #333);
+    margin-bottom: 25px;
+    opacity: 0;
+    transition: all 0.6s ease;
+}
+
+.relevance-header h2.animate-fade-in {
+    opacity: 1;
+    animation: fadeIn 0.6s ease forwards;
+}
+
+.relevance-subtitle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.6s ease;
+    transition-delay: 0.2s;
+}
+
+.relevance-subtitle.animate-fade-in-delay {
+    opacity: 1;
+    animation: fadeIn 0.6s ease 0.3s forwards;
+}
+
+.relevance-subtitle p {
+    font-size: 18px;
+    color: var(--accent-color, #ff6b30);
+    margin: 0 15px;
+    font-weight: 600;
+}
+
+.accent-line {
+    height: 2px;
+    width: 40px;
+    background-color: var(--accent-color, #ff6b30);
+    display: inline-block;
+}
+
+.relevance-content {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    width: 100%;
 }
 
 .relevance-cards {
     display: flex;
-    flex-direction: row;
-    gap: 20px;
+    gap: 30px;
+    margin-bottom: 20px;
     width: 100%;
-    max-width: 800px;
-    justify-content: center;
 }
 
 .relevance-card {
-    background: var(--card-background);
-    padding: 20px;
-    border-radius: 20px;
-    box-shadow: 0 4px 8px var(--card-shadow);
-    transition: transform 0.3s ease, opacity 0.3s ease;
     flex: 1;
-    min-width: 200px;
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    padding: 30px 30px 30px;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #f0f0f0;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-.relevance-card.fade-in-right {
-    animation: fadeInRight 1s ease-in-out;
+.relevance-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
 }
 
 .relevance-card.fade-in-left {
-    animation: fadeInLeft 1s ease-in-out;
+    animation: fadeInLeft 0.8s ease forwards;
+}
+
+.relevance-card.fade-in-right {
+    animation: fadeInRight 0.8s ease forwards;
+}
+
+.relevance-card-content {
+    flex: 1;
+    z-index: 1;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.relevance-card-icon {
+    width: 64px;
+    height: 64px;
+    background-color: rgba(255, 107, 48, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.relevance-card:hover .relevance-card-icon {
+    transform: scale(1.1);
+    background-color: rgba(255, 107, 48, 0.2);
 }
 
 .relevance-card h3 {
-    font-family: 'Mont-Heavy', sans-serif;
-    font-size: 32px;
-    margin-bottom: 10px;
-    margin-top: 10px;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-color-primary, #333);
+    margin-bottom: 15px;
+    transition: color 0.3s ease;
+}
+
+.relevance-card:hover h3 {
+    color: var(--accent-color, #ff6b30);
 }
 
 .relevance-card p {
-    font-size: 18.4px;
-    color: var(--text-color);
-    margin: 0 0 10px 0;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text-color-secondary, #666);
+    margin-bottom: 20px;
 }
 
-.relevance-image-svg {
-    width: 100%;
-    height: auto;
-    margin-top: 4px;
-}
-
-.relevance-image-container {
-    width: 100%;
-    max-width: 800px;
-    margin-top: 20px;
-    border-radius: 20px;
-    background: var(--card-background);
-    box-shadow: 0 4px 8px var(--card-shadow);
-    animation: fadeInUp 1s ease-in-out;
-}
-
-.relevance-image-container h3{
-    font-family: 'Mont-Heavy', sans-serif;
-    font-size: 32px;
-    margin-bottom: 10px;
+.relevance-stats {
+    display: flex;
     margin-top: 20px;
 }
 
-.relevance-image {
-    width: 100%;
-    border-radius: 20px;
+.relevance-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
-@media (max-width: 1000px) {
+.relevance-stat-number {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--accent-color, #ff6b30);
+    line-height: 1;
+}
 
-    .relevance-section h2 {
-        font-size: 34px;
+.relevance-stat-label {
+    font-size: 14px;
+    color: var(--text-color-secondary, #666);
+    margin-top: 5px;
+}
+
+.relevance-card-chart {
+    height: 170px;
+    margin-top: auto;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    margin-left: -15px;
+    margin-right: -15px;
+    margin-bottom: 0;
+}
+
+.relevance-chart-container {
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    padding: 30px 25px 20px;
+    text-align: center;
+    opacity: 0;
+    border: 1px solid #f0f0f0;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.relevance-chart-container.fade-in-up {
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+.relevance-chart-container h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-color-primary, #333);
+    margin-bottom: 25px;
+}
+
+.relevance-chart {
+    margin-bottom: 20px;
+    height: 350px;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    margin-left: -5px;
+    margin-right: -5px;
+    padding: 0 5px;
+}
+
+.relevance-chart canvas {
+    width: 100% !important;
+    background-color: transparent !important;
+}
+
+.relevance-chart-note {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: var(--text-color-secondary, #777);
+    font-style: italic;
+}
+
+@media (max-width: 992px) {
+    .relevance-section {
+        padding: 80px 0;
     }
-
+    
+    .relevance-header h2 {
+        font-size: 36px;
+    }
+    
     .relevance-card h3 {
-        font-size: 24px;
+        font-size: 22px;
     }
-
-    .relevance-card p {
-        font-size: 14px;
-    }
-
-    .relevance-image-container h3{
-        font-size: 24px;
-    }
-
-    .relevance-image-svg {
-        width: 80%;
+    
+    .relevance-chart {
+        height: 300px;
     }
 }
 
-@media (max-width: 550px) {
-
+@media (max-width: 768px) {
     .relevance-cards {
         flex-direction: column;
     }
-
-    .relevance-section h2 {
-        font-size: 26px;
+    
+    .relevance-header h2 {
+        font-size: 32px;
     }
+    
+    .relevance-subtitle p {
+        font-size: 16px;
+    }
+    
+    .relevance-card {
+        padding: 25px 25px 25px;
+        width: 100%;
+    }
+    
+    .relevance-card-icon {
+        width: 56px;
+        height: 56px;
+    }
+    
+    .relevance-card-chart {
+        height: 150px;
+    }
+    
+    .relevance-stat-number {
+        font-size: 32px;
+    }
+    
+    .relevance-chart {
+        height: 250px;
+    }
+}
 
+@media (max-width: 576px) {
+    .relevance-section {
+        padding: 60px 0;
+    }
+    
+    .relevance-header h2 {
+        font-size: 28px;
+    }
+    
+    .relevance-header {
+        margin-bottom: 40px;
+    }
+    
     .relevance-card h3 {
-        font-size: 16px;
+        font-size: 20px;
     }
-
+    
     .relevance-card p {
-        font-size: 12px;
+        font-size: 14px;
     }
-
-    .relevance-image-container h3{
-        font-size: 16px;
+    
+    .relevance-chart-container h3 {
+        font-size: 20px;
     }
+    
+    .relevance-chart {
+        height: 220px;
+    }
+    
+    .accent-line {
+        width: 30px;
+    }
+}
 
-    .relevance-image-svg {
-        width: 65%;
+@media (max-width: 380px) {
+    .relevance-container {
+        padding: 0 15px;
+    }
+    
+    .relevance-card {
+        padding: 20px 20px 20px;
+    }
+    
+    .relevance-chart-container {
+        padding: 20px 15px 15px;
+    }
+    
+    .relevance-card-icon {
+        width: 48px;
+        height: 48px;
+    }
+    
+    .relevance-chart {
+        height: 200px;
+    }
+    
+    canvas {
+        max-width: 100% !important;
     }
 }
