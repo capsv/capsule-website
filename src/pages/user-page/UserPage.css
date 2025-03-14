@@ -18,44 +18,96 @@
 .user-profile {
     display: flex;
     align-items: center;
-    justify-content: center;
     background: #fff;
-    padding: 20px;
-    border-radius: 8px;
+    padding: 25px;
+    border-radius: 12px;
     width: 100%;
-    max-width: 600px;
-    animation: fadeIn 0.5s ease-in-out;
+    max-width: 800px;
     margin-bottom: 20px;
+    box-shadow: none;
+    transition: all 0.3s ease;
+    border: none;
 }
 
-.profile-photo {
-    margin-right: 20px;
+.user-profile:hover {
+    box-shadow: none;
+    transform: none;
 }
 
-.profile-photo img {
-    width: 120px;
-    height: 120px;
+.profile-avatar {
+    margin-right: 24px;
+    background: linear-gradient(135deg, #6b73ff 0%, #000dff 100%);
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
-    object-fit: cover;
-    border: 1px solid #000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 13, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.profile-avatar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.2) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.profile-avatar span {
+    color: white;
+    font-size: 42px;
+    font-weight: bold;
+    font-family: Mont-Heavy, sans-serif;
+    text-transform: uppercase;
 }
 
 .profile-details {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.profile-details h2 {
-    font-size: 2rem;
+.profile-name {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.profile-name h2 {
+    font-size: 1.8rem;
     margin: 0;
     color: var(--black-color);
     font-family: Mont-Heavy, sans-serif;
+    letter-spacing: -0.5px;
 }
 
-.profile-details p {
+.profile-verified {
+    display: inline-flex;
+    margin-left: 12px;
+    color: #0095ff;
     font-size: 1.2rem;
-    color: var(--black-color);
-    margin-top: 5px;
-    margin-bottom: 5px;
+    animation: pulse-light 2s infinite;
+}
+
+.profile-username {
+    font-size: 1.1rem;
+    color: #555;
+    margin: 4px 0;
+    font-family: Mont-Regular, sans-serif;
+}
+
+.profile-age {
+    font-size: 0.95rem;
+    color: #777;
+    margin: 4px 0;
+    font-family: Mont-Regular, sans-serif;
 }
 
 .confirm-icon {
@@ -67,63 +119,303 @@
     padding: 10px;
     margin-bottom: 25px;
     width: 100%;
-    max-width: 600px;
+    max-width: 800px;
 }
 
+/* Стили для контейнера статистики */
 .assay-section .stat-container {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    background: linear-gradient(135deg, #121247 0%, #ff5900 100%);
-    color: white;
-    border: none;
-    border-radius: 25px;
-    font-size: 16px;
-    font-family: Mont-Heavy, sans-serif;
+    gap: 16px;
+    background: white;
+    color: #333;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    font-family: Mont-Regular, sans-serif;
     position: relative;
     overflow: hidden;
-    transition: background-color 0.3s ease;
-    padding: 20px;
-    box-shadow: 0 9px 20px #ff5900;
-}
-
-.assay-section .stat-container p {
-    margin: 5px 0;
-}
-
-.assay-section button {
+    padding: 25px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s ease;
     width: 100%;
-    height: 100px;
-    background: linear-gradient(135deg, #6b73ff 0%, #000dff 100%);
+}
+
+.assay-section .stat-container:hover {
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+}
+
+.stat-header {
+    font-family: Mont-Heavy, sans-serif;
+    font-size: 1.4rem;
+    margin: 0 0 15px 0;
+    color: #333;
+    text-align: center;
+}
+
+.heatmap-container {
+    width: 100%;
+    overflow-x: auto;
+    display: flex;
+    justify-content: center;
+    padding: 5px 0;
+}
+
+/* Стили для тепловой карты GitHub */
+.activity-heatmap {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 5px 0;
+    align-items: center;
+    margin: 0 auto;
+    box-sizing: border-box;
+    min-width: fit-content;
+    width: 90%;
+}
+
+.heatmap-row {
+    display: flex;
+    gap: 2px;
+    justify-content: center;
+    margin-bottom: 1px;
+    flex-wrap: nowrap;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.heatmap-cell {
+    width: 11px;
+    height: 11px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    background-color: #ebedf0;
+    margin: 0;
+    flex-shrink: 0;
+}
+
+.heatmap-cell:hover {
+    transform: scale(1.2);
+}
+
+.heatmap-cell.level-0 {
+    background-color: #ebedf0;
+}
+
+.heatmap-cell.level-1 {
+    background-color: #9be9a8;
+}
+
+.heatmap-cell.level-2 {
+    background-color: #40c463;
+}
+
+.heatmap-cell.level-3 {
+    background-color: #30a14e;
+}
+
+.heatmap-cell.level-4 {
+    background-color: #216e39;
+}
+
+.heatmap-legend {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 15px;
+    justify-content: center;
+    width: 100%;
+}
+
+.legend-cells {
+    display: flex;
+    gap: 4px;
+    margin: 0 10px;
+}
+
+.legend-cells .heatmap-cell {
+    width: 12px;
+    height: 12px;
+}
+
+/* Стили для метрик */
+.stat-metrics {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+    width: 100%;
+}
+
+.stat-metric {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: auto;
+    padding: 0 10px;
+}
+
+.stat-metric i {
+    font-size: 1.8rem;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: white;
+}
+
+.stat-metric:nth-child(1) i {
+    background: linear-gradient(135deg, #ffb347, #ffcc33);
+}
+
+.stat-metric:nth-child(2) i {
+    background: linear-gradient(135deg, #56ab2f, #a8e063);
+}
+
+.stat-metric:nth-child(3) i {
+    background: linear-gradient(135deg, #cb2d3e, #ef473a);
+}
+
+.metric-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.metric-value {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.metric-label {
+    font-size: 0.85rem;
+    color: #777;
+}
+
+/* Стили для секции, когда тест не пройден */
+.assay-prompt {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.assay-prompt:hover {
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+}
+
+.assay-prompt h3 {
+    font-family: Mont-Heavy, sans-serif;
+    font-size: 1.6rem;
+    margin: 0 0 10px 0;
+    color: #333;
+}
+
+.assay-prompt p {
+    color: #666;
+    margin-bottom: 25px;
+    font-size: 1rem;
+}
+
+.take-assay-btn {
+    width: 100%;
+    padding: 15px 20px;
+    background: linear-gradient(135deg, #6b73ff, #000dff);
     color: white;
     border: none;
-    border-radius: 25px;
+    border-radius: 30px;
     cursor: pointer;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-family: Mont-Heavy, sans-serif;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     overflow: hidden;
-    transition: background-color 0.3s ease;
-    box-shadow: 0 9px 20px rgba(0, 0, 0, 0.2); /* Добавляем легкую тень */
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 15px rgba(0, 13, 255, 0.3);
+    margin-bottom: 25px;
 }
 
-.assay-section button::before {
-    content: '';
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    width: 50px;
-    height: 50px;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 50%, transparent 50%);
+.take-assay-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 13, 255, 0.4);
+    background: linear-gradient(135deg, #5a63ff, #0006d6);
+}
+
+.take-assay-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 10px rgba(0, 13, 255, 0.3);
+}
+
+.btn-text {
+    margin-right: 10px;
+    position: relative;
+    z-index: 2;
+}
+
+.btn-icon {
+    width: 30px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.2);
     border-radius: 50%;
-    animation: pulse 2s infinite; /* Новый эффект пульсации */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    transition: transform 0.3s ease;
 }
 
-.assay-section button:hover {
-    box-shadow: 0 9px 20px #1d5bf4;
+.take-assay-btn:hover .btn-icon {
+    transform: translateX(5px);
+}
+
+.assay-benefits {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.benefit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+    width: 28%;
+}
+
+.benefit i {
+    font-size: 1.5rem;
+    color: #000dff;
+    margin-bottom: 10px;
+    transition: transform 0.3s ease;
+}
+
+.benefit:hover i {
+    transform: translateY(-5px);
+}
+
+.benefit span {
+    font-size: 0.85rem;
+    color: #666;
+    text-align: center;
+}
+
+/* Меняем старую кнопку на новую */
+.assay-section button {
+    display: none;
 }
 
 @keyframes pulse {
@@ -141,42 +433,341 @@
     }
 }
 
+@keyframes pulse-light {
+    0% {
+        opacity: 0.8;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.8;
+    }
+}
+
+@media (max-width: 1200px) {
+    /* Адаптивные стили для тепловой карты */
+    .heatmap-cell {
+        width: 10px;
+        height: 10px;
+    }
+}
+
 @media (max-width: 1000px) {
     .user-container {
         padding: 20px;
     }
-    .profile-photo img {
-        width: 100px;
-        height: 100px;
+    .profile-avatar {
+        width: 80px;
+        height: 80px;
     }
-    .profile-details h2 {
+    .profile-avatar span {
+        font-size: 34px;
+    }
+    .profile-name h2 {
         font-size: 1.5rem;
     }
-    .profile-details p {
+    .profile-username {
         font-size: 1rem;
+    }
+    .profile-age {
+        font-size: 0.9rem;
+    }
+    
+    /* Адаптивные стили для тепловой карты */
+    .heatmap-cell {
+        width: 8px;
+        height: 8px;
+    }
+    .activity-heatmap {
+        padding-bottom: 5px;
+    }
+    .stat-header {
+        font-size: 1.2rem;
+        text-align: center;
+    }
+    .stat-metric i {
+        font-size: 1.5rem;
+        width: 35px;
+        height: 35px;
+    }
+    .metric-value {
+        font-size: 1.1rem;
+    }
+    .metric-label {
+        font-size: 0.8rem;
+    }
+    .assay-prompt h3 {
+        font-size: 1.4rem;
+    }
+    .take-assay-btn {
+        font-size: 1.1rem;
+        padding: 12px 15px;
+    }
+    .benefit i {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .heatmap-row {
+        gap: 1px;
+    }
+    .activity-heatmap {
+        gap: 1px;
+    }
+    .heatmap-cell {
+        width: 6px;
+        height: 6px;
+    }
+    /* Оставляем метрики в строке */
+    .stat-metrics {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    .stat-metric {
+        width: 30%;
     }
 }
 
 @media (max-width: 550px) {
     .user-container {
-        padding: 10px;
+        padding: 10px 5px;
+        overflow-x: hidden;
+        width: 100%;
+        box-sizing: border-box;
     }
-    .profile-photo img {
-        width: 80px;
-        height: 80px;
+    
+    .user-profile, 
+    .assay-section,
+    .assay-section .stat-container,
+    .assay-prompt {
+        width: 95%;
+        box-sizing: border-box;
+        margin-left: auto;
+        margin-right: auto;
     }
-    .profile-details h2 {
-        font-size: 1.2rem;
-    }
-    .profile-details p {
-        font-size: 0.9rem;
-    }
-    .assay-section .stat-container {
-        font-size: 14px;
+    
+    .user-profile {
         padding: 15px;
     }
-    .assay-section button {
-        height: 80px;
+    .profile-avatar {
+        width: 60px;
+        height: 60px;
+        margin-right: 15px;
+    }
+    .profile-avatar span {
+        font-size: 26px;
+    }
+    .profile-name h2 {
         font-size: 1.2rem;
+    }
+    .profile-verified {
+        font-size: 1rem;
+        margin-left: 8px;
+    }
+    .profile-username {
+        font-size: 0.9rem;
+    }
+    .profile-age {
+        font-size: 0.8rem;
+    }
+    
+    /* Адаптивные стили для тепловой карты */
+    .assay-section .stat-container {
+        padding: 15px;
+    }
+    .stat-header {
+        font-size: 1.1rem;
+    }
+    
+    /* Улучшенное отображение тепловой карты для мобильных устройств */
+    .heatmap-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+        width: 100%;
+        box-sizing: border-box;
+        scrollbar-width: none; /* Скрываем стандартный скроллбар в Firefox */
+        -ms-overflow-style: none; /* Скрываем стандартный скроллбар в IE/Edge */
+    }
+    
+    /* Скрываем стандартный скроллбар в Chrome/Safari */
+    .heatmap-container::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .activity-heatmap {
+        width: auto;
+        min-width: 400px;
+        padding: 5px 0;
+        gap: 2px;
+        margin: 0 auto;
+    }
+    
+    .heatmap-cell {
+        width: 9px;
+        height: 9px;
+    }
+    
+    .heatmap-row {
+        gap: 2px;
+    }
+    
+    .heatmap-legend {
+        font-size: 0.8rem;
+        margin-top: 10px;
+        padding: 0 10px;
+    }
+    
+    .legend-cells .heatmap-cell {
+        width: 12px;
+        height: 12px;
+    }
+    
+    /* Улучшенное отображение метрик */
+    .stat-metrics {
+        display: flex;
+        flex-direction: column;
+        padding-top: 15px;
+        gap: 12px;
+        margin-top: 15px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .stat-metric {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 0;
+        gap: 12px;
+        margin-bottom: 5px;
+    }
+    
+    .stat-metric i {
+        font-size: 1.4rem;
+        width: 32px;
+        height: 32px;
+        flex-shrink: 0;
+    }
+    
+    .metric-value {
+        font-size: 1.1rem;
+        font-weight: bold;
+    }
+    
+    .metric-label {
+        font-size: 0.8rem;
+    }
+    
+    /* Другие стили для малых экранов */
+    .assay-prompt {
+        padding: 15px;
+    }
+    .assay-prompt h3 {
+        font-size: 1.2rem;
+    }
+    .assay-prompt p {
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+    }
+    .take-assay-btn {
+        font-size: 1rem;
+        padding: 10px;
+    }
+    .btn-icon {
+        width: 25px;
+        height: 25px;
+    }
+    .benefit {
+        width: 30%;
+        margin: 5px;
+    }
+    .benefit i {
+        font-size: 1.1rem;
+    }
+    .benefit span {
+        font-size: 0.75rem;
+    }
+}
+
+/* Добавляем специальные стили для очень маленьких экранов (типа iPhone SE) */
+@media (max-width: 380px) {
+    .user-container {
+        padding: 5px;
+    }
+    
+    .user-profile, 
+    .assay-section,
+    .assay-section .stat-container,
+    .assay-prompt {
+        width: 98%;
+        padding: 10px;
+    }
+    
+    .heatmap-container {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+    }
+    
+    .activity-heatmap {
+        min-width: 310px;
+        padding: 0;
+        margin-top: 5px;
+        gap: 1px;
+    }
+    
+    .heatmap-row {
+        gap: 1px;
+        margin-bottom: 1px;
+        justify-content: flex-start;
+        padding-left: 2px;
+    }
+    
+    .heatmap-legend {
+        margin: 8px 0 5px;
+    }
+    
+    .stat-metrics {
+        gap: 10px;
+        padding-top: 12px;
+    }
+    
+    .stat-metric {
+        gap: 10px;
+        margin-bottom: 3px;
+    }
+    
+    .stat-metric i {
+        width: 28px;
+        height: 28px;
+        font-size: 1.1rem;
+    }
+    
+    .metric-info {
+        flex: 1;
+    }
+    
+    .metric-value {
+        font-size: 0.95rem;
+    }
+    
+    .metric-label {
+        font-size: 0.75rem;
+    }
+    
+    /* Удаляем индикатор прокрутки для тепловой карты */
+    .heatmap-container::after {
+        content: none;
+    }
+    
+    .legend-cells .heatmap-cell {
+        width: 12px;
+        height: 12px;
     }
 }
