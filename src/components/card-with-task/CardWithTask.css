@@ -2,7 +2,7 @@
     background: #ffffff;
     border-radius: 15px;
     padding: 20px;
-    box-shadow: 0 4px 15px rgba(2, 0, 0, 0.37);
+    box-shadow: 0 10px 20px rgba(2, 0, 0, 0.1);
     width: 270px;
     height: 350px;
     position: absolute;
@@ -12,30 +12,45 @@
     align-items: center;
     text-align: center;
     transition: all 0.4s ease;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background: linear-gradient(90deg, #4a6bff, #8a94ff);
 }
 
 .card-main {
     opacity: 1;
-    transform: scale(1.1);
+    transform: translateX(-50%) scale(1.1);
     z-index: 2;
     left: 50%;
-    transform: translateX(-50%) scale(1.1);
+    box-shadow: 0 15px 30px rgba(2, 0, 0, 0.15);
+    animation: cardPulse 3s ease-in-out infinite;
 }
 
 .card-secondary-left {
-    opacity: 0.8;
+    opacity: 0.7;
     z-index: 1;
     left: 20%;
-    filter: blur(2px);
-    transform: translateX(-52%) scale(0.9);
+    filter: blur(1px);
+    transform: translateX(-50%) scale(0.9);
+    animation: floatLeft 5s ease-in-out infinite;
 }
 
 .card-secondary-right {
-    opacity: 0.8;
+    opacity: 0.7;
     z-index: 1;
     left: 80%;
-    filter: blur(2px);
-    transform: translateX(-48%) scale(0.9);
+    filter: blur(1px);
+    transform: translateX(-50%) scale(0.9);
+    animation: floatRight 5s ease-in-out infinite;
 }
 
 .card-hidden {
@@ -43,91 +58,313 @@
     transform: scale(0.8);
     z-index: 0;
     pointer-events: none;
+    visibility: hidden;
 }
 
 .card-title {
     font-size: 2rem;
     font-family: Mont-Heavy, sans-serif;
-    margin: 0 0 10px;
-    color: #000000;
+    margin: 0 0 15px;
+    color: #333;
+    position: relative;
+}
+
+.card-title::after {
+    content: '';
+    position: absolute;
+    bottom: -7px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 3px;
+    background: #4a6bff;
+    border-radius: 3px;
 }
 
 .card-description {
     font-size: 1.2rem;
     font-family: Mont, sans-serif;
-    color: #000000;
-    margin: 0;
+    color: #555;
+    margin: 15px 0;
+    line-height: 1.4;
 }
 
 .card-buttons {
     display: flex;
     gap: 10px;
-    margin-top: 20px;
+    margin-top: 25px;
+    width: 100%;
+    justify-content: center;
 }
 
 .card-button {
-    background-color: #007bff;
+    background-color: #4a6bff;
     border: none;
     color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
+    padding: 12px 20px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    font-family: Mont, sans-serif;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 8px rgba(74, 107, 255, 0.2);
 }
 
 .card-button:hover {
-    background-color: #0056b3;
+    background-color: #3955db;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(74, 107, 255, 0.3);
+}
+
+.card-button:active {
+    transform: translateY(0);
 }
 
 .card-button.inactive {
-    background-color: grey;
+    background-color: #a0a0a0;
     cursor: not-allowed;
+    box-shadow: none;
 }
 
 .start-button {
     background-color: #28a745;
+    box-shadow: 0 4px 8px rgba(40, 167, 69, 0.2);
 }
 
 .start-button:hover {
     background-color: #218838;
+    box-shadow: 0 6px 12px rgba(40, 167, 69, 0.3);
 }
 
 .skip-button {
     background-color: #dc3545;
+    box-shadow: 0 4px 8px rgba(220, 53, 69, 0.2);
 }
 
 .skip-button:hover {
     background-color: #c82333;
+    box-shadow: 0 6px 12px rgba(220, 53, 69, 0.3);
 }
 
-.start-button.inactive {
-    background-color: grey;
-    cursor: not-allowed;
-}
-
-.skip-button.inactive {
-    background-color: grey;
-    cursor: not-allowed;
+.start-button.inactive, .skip-button.inactive {
+    background-color: #a0a0a0;
+    box-shadow: none;
 }
 
 .skipped-text {
-    font-size: 3rem;
+    font-size: 2.8rem;
     font-family: Mont-Heavy, sans-serif;
-    color: #ff0000;
+    color: #dc3545;
+    position: relative;
+}
+
+.skipped-text::after {
+    content: '';
+    position: absolute;
+    width: 120%;
+    height: 3px;
+    background-color: #dc3545;
+    top: 50%;
+    left: -10%;
+    transform: rotate(-10deg);
 }
 
 .success-text {
-    font-size: 3rem;
+    font-size: 2.8rem;
     font-family: Mont-Heavy, sans-serif;
     color: #28a745;
+    position: relative;
+}
+
+.success-text::before {
+    content: '✓';
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 3rem;
+    opacity: 0.3;
 }
 
 .locked-card {
-    background: #ffffff;
+    background: linear-gradient(145deg, #f5f5f5, #ffffff);
     display: flex;
     justify-content: center;
     align-items: center;
     color: white;
+    position: relative;
+}
+
+.locked-card svg {
+    opacity: 0.7;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+    transition: all 0.3s ease;
+}
+
+.locked-card:hover svg {
+    transform: scale(1.05);
+    opacity: 0.8;
+}
+
+/* Стили для содержимого закрытых карточек */
+.locked-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    text-align: center;
+}
+
+.locked-title {
+    font-size: 1.4rem;
+    font-family: Mont-Heavy, sans-serif;
+    color: #333;
+    margin-bottom: 20px;
+    line-height: 1.4;
+    padding: 0 10px;
+}
+
+.lock-icon {
+    margin-bottom: 20px;
+    filter: drop-shadow(0 4px 6px rgba(74, 107, 255, 0.3));
+    animation: floatIcon 3s ease-in-out infinite;
+}
+
+@keyframes floatIcon {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.take-test-btn {
+    background: linear-gradient(90deg, #4a6bff, #6b7aff);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(74, 107, 255, 0.3);
+    font-family: Mont, sans-serif;
+    position: relative;
+    overflow: hidden;
+}
+
+.take-test-btn.inactive {
+    background: linear-gradient(90deg, #a0a0a0, #b8b8b8);
+    cursor: not-allowed;
+    box-shadow: none;
+    opacity: 0.7;
+}
+
+.take-test-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
+    transition: all 0.6s ease;
+}
+
+.take-test-btn:hover:not(.inactive) {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 20px rgba(74, 107, 255, 0.4);
+}
+
+.take-test-btn:hover:not(.inactive)::before {
+    left: 100%;
+}
+
+.take-test-btn:active:not(.inactive) {
+    transform: translateY(0);
+    box-shadow: 0 4px 10px rgba(74, 107, 255, 0.3);
+}
+
+/* Анимация при выполнении действия */
+.card-action {
+    animation: cardAction 0.5s ease;
+}
+
+@keyframes cardAction {
+    0% {
+        transform: translateX(-50%) scale(1.08);
+    }
+    50% {
+        transform: translateX(-50%) scale(1.15);
+        box-shadow: 0 20px 40px rgba(2, 0, 0, 0.2);
+    }
+    100% {
+        transform: translateX(-50%) scale(1.08);
+    }
+}
+
+/* Обновляем анимацию для главной карточки */
+@keyframes cardPulse {
+    0% {
+        transform: translateX(-50%) scale(1.08);
+        box-shadow: 0 15px 30px rgba(2, 0, 0, 0.15);
+    }
+    50% {
+        transform: translateX(-50%) scale(1.12);
+        box-shadow: 0 20px 40px rgba(2, 0, 0, 0.18);
+    }
+    100% {
+        transform: translateX(-50%) scale(1.08);
+        box-shadow: 0 15px 30px rgba(2, 0, 0, 0.15);
+    }
+}
+
+/* Добавим плавное перемещение для боковых карточек */
+@keyframes floatLeft {
+    0% {
+        transform: translateX(-50%) scale(0.9);
+    }
+    50% {
+        transform: translateX(-52%) scale(0.9);
+    }
+    100% {
+        transform: translateX(-50%) scale(0.9);
+    }
+}
+
+@keyframes floatRight {
+    0% {
+        transform: translateX(-50%) scale(0.9);
+    }
+    50% {
+        transform: translateX(-48%) scale(0.9);
+    }
+    100% {
+        transform: translateX(-50%) scale(0.9);
+    }
+}
+
+/* Анимация для статусов */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.skipped-text, .success-text {
+    animation: fadeIn 0.5s ease forwards;
 }
 
 @media (max-width: 1000px) {
@@ -147,6 +384,19 @@
     .success-text {
         font-size: 2.5rem;
     }
+    .locked-title {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+    }
+    .take-test-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+    .lock-icon {
+        margin-bottom: 15px;
+        width: 40px;
+        height: 40px;
+    }
 }
 
 @media (max-width: 550px) {
@@ -165,5 +415,22 @@
     }
     .success-text {
         font-size: 2rem;
+    }
+    .card-button {
+        padding: 10px 15px;
+        font-size: 0.85rem;
+    }
+    .locked-title {
+        font-size: 1rem;
+        margin-bottom: 12px;
+    }
+    .take-test-btn {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+    }
+    .lock-icon {
+        width: 35px;
+        height: 35px;
+        margin-bottom: 10px;
     }
 }

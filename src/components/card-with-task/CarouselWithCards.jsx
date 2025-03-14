@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { FiArrowLeftCircle, FiArrowRightCircle } from 'react-icons/fi';
+import { FiArrowLeftCircle, FiArrowRightCircle, FiClock } from 'react-icons/fi';
 import './CarouselWithCards.css';
 import CardWithTask from './CardWithTask';
 
 const CarouselWithCards = ({ cards, assay, token }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [timeLeft, setTimeLeft] = useState("");
+    const [animating, setAnimating] = useState(false);
 
     useEffect(() => {
         const calculateTimeLeft = () => {
@@ -38,33 +39,83 @@ const CarouselWithCards = ({ cards, assay, token }) => {
     }, []);
 
     const handleNext = () => {
+        if (animating || cards.length <= 1) return;
+        
+        setAnimating(true);
         setCurrentIndex((prevIndex) => (prevIndex + 1) % cards.length);
+        setTimeout(() => setAnimating(false), 400); // Соответствует длительности transition в CSS
     };
 
     const handlePrev = () => {
+        if (animating || cards.length <= 1) return;
+        
+        setAnimating(true);
         setCurrentIndex((prevIndex) => (prevIndex - 1 + cards.length) % cards.length);
+        setTimeout(() => setAnimating(false), 400); // Соответствует длительности transition в CSS
+    };
+    
+    const handleDotClick = (index) => {
+        if (animating || index === currentIndex) return;
+        
+        setAnimating(true);
+        setCurrentIndex(index);
+        setTimeout(() => setAnimating(false), 400);
     };
 
     const getCardStyle = (index) => {
+        // Если всего одна карточка, просто показываем ее как основную
+        if (cards.length === 1) return 'card-main';
+        
+        // Вычисляем относительный индекс с учетом текущей позиции карусели
         const relativeIndex = (index - currentIndex + cards.length) % cards.length;
+        
+        // Для лучшей читаемости используем константы
+        const MAIN_CARD = 'card-main';
+        const LEFT_CARD = 'card-secondary-left';
+        const RIGHT_CARD = 'card-secondary-right';
+        const HIDDEN_CARD = 'card-hidden';
+        
+        // Если две карточки, показываем основную и одну справа
+        if (cards.length === 2) {
+            return relativeIndex === 0 ? MAIN_CARD : RIGHT_CARD;
+        }
+        
+        // Если ровно три карточки, то показываем всех
+        if (cards.length === 3) {
+            switch (relativeIndex) {
+                case 0: return MAIN_CARD;
+                case 1: return RIGHT_CARD;
+                case 2: return LEFT_CARD;
+                default: return HIDDEN_CARD;
+            }
+        }
+        
+        // Для большего количества карточек
         switch (relativeIndex) {
-            case 0:
-                return 'card-secondary-left';
-            case 1:
-                return 'card-main';
-            case 2:
-                return 'card-secondary-right';
+            case 0: // Текущая карточка - всегда главная
+                return MAIN_CARD;
+            case cards.length - 1: // Последняя относительно текущей - слева
+                return LEFT_CARD;
+            case 1: // Следующая после текущей - справа
+                return RIGHT_CARD;
             default:
-                return 'card-hidden';
+                return HIDDEN_CARD;
         }
     };
 
     return (
         <div className="carousel-section">
-            <h2 className="carousel-title">Daily experience</h2>
-            <div className="timer">{timeLeft}</div>
+            <h2 className="carousel-title">Daily Experience</h2>
+            <div className="timer">
+                {timeLeft}
+            </div>
             <div className="carousel-container">
-                <button className="carousel-button left" onClick={handlePrev}>
+                <button 
+                    className="carousel-button left" 
+                    onClick={handlePrev}
+                    disabled={animating || cards.length <= 1}
+                    aria-label="Previous card"
+                >
                     <FiArrowLeftCircle size={40} />
                 </button>
                 <div className="carousel-wrapper">
@@ -81,10 +132,29 @@ const CarouselWithCards = ({ cards, assay, token }) => {
                         />
                     ))}
                 </div>
-                <button className="carousel-button right" onClick={handleNext}>
+                <button 
+                    className="carousel-button right" 
+                    onClick={handleNext}
+                    disabled={animating || cards.length <= 1}
+                    aria-label="Next card"
+                >
                     <FiArrowRightCircle size={40} />
                 </button>
             </div>
+            
+            {/* Индикаторы карточек */}
+            {cards.length > 1 && (
+                <div className="carousel-indicators">
+                    {cards.map((_, index) => (
+                        <button
+                            key={index}
+                            className={`carousel-indicator ${index === currentIndex ? 'active' : ''}`}
+                            onClick={() => handleDotClick(index)}
+                            aria-label={`Go to card ${index + 1}`}
+                        />
+                    ))}
+                </div>
+            )}
         </div>
     );
 };

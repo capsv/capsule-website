@@ -108,6 +108,17 @@ function UserPage() {
         } else {
             navigate('/');
         }
+        
+        // Добавляем обработчик для открытия модального окна с тестом из карточек
+        const handleOpenAssayModal = () => {
+            setShowAssayModal(true);
+        };
+        
+        window.addEventListener('openAssayModal', handleOpenAssayModal);
+        
+        return () => {
+            window.removeEventListener('openAssayModal', handleOpenAssayModal);
+        };
     }, [user, navigate, logout, refreshAccessToken, key]);
 
     const handleModalClose = () => {
