@@ -15,6 +15,7 @@ export default {
         alphaVersion: 'alpha version',
         years: 'years',
         yourActivity: 'Your Activity',
+        statistics: 'Statistics',
         less: 'Less',
         more: 'More',
         totalScore: 'Total Score',

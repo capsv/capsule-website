@@ -1,0 +1,191 @@
+.statistics-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: white;
+    color: #333;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    font-family: Mont-Regular, sans-serif;
+    position: relative;
+    overflow: hidden;
+    padding: 25px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.statistics-container:hover {
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+}
+
+.statistics-header {
+    font-family: Mont-Heavy, sans-serif;
+    font-size: 1.4rem;
+    margin: 0 0 15px 0;
+    color: #333;
+    text-align: center;
+}
+
+/* Стили для метрик */
+.statistics-metrics {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.statistics-metric {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: auto;
+    padding: 0 10px;
+}
+
+.statistics-metric i {
+    font-size: 1.8rem;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: white;
+}
+
+.statistics-metric:nth-child(1) i {
+    background: linear-gradient(135deg, #ffb347, #ffcc33);
+}
+
+.statistics-metric:nth-child(2) i {
+    background: linear-gradient(135deg, #56ab2f, #a8e063);
+}
+
+.statistics-metric:nth-child(3) i {
+    background: linear-gradient(135deg, #cb2d3e, #ef473a);
+}
+
+.metric-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.metric-value {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.metric-label {
+    font-size: 0.85rem;
+    color: #777;
+}
+
+/* Адаптивные стили */
+@media (max-width: 1000px) {
+    .statistics-header {
+        font-size: 1.2rem;
+        text-align: center;
+    }
+    .statistics-metric i {
+        font-size: 1.5rem;
+        width: 35px;
+        height: 35px;
+    }
+    .metric-value {
+        font-size: 1.1rem;
+    }
+    .metric-label {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Оставляем метрики в строке */
+    .statistics-metrics {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    .statistics-metric {
+        width: 30%;
+    }
+}
+
+@media (max-width: 550px) {
+    .statistics-container {
+        padding: 15px;
+    }
+    .statistics-header {
+        font-size: 1.1rem;
+    }
+    
+    /* Улучшенное отображение метрик */
+    .statistics-metrics {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .statistics-metric {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 0;
+        gap: 12px;
+        margin-bottom: 5px;
+    }
+    
+    .statistics-metric i {
+        font-size: 1.4rem;
+        width: 32px;
+        height: 32px;
+        flex-shrink: 0;
+    }
+    
+    .metric-value {
+        font-size: 1.1rem;
+        font-weight: bold;
+    }
+    
+    .metric-label {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 380px) {
+    .statistics-container {
+        padding: 10px;
+    }
+    
+    .statistics-metrics {
+        gap: 10px;
+    }
+    
+    .statistics-metric {
+        gap: 10px;
+        margin-bottom: 3px;
+    }
+    
+    .statistics-metric i {
+        width: 28px;
+        height: 28px;
+        font-size: 1.1rem;
+    }
+    
+    .metric-info {
+        flex: 1;
+    }
+    
+    .metric-value {
+        font-size: 0.95rem;
+    }
+    
+    .metric-label {
+        font-size: 0.75rem;
+    }
+} 

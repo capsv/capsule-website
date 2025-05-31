@@ -15,6 +15,7 @@ export default {
         alphaVersion: 'альфа версия',
         years: 'лет',
         yourActivity: 'Ваша Активность',
+        statistics: 'Статистика',
         less: 'Меньше',
         more: 'Больше',
         totalScore: 'Общий счет',

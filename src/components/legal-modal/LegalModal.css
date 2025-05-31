@@ -1,0 +1,218 @@
+.legal-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.legal-modal-content {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+    width: 100%;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    animation: slideIn 0.3s ease-out;
+    font-family: Mont-Regular, sans-serif;
+}
+
+.legal-modal-header {
+    padding: 25px 25px 15px 25px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.legal-modal-header h2 {
+    margin: 0;
+    font-family: Mont-Heavy, sans-serif;
+    font-size: 1.4rem;
+    color: #333;
+}
+
+.legal-modal-close {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: #999;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+}
+
+.legal-modal-close:hover {
+    background-color: #f5f5f5;
+    color: #666;
+}
+
+.legal-modal-body {
+    padding: 20px 25px;
+    overflow-y: auto;
+    flex: 1;
+    scrollbar-width: thin;
+    scrollbar-color: #ccc transparent;
+}
+
+.legal-modal-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.legal-modal-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.legal-modal-body::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 3px;
+}
+
+.legal-text p {
+    margin: 0 0 16px 0;
+    line-height: 1.6;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.legal-text p:last-child {
+    margin-bottom: 0;
+}
+
+.legal-modal-footer {
+    padding: 15px 25px 25px 25px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.legal-modal-close-btn {
+    background: linear-gradient(135deg, #6b73ff, #000dff);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 0.95rem;
+    font-family: Mont-Heavy, sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(107, 115, 255, 0.3);
+}
+
+.legal-modal-close-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(107, 115, 255, 0.4);
+    background: linear-gradient(135deg, #5a63ff, #0006d6);
+}
+
+.legal-modal-close-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(107, 115, 255, 0.3);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Адаптивные стили */
+@media (max-width: 768px) {
+    .legal-modal-overlay {
+        padding: 10px;
+    }
+    
+    .legal-modal-content {
+        max-height: 90vh;
+    }
+    
+    .legal-modal-header {
+        padding: 20px 20px 12px 20px;
+    }
+    
+    .legal-modal-header h2 {
+        font-size: 1.2rem;
+    }
+    
+    .legal-modal-body {
+        padding: 15px 20px;
+    }
+    
+    .legal-text p {
+        font-size: 0.9rem;
+    }
+    
+    .legal-modal-footer {
+        padding: 12px 20px 20px 20px;
+    }
+    
+    .legal-modal-close-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .legal-modal-overlay {
+        padding: 5px;
+    }
+    
+    .legal-modal-content {
+        max-height: 95vh;
+    }
+    
+    .legal-modal-header {
+        padding: 15px 15px 10px 15px;
+    }
+    
+    .legal-modal-header h2 {
+        font-size: 1.1rem;
+    }
+    
+    .legal-modal-body {
+        padding: 12px 15px;
+    }
+    
+    .legal-text p {
+        font-size: 0.85rem;
+        margin-bottom: 12px;
+    }
+    
+    .legal-modal-footer {
+        padding: 10px 15px 15px 15px;
+    }
+    
+    .legal-modal-close-btn {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+    }
+} 

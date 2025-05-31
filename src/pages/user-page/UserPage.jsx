@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useLocalization } from '../../hooks/useLocalization';
 import AssayModal from '../../components/assay-modal/AssayModal';
 import LanguageSwitcher from '../../components/language-switcher/LanguageSwitcher';
+import UserStatistics from '../../components/user-statistics/UserStatistics';
 import './UserPage.css';
 import Loading from "../../components/loading/Loading.jsx";
 import CarouselWithCards from "../../components/card-with-task/CarouselWithCards.jsx";
@@ -163,67 +164,7 @@ function UserPage() {
             </div>
             <div className="assay-section">
                 {userData.assay ? (
-                    <div className="stat-container">
-                        <h3 className="stat-header">{t('userPage.yourActivity')}</h3>
-                        <div className="heatmap-container">
-                            <div className="activity-heatmap">
-                                {/* Пустая тепловая карта, в будущем будет заполняться через API */}
-                                {Array.from({ length: 7 }).map((_, rowIndex) => (
-                                    <div key={`row-${rowIndex}`} className="heatmap-row">
-                                        {Array.from({ length: 52 }).map((_, colIndex) => {
-                                            // Создаем дату для каждой ячейки (начиная с начала года)
-                                            const day = rowIndex + colIndex * 7;
-                                            const date = new Date(new Date().getFullYear(), 0, 1 + day);
-                                            const dateStr = date.toISOString().split('T')[0];
-                                            
-                                            return (
-                                                <div 
-                                                    key={`cell-${rowIndex}-${colIndex}`} 
-                                                    className="heatmap-cell level-0"
-                                                    data-date={dateStr}
-                                                    title={`${dateStr}: Нет активности в этот день`}
-                                                ></div>
-                                            );
-                                        })}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                        <div className="heatmap-legend">
-                            <span>{t('userPage.less')}</span>
-                            <div className="legend-cells">
-                                <div className="heatmap-cell level-0"></div>
-                                <div className="heatmap-cell level-1"></div>
-                                <div className="heatmap-cell level-2"></div>
-                                <div className="heatmap-cell level-3"></div>
-                                <div className="heatmap-cell level-4"></div>
-                            </div>
-                            <span>{t('userPage.more')}</span>
-                        </div>
-                        <div className="stat-metrics">
-                            <div className="stat-metric">
-                                <i className="fas fa-star"></i>
-                                <div className="metric-info">
-                                    <span className="metric-value">{statistics?.score || 0}</span>
-                                    <span className="metric-label">{t('userPage.totalScore')}</span>
-                                </div>
-                            </div>
-                            <div className="stat-metric">
-                                <i className="fas fa-check-circle"></i>
-                                <div className="metric-info">
-                                    <span className="metric-value">{statistics?.completedTasks || 0}</span>
-                                    <span className="metric-label">{t('userPage.completed')}</span>
-                                </div>
-                            </div>
-                            <div className="stat-metric">
-                                <i className="fas fa-times-circle"></i>
-                                <div className="metric-info">
-                                    <span className="metric-value">{statistics?.missedTasks || 0}</span>
-                                    <span className="metric-label">{t('userPage.missed')}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <UserStatistics statistics={statistics} />
                 ) : (
                     <div className="assay-prompt">
                         <h3>{t('userPage.startYourJourney')}</h3>

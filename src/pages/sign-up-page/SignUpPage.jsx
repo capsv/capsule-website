@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useLanguage } from "../../context/LanguageContext.jsx";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { translations } from "./translations.js";
+import LegalModal from "../../components/legal-modal/LegalModal.jsx";
 import './SignUpPage.css';
 
 function SignUpPage() {
@@ -28,6 +29,12 @@ function SignUpPage() {
         password: false,
         confirmPassword: false
     });
+    
+    // Состояния для модальных окон и чекбоксов
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalType, setModalType] = useState('terms'); // 'terms' или 'privacy'
+    const [agreeTerms, setAgreeTerms] = useState(false);
+    const [agreePrivacy, setAgreePrivacy] = useState(false);
     
     // Переводы
     const content = translations[language];
@@ -72,6 +79,11 @@ function SignUpPage() {
         // Валидация подтверждения пароля
         if (confirmPassword !== password) {
             errors.confirmPassword = content.confirmPasswordErrorMatch;
+        }
+
+        // Валидация согласия с условиями
+        if (!agreeTerms || !agreePrivacy) {
+            errors.agreement = content.agreementRequired;
         }
 
         return errors;
@@ -150,6 +162,18 @@ function SignUpPage() {
             setShowConfirmPassword(!showConfirmPassword);
         }
     };
+
+    const openModal = (type) => {
+        setModalType(type);
+        setModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setModalOpen(false);
+    };
+
+    // Проверяем, можно ли активировать кнопку
+    const isSubmitDisabled = loading || !agreeTerms || !agreePrivacy;
 
     return (
         <div className="signup-container">
@@ -294,16 +318,62 @@ function SignUpPage() {
                             
                             <div className="terms-policy">
                                 <p>
-                                    {content.termsText || "By signing up, you agree to our"}
-                                    <a href="/terms">{content.terms || "Terms of Service"}</a> {content.andText || "and"}
-                                    <a href="/privacy">{content.privacy || "Privacy Policy"}</a>
+                                    {content.termsText} {' '}
+                                    <button 
+                                        type="button" 
+                                        className="legal-link"
+                                        onClick={() => openModal('terms')}
+                                    >
+                                        {content.terms}
+                                    </button> {content.andText} {' '}
+                                    <button 
+                                        type="button" 
+                                        className="legal-link"
+                                        onClick={() => openModal('privacy')}
+                                    >
+                                        {content.privacy}
+                                    </button>
                                 </p>
+                                
+                                <div className="agreement-checkboxes">
+                                    <div className="checkbox-group">
+                                        <label className="checkbox-label">
+                                            <input
+                                                type="checkbox"
+                                                checked={agreeTerms}
+                                                onChange={(e) => setAgreeTerms(e.target.checked)}
+                                                className="checkbox-input"
+                                            />
+                                            <span className="checkbox-custom"></span>
+                                            <span className="checkbox-text">{content.agreeTerms}</span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div className="checkbox-group">
+                                        <label className="checkbox-label">
+                                            <input
+                                                type="checkbox"
+                                                checked={agreePrivacy}
+                                                onChange={(e) => setAgreePrivacy(e.target.checked)}
+                                                className="checkbox-input"
+                                            />
+                                            <span className="checkbox-custom"></span>
+                                            <span className="checkbox-text">{content.agreePrivacy}</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                {errors.agreement && (
+                                    <span className="form-error agreement-error">
+                                        <i className="fas fa-exclamation-circle"></i> {errors.agreement}
+                                    </span>
+                                )}
                             </div>
                             
                             <button 
                                 type="submit" 
-                                className={`signup-button ${loading ? 'loading' : ''}`}
-                                disabled={loading}
+                                className={`signup-button ${loading ? 'loading' : ''} ${isSubmitDisabled ? 'disabled' : ''}`}
+                                disabled={isSubmitDisabled}
                             >
                                 {loading ? (
                                     <><span className="spinner"></span> {content.registering || "Registering..."}</> 
@@ -320,6 +390,13 @@ function SignUpPage() {
                     </div>
                 </div>
             </div>
+            
+            <LegalModal
+                isOpen={modalOpen}
+                onClose={closeModal}
+                type={modalType}
+                language={language}
+            />
         </div>
     );
 }
