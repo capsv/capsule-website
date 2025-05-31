@@ -145,7 +145,6 @@ function UserPage() {
 
     return (
         <div className="user-container">
-            <LanguageSwitcher />
             <div style={{textAlign: 'center', color: 'gray', fontSize: '15px', marginBottom: '5px'}}>
                 ~ alfa version ~
             </div>
