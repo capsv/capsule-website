@@ -146,7 +146,7 @@ function UserPage() {
     return (
         <div className="user-container">
             <div style={{textAlign: 'center', color: 'gray', fontSize: '15px', marginBottom: '5px'}}>
-                ~ alfa version ~
+                ~ {t('userPage.alphaVersion')} ~
             </div>
             <div className="user-profile">
                 <div className="profile-avatar">
@@ -158,13 +158,13 @@ function UserPage() {
                         {userData.confirm && <span className="profile-verified"><i className="fas fa-check-circle"></i></span>}
                     </div>
                     <p className="profile-username">{"@"}{userData.username}</p>
-                    <p className="profile-age">{userData.age ? `${userData.age} лет` : ''}</p>
+                    <p className="profile-age">{userData.age ? `${userData.age} ${t('userPage.years')}` : ''}</p>
                 </div>
             </div>
             <div className="assay-section">
                 {userData.assay ? (
                     <div className="stat-container">
-                        <h3 className="stat-header">Ваша Активность</h3>
+                        <h3 className="stat-header">{t('userPage.yourActivity')}</h3>
                         <div className="heatmap-container">
                             <div className="activity-heatmap">
                                 {/* Пустая тепловая карта, в будущем будет заполняться через API */}
@@ -190,7 +190,7 @@ function UserPage() {
                             </div>
                         </div>
                         <div className="heatmap-legend">
-                            <span>Меньше</span>
+                            <span>{t('userPage.less')}</span>
                             <div className="legend-cells">
                                 <div className="heatmap-cell level-0"></div>
                                 <div className="heatmap-cell level-1"></div>
@@ -198,36 +198,36 @@ function UserPage() {
                                 <div className="heatmap-cell level-3"></div>
                                 <div className="heatmap-cell level-4"></div>
                             </div>
-                            <span>Больше</span>
+                            <span>{t('userPage.more')}</span>
                         </div>
                         <div className="stat-metrics">
                             <div className="stat-metric">
                                 <i className="fas fa-star"></i>
                                 <div className="metric-info">
                                     <span className="metric-value">{statistics?.score || 0}</span>
-                                    <span className="metric-label">Общий счет</span>
+                                    <span className="metric-label">{t('userPage.totalScore')}</span>
                                 </div>
                             </div>
                             <div className="stat-metric">
                                 <i className="fas fa-check-circle"></i>
                                 <div className="metric-info">
                                     <span className="metric-value">{statistics?.completedTasks || 0}</span>
-                                    <span className="metric-label">Выполнено</span>
+                                    <span className="metric-label">{t('userPage.completed')}</span>
                                 </div>
                             </div>
                             <div className="stat-metric">
                                 <i className="fas fa-times-circle"></i>
                                 <div className="metric-info">
                                     <span className="metric-value">{statistics?.missedTasks || 0}</span>
-                                    <span className="metric-label">Пропущено</span>
+                                    <span className="metric-label">{t('userPage.missed')}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 ) : (
                     <div className="assay-prompt">
-                        <h3>Начните свой путь</h3>
-                        <p>Пройдите короткий тест, чтобы открыть все возможности платформы</p>
+                        <h3>{t('userPage.startYourJourney')}</h3>
+                        <p>{t('userPage.passShortTest')}</p>
                         <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}>
                             <button 
                                 className="take-assay-btn" 
@@ -256,15 +256,15 @@ function UserPage() {
                         <div className="assay-benefits">
                             <div className="benefit">
                                 <i className="fas fa-unlock"></i>
-                                <span>Разблокировать задания</span>
+                                <span>{t('userPage.benefits.unlockTasks')}</span>
                             </div>
                             <div className="benefit">
                                 <i className="fas fa-chart-line"></i>
-                                <span>Отслеживать прогресс</span>
+                                <span>{t('userPage.benefits.trackProgress')}</span>
                             </div>
                             <div className="benefit">
                                 <i className="fas fa-medal"></i>
-                                <span>Получать награды</span>
+                                <span>{t('userPage.benefits.earnRewards')}</span>
                             </div>
                         </div>
                     </div>

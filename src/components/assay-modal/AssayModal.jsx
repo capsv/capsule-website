@@ -1,37 +1,103 @@
 import React, { useState, useEffect } from 'react';
 import './AssayModal.css';
 import { useAuth } from '../../context/AuthContext';
-import { useLanguage } from '../../context/LanguageContext';
+import { useLocalization } from '../../hooks/useLocalization';
 
 const AssayModal = ({ onClose }) => {
-    const [assayText, setAssayText] = useState('');
-    const [message, setMessage] = useState('');
+    const [answers, setAnswers] = useState({});
+    const [currentPage, setCurrentPage] = useState(0);
     const [score, setScore] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [textLength, setTextLength] = useState(0);
+    const [message, setMessage] = useState('');
     const { setUser } = useAuth();
-    const { language } = useLanguage();
+    const { t } = useLocalization();
     
-    // Минимальная длина текста для анализа
-    const MIN_LENGTH = 30;
+    const QUESTIONS_PER_PAGE = 6;
+    const TOTAL_QUESTIONS = 24;
+    const TOTAL_PAGES = Math.ceil(TOTAL_QUESTIONS / QUESTIONS_PER_PAGE);
 
-    // Сбрасываем сообщение об ошибке при изменении языка
-    useEffect(() => {
-        if (message) setMessage('');
-    }, [language]);
+    // Получаем вопросы для текущей страницы
+    const getCurrentPageQuestions = () => {
+        const startIndex = currentPage * QUESTIONS_PER_PAGE;
+        const endIndex = Math.min(startIndex + QUESTIONS_PER_PAGE, TOTAL_QUESTIONS);
+        return Array.from({ length: endIndex - startIndex }, (_, i) => startIndex + i);
+    };
 
+    // Проверяем, заполнены ли все ответы на текущей странице
+    const isCurrentPageComplete = () => {
+        const pageQuestions = getCurrentPageQuestions();
+        return pageQuestions.every(questionIndex => 
+            answers[questionIndex] && 
+            answers[questionIndex].fear !== undefined && 
+            answers[questionIndex].avoidance !== undefined
+        );
+    };
+
+    // Проверяем, заполнены ли все ответы во всем тесте
+    const isTestComplete = () => {
+        for (let i = 0; i < TOTAL_QUESTIONS; i++) {
+            if (!answers[i] || answers[i].fear === undefined || answers[i].avoidance === undefined) {
+                return false;
+            }
+        }
+        return true;
+    };
+
+    // Вычисляем прогресс
+    const getProgress = () => {
+        let answeredCount = 0;
+        for (let i = 0; i < TOTAL_QUESTIONS; i++) {
+            if (answers[i] && answers[i].fear !== undefined && answers[i].avoidance !== undefined) {
+                answeredCount++;
+            }
+        }
+        return (answeredCount / TOTAL_QUESTIONS) * 100;
+    };
+
+    // Обработка изменения ответа
+    const handleAnswerChange = (questionIndex, type, value) => {
+        setAnswers(prev => ({
+            ...prev,
+            [questionIndex]: {
+                ...prev[questionIndex],
+                [type]: parseInt(value)
+            }
+        }));
+    };
+
+    // Переход к следующей странице
+    const handleNext = () => {
+        if (currentPage < TOTAL_PAGES - 1) {
+            setCurrentPage(prev => prev + 1);
+        }
+    };
+
+    // Переход к предыдущей странице
+    const handleBack = () => {
+        if (currentPage > 0) {
+            setCurrentPage(prev => prev - 1);
+        }
+    };
+
+    // Отправка теста
     const handleSubmit = async () => {
-        // Проверка минимальной длины текста
-        if (assayText.length < MIN_LENGTH) {
-            setMessage(language === 'en' 
-                ? `Text is too short. Please write at least ${MIN_LENGTH} characters.` 
-                : `Текст слишком короткий. Напишите не менее ${MIN_LENGTH} символов.`);
+        if (!isTestComplete()) {
+            setMessage(t('lsas.processing'));
             return;
         }
         
         setLoading(true);
         setMessage('');
         const token = localStorage.getItem('accessToken');
+        
+        // Формируем текст ответов для отправки на сервер
+        let assayText = 'LSAS Results:\n';
+        for (let i = 0; i < TOTAL_QUESTIONS; i++) {
+            const question = t(`lsas.questions.${i}`);
+            const fear = answers[i]?.fear || 0;
+            const avoidance = answers[i]?.avoidance || 0;
+            assayText += `${i + 1}. ${question} - Fear: ${fear}, Avoidance: ${avoidance}\n`;
+        }
         
         try {
             const response = await fetch('http://195.80.51.69:8080/api/v1/assays/pass', {
@@ -57,14 +123,13 @@ const AssayModal = ({ onClose }) => {
             }
         } catch (error) {
             console.error('Error submitting assessment:', error);
-            setMessage(language === 'en' 
-                ? 'An error occurred. Please try again.' 
-                : 'Произошла ошибка. Пожалуйста, попробуйте снова.');
+            setMessage(t('lsas.processing'));
         } finally {
             setLoading(false);
         }
     };
 
+    // Закрытие модального окна
     const handleClose = async () => {
         if (score === null) {
             onClose();
@@ -110,27 +175,6 @@ const AssayModal = ({ onClose }) => {
             onClose();
         }
     };
-    
-    const handleTextChange = (e) => {
-        setAssayText(e.target.value);
-        setTextLength(e.target.value.length);
-        
-        // Очищаем сообщение об ошибке при изменении текста
-        if (message) setMessage('');
-    };
-
-    // Определяем класс прогресс-бара в зависимости от длины текста
-    const getProgressBarClass = () => {
-        if (textLength < MIN_LENGTH) return 'too-short';
-        if (textLength < MIN_LENGTH * 2) return 'acceptable';
-        return 'good';
-    };
-    
-    // Вычисляем процент заполнения (максимум 100%)
-    const getProgressPercentage = () => {
-        const percentage = (textLength / (MIN_LENGTH * 3)) * 100;
-        return Math.min(percentage, 100);
-    };
 
     return (
         <div className="assay-modal-overlay" onClick={handleClose}>
@@ -140,86 +184,120 @@ const AssayModal = ({ onClose }) => {
                 </button>
                 
                 {score === null ? (
-                    <>
-                        <h2>{language === 'en' ? 'Self-Assessment' : 'Самооценка'}</h2>
-                        <p className="modal-description">
-                            {language === 'en' 
-                                ? 'Please describe your current emotional and mental state in 2-3 sentences. This will help us personalize tasks for you.' 
-                                : 'Опишите ваше текущее эмоциональное и психическое состояние в 2-3 предложениях. Это поможет нам подобрать персонализированные задачи.'}
-                        </p>
-                        
-                        <div className="textarea-container">
-                            <textarea
-                                placeholder={language === 'en' ? "Write about how you feel..." : "Напишите о своих чувствах..."}
-                                value={assayText}
-                                onChange={handleTextChange}
-                                disabled={loading}
-                                aria-label={language === 'en' ? "Assessment text" : "Текст оценки"}
-                            />
-                            
-                            <div className="text-length-indicator">
+                    <div className="lsas-container">
+                        <div className="lsas-header">
+                            <h2>{t('lsas.title')}</h2>
+                            <p className="modal-description">{t('lsas.description')}</p>
+                        </div>
+
+                        {/* Прогресс-бар */}
+                        <div className="progress-container">
+                            <div className="progress-label">
+                                <span>{t('lsas.progress')}</span>
+                                <span>{Math.round(getProgress())}%</span>
+                            </div>
+                            <div className="progress-bar-container">
                                 <div 
-                                    className={`progress-bar ${getProgressBarClass()}`}
-                                    style={{ width: `${getProgressPercentage()}%` }}
+                                    className="progress-bar-fill" 
+                                    style={{ width: `${getProgress()}%` }}
                                 ></div>
                             </div>
+                        </div>
+
+                        {/* Индикатор страницы */}
+                        <div className="page-indicator">
+                            Страница {currentPage + 1} из {TOTAL_PAGES}
+                        </div>
+
+                        {/* Вопросы текущей страницы */}
+                        <div className="questions-container">
+                            {getCurrentPageQuestions().map(questionIndex => (
+                                <div key={questionIndex} className="question-item">
+                                    <div className="question-text">
+                                        {questionIndex + 1}. {t(`lsas.questions.${questionIndex}`)}
+                                    </div>
+                                    <div className="rating-containers">
+                                        {/* Оценка страха */}
+                                        <div className="rating-container">
+                                            <label className="rating-label">{t('lsas.fearLabel')}</label>
+                                            <select
+                                                className={`rating-select ${answers[questionIndex]?.fear !== undefined ? 'answered' : ''}`}
+                                                value={answers[questionIndex]?.fear || ''}
+                                                onChange={(e) => handleAnswerChange(questionIndex, 'fear', e.target.value)}
+                                            >
+                                                <option value="">{t('lsas.selectOption')}</option>
+                                                {t('lsas.fearOptions').map((option, index) => (
+                                                    <option key={index} value={index}>{option}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                        
+                                        {/* Оценка избегания */}
+                                        <div className="rating-container">
+                                            <label className="rating-label">{t('lsas.avoidanceLabel')}</label>
+                                            <select
+                                                className={`rating-select ${answers[questionIndex]?.avoidance !== undefined ? 'answered' : ''}`}
+                                                value={answers[questionIndex]?.avoidance || ''}
+                                                onChange={(e) => handleAnswerChange(questionIndex, 'avoidance', e.target.value)}
+                                            >
+                                                <option value="">{t('lsas.selectOption')}</option>
+                                                {t('lsas.avoidanceOptions').map((option, index) => (
+                                                    <option key={index} value={index}>{option}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {message && <p className="message-text">{message}</p>}
+
+                        {/* Навигация */}
+                        <div className="navigation-buttons">
+                            <button 
+                                className="nav-button back" 
+                                onClick={handleBack}
+                                disabled={currentPage === 0}
+                            >
+                                {t('lsas.back')}
+                            </button>
                             
-                            <div className="character-count-container">
-                                <span className="character-count">
-                                    {textLength}/{MIN_LENGTH} {language === 'en' ? 'characters' : 'символов'}
-                                </span>
-                            </div>
-                            
-                            {textLength < MIN_LENGTH && (
-                                <p className="length-warning">
-                                    {language === 'en' 
-                                        ? `Please write at least ${MIN_LENGTH} characters.` 
-                                        : `Пожалуйста, напишите не менее ${MIN_LENGTH} символов.`}
-                                </p>
+                            {currentPage === TOTAL_PAGES - 1 ? (
+                                <button 
+                                    className="nav-button complete" 
+                                    onClick={handleSubmit}
+                                    disabled={loading || !isTestComplete()}
+                                >
+                                    {loading ? (
+                                        <><span className="spinner"></span> {t('lsas.processing')}</>
+                                    ) : (
+                                        t('lsas.complete')
+                                    )}
+                                </button>
+                            ) : (
+                                <button 
+                                    className="nav-button next" 
+                                    onClick={handleNext}
+                                    disabled={!isCurrentPageComplete()}
+                                >
+                                    {t('lsas.next')}
+                                </button>
                             )}
                         </div>
-                        
-                        {message && <p className="message-text">{message}</p>}
-                        
-                        <div className="modal-buttons">
-                            <button 
-                                className="primary-button" 
-                                onClick={handleSubmit}
-                                disabled={loading || textLength < MIN_LENGTH}
-                            >
-                                {loading ? (
-                                    <><span className="spinner"></span> {language === 'en' ? 'Processing...' : 'Обработка...'}</>
-                                ) : (
-                                    language === 'en' ? 'Submit Assessment' : 'Отправить оценку'
-                                )}
-                            </button>
-                            <button 
-                                className="secondary-button" 
-                                onClick={handleClose}
-                                disabled={loading}
-                            >
-                                {language === 'en' ? 'Cancel' : 'Отмена'}
-                            </button>
-                        </div>
-                    </>
+                    </div>
                 ) : (
                     <div className="results-container">
-                        <h2>{language === 'en' ? 'Assessment Results' : 'Результаты оценки'}</h2>
+                        <h2>{t('lsas.resultsTitle')}</h2>
                         
                         <div className="score-display">
                             <div className="score-circle">
                                 <span className="score-number">{score}</span>
                             </div>
-                            <p className="score-label">
-                                {language === 'en' ? 'Anxiety Score' : 'Уровень тревожности'}
-                            </p>
+                            <p className="score-label">{t('lsas.anxietyScore')}</p>
                         </div>
                         
-                        <p className="results-description">
-                            {language === 'en' 
-                                ? 'Based on your assessment, we have created personalized tasks to help you reduce anxiety and improve wellbeing.' 
-                                : 'На основе вашей оценки мы создали персонализированные задачи, которые помогут снизить тревожность и улучшить самочувствие.'}
-                        </p>
+                        <p className="results-description">{t('lsas.resultsDescription')}</p>
                         
                         <button 
                             className="primary-button full-width" 
@@ -227,9 +305,9 @@ const AssayModal = ({ onClose }) => {
                             disabled={loading}
                         >
                             {loading ? (
-                                <><span className="spinner"></span> {language === 'en' ? 'Loading...' : 'Загрузка...'}</>
+                                <><span className="spinner"></span> {t('lsas.loading')}</>
                             ) : (
-                                language === 'en' ? 'View Your Tasks' : 'Смотреть задачи'
+                                t('lsas.viewTasks')
                             )}
                         </button>
                     </div>
