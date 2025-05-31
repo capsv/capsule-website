@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { FiLock, FiCheck, FiSkipForward, FiPlay, FiCheckCircle, FiXCircle } from 'react-icons/fi';
 import './CardWithTask.css';
+import { useLocalization } from '../../hooks/useLocalization';
 
 const CardWithTask = ({ title, description, className, assay, taskId, token, initialStatus }) => {
     const [status, setStatus] = useState('initial');
     const [loading, setLoading] = useState(false);
     const [actionPerformed, setActionPerformed] = useState(false);
     const isMain = className === 'card-main';
+    const { t } = useLocalization();
 
     useEffect(() => {
         switch (initialStatus) {
@@ -118,13 +120,13 @@ const CardWithTask = ({ title, description, className, assay, taskId, token, ini
             <div className={`card ${className} ${actionPerformed ? 'card-action' : ''}`}>
                 <div className="locked-content">
                     <FiLock size={50} color="#4a6bff" className="lock-icon" />
-                    <h3 className="locked-title">Пройдите тест, чтобы разблокировать задания</h3>
+                    <h3 className="locked-title">{t('cardWithTask.passTestToUnlock')}</h3>
                     <button 
                         className={`take-test-btn ${!isMain ? 'inactive' : ''}`}
                         onClick={handleOpenAssayModal}
                         disabled={!isMain}
                     >
-                        Пройти тест
+                        {t('cardWithTask.passTest')}
                     </button>
                 </div>
             </div>
@@ -136,12 +138,12 @@ const CardWithTask = ({ title, description, className, assay, taskId, token, ini
             {status === 'skipped' ? (
                 <>
                     <FiXCircle size={50} color="#dc3545" style={{ marginBottom: '10px', opacity: 0.3 }} />
-                    <h1 className="skipped-text">SKIPPED</h1>
+                    <h1 className="skipped-text">{t('cardWithTask.skipped')}</h1>
                 </>
             ) : status === 'completed' ? (
                 <>
                     <FiCheckCircle size={50} color="#28a745" style={{ marginBottom: '10px', opacity: 0.3 }} />
-                    <h1 className="success-text">SUCCESS</h1>
+                    <h1 className="success-text">{t('cardWithTask.success')}</h1>
                 </>
             ) : (
                 <>
@@ -154,9 +156,9 @@ const CardWithTask = ({ title, description, className, assay, taskId, token, ini
                                 onClick={handleComplete}
                                 disabled={!isMain || loading}
                             >
-                                {loading ? 'Updating...' : (
+                                {loading ? t('cardWithTask.updating') : (
                                     <>
-                                        <FiCheck style={{ marginRight: '5px' }} /> Complete
+                                        <FiCheck style={{ marginRight: '5px' }} /> {t('cardWithTask.complete')}
                                     </>
                                 )}
                             </button>
@@ -167,9 +169,9 @@ const CardWithTask = ({ title, description, className, assay, taskId, token, ini
                                     onClick={handleStart}
                                     disabled={!isMain || loading}
                                 >
-                                    {loading ? 'Starting...' : (
+                                    {loading ? t('cardWithTask.starting') : (
                                         <>
-                                            <FiPlay style={{ marginRight: '5px' }} /> Start
+                                            <FiPlay style={{ marginRight: '5px' }} /> {t('cardWithTask.start')}
                                         </>
                                     )}
                                 </button>
@@ -178,9 +180,9 @@ const CardWithTask = ({ title, description, className, assay, taskId, token, ini
                                     onClick={handleSkip}
                                     disabled={!isMain || loading}
                                 >
-                                    {loading ? 'Skipping...' : (
+                                    {loading ? t('cardWithTask.skipping') : (
                                         <>
-                                            <FiSkipForward style={{ marginRight: '5px' }} /> Skip
+                                            <FiSkipForward style={{ marginRight: '5px' }} /> {t('cardWithTask.skip')}
                                         </>
                                     )}
                                 </button>

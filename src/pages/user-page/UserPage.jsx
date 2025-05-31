@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useLocalization } from '../../hooks/useLocalization';
 import AssayModal from '../../components/assay-modal/AssayModal';
+import LanguageSwitcher from '../../components/language-switcher/LanguageSwitcher';
 import './UserPage.css';
 import Loading from "../../components/loading/Loading.jsx";
 import CarouselWithCards from "../../components/card-with-task/CarouselWithCards.jsx";
 
 function UserPage() {
     const { user, logout, refreshAccessToken } = useAuth();
+    const { t } = useLocalization();
     const [userData, setUserData] = useState(null);
     const [statistics, setStatistics] = useState(null);
     const [tasks, setTasks] = useState([]);
@@ -142,6 +145,7 @@ function UserPage() {
 
     return (
         <div className="user-container">
+            <LanguageSwitcher />
             <div style={{textAlign: 'center', color: 'gray', fontSize: '15px', marginBottom: '5px'}}>
                 ~ alfa version ~
             </div>
@@ -244,7 +248,7 @@ function UserPage() {
                                     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
                                 }}
                             >
-                                <span className="btn-text" style={{ marginRight: '8px' }}>Пройти тест</span>
+                                <span className="btn-text" style={{ marginRight: '8px' }}>{t('cardWithTask.passTest')}</span>
                                 <span className="btn-icon">
                                     <i className="fas fa-arrow-right"></i>
                                 </span>

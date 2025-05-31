@@ -1,0 +1,42 @@
+.language-switcher {
+    display: flex;
+    gap: 5px;
+    margin: 10px;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.language-btn {
+    background: #ffffff;
+    border: 1px solid #4a6bff;
+    color: #4a6bff;
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.language-btn.active {
+    background: #4a6bff;
+    color: white;
+}
+
+.language-btn:hover:not(.active) {
+    background: #f0f3ff;
+}
+
+@media (max-width: 768px) {
+    .language-switcher {
+        top: 10px;
+        right: 10px;
+    }
+    
+    .language-btn {
+        padding: 4px 8px;
+        font-size: 12px;
+    }
+} 
